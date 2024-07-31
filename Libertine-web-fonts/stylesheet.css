@@ -1,0 +1,108 @@
+@font-face {
+    font-family: 'Linux Libertine Initials';
+    src: local('Linux Libertine Initials'), local('LinLibertineI'),
+        url('hinted-LinLibertineI.woff2') format('woff2'),
+        url('hinted-LinLibertineI.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: local('Linux Libertine'), local('LinLibertine'),
+        url('hinted-LinLibertine.woff2') format('woff2'),
+        url('hinted-LinLibertine.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: local('Linux Libertine Semibold'), local('LinLibertineZ'),
+        url('hinted-LinLibertineZ.woff2') format('woff2'),
+        url('hinted-LinLibertineZ.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: local('Linux Libertine Semibold Italic'), local('LinLibertineZI'),
+        url('hinted-LinLibertineZI.woff2') format('woff2'),
+        url('hinted-LinLibertineZI.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: local('Linux Libertine Bold'), local('LinLibertineB'),
+        url('hinted-LinLibertineB.woff2') format('woff2'),
+        url('hinted-LinLibertineB.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Biolinum';
+    src: local('Linux Biolinum Bold'), local('LinBiolinumB'),
+        url('hinted-LinBiolinumB.woff2') format('woff2'),
+        url('hinted-LinBiolinumB.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Biolinum';
+    src: local('Linux Biolinum'), local('LinBiolinum'),
+        url('hinted-LinBiolinum.woff2') format('woff2'),
+        url('hinted-LinBiolinum.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Libertine Display';
+    src: local('Linux Libertine Display'), local('LinLibertineDisplay'),
+        url('hinted-LinLibertineDisplay.woff2') format('woff2'),
+        url('hinted-LinLibertineDisplay.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Biolinum';
+    src: local('Linux Biolinum Italic'), local('LinBiolinumI'),
+        url('hinted-LinBiolinumI.woff2') format('woff2'),
+        url('hinted-LinBiolinumI.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Linux Libertine Mono';
+    src: local('Linux Libertine Mono'), local('LinLibertine_M'),
+        url('hinted-LinLibertine_M.woff2') format('woff2'),
+        url('hinted-LinLibertine_M.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: local('Linux Libertine Italic'), local('LinLibertineI'),
+        url('hinted-LinLibertineI.woff2') format('woff2'),
+        url('hinted-LinLibertineI.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Linux Libertine';
+    src: local('Linux Libertine Bold Italic'), local('LinLibertineBI'),
+        url('hinted-LinLibertineBI.woff2') format('woff2'),
+        url('hinted-LinLibertineBI.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
