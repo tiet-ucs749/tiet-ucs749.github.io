@@ -42,7 +42,37 @@
 #+PROPERTY: header-args:python+ :results output replace verbatim
 
 #+MACRO: cnc {{{sc(cnc)}}}
+
+| L | T | P | Cr |
+|---+---+---+----|
+| 2 | 0 | 2 |  3 |
+
 * Overview
+
+#+caption: Academic Calendar
+[[file:image/2024-07-15_22-56-44_screenshot.png]]
+
+|              | W |  L | P   |
+|--------------+---+----+-----|
+| Prior to MST | 8 | 16 | 7/8 |
+| MST – Diwali | 3 |  6 | 2/3 |
+| Diwali – EST | 4 |  8 | 4   |
+
+** Evaluation Schedule
+
+|            | Date            |  MM |
+|------------+-----------------+-----|
+| MST        | TBA             |  25 |
+| EST        | TBA             |  35 |
+| Quiz 1     | 12-Sep 05:30pm  |   5 |
+| Quiz 2     | 21-Nov 05:30pm  |   5 |
+| Lab Eval 1 | 9-Sep–13-Sep    |  10 |
+| Lab Eval 2 | 18-Nov–22-Nov   |  20 |
+|------------+-----------------+-----|
+|            |                 | 100 |
+#+TBLFM: @8$3=vsum(@I..II)
+
+
 * Schedule of topics
 1. Introduction
    1. NLP: Lexeme/ Grapheme
@@ -71,7 +101,6 @@
 2. Recognition
    1. Hidden Markov Model
    2. [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][Jasper]]
-   3. 
 3. Synthesis
 * Resources
 + Speech :: 
