@@ -1,0 +1,98 @@
+# -*- org-image-actual-width: (64 128 256 512); openwith-associations: (("\.pdf\'" "evince" (file))); -*-
+#+OPTIONS: num:nil html-postamble:t html-style:nil toc:1
+#+TITLE: Course Page
+#+SUBTITLE: UCS749 Speech Processing and Synthesis
+#+DATE: [2024-07-15 Mon]
+#+AUTHOR: Raghav B. Venkataramaiyer
+# #+AUTHOR: B.V. Raghav, Subham Kumar, Vinay P. Namboodiri
+#+EMAIL: bv.raghav@thapar.edu
+# #+EMAIL: bvraghav@iitk.ac.in, subhamkr@iitk.ac.in, vinaypn@iitk.ac.in
+#+LANGUAGE: en
+
+#+HTML_HEAD: <meta name="keywords" content="speech processing">
+
+#+HTML_HEAD: <meta name="description" content="Initial notes for 
+#+HTML_HEAD:   Course UCS749 Speech Synthesis and Processing">
+
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/css/dhiw.css" />
+#+HTML_HEAD: <link rel="shortcut icon" type="image/png"
+#+HTML_HEAD:   href="https://www.gravatar.com/avatar/034c3feded7a09f8a5c481a2bd35d676.png?s=16" />
+
+#+HTML_HEAD: <style>
+#+HTML_HEAD: .iframe-container {
+#+HTML_HEAD:   overflow: hidden;
+#+HTML_HEAD:   /* Calculated from the aspect ratio of the content (in case of 16:9 it is 9/16= 0.5625) */
+#+HTML_HEAD:   padding-top: 56.25%;
+#+HTML_HEAD:   position: relative;
+#+HTML_HEAD:   margin-bottom: 1em;
+#+HTML_HEAD: }
+#+HTML_HEAD:  
+#+HTML_HEAD: .iframe-container iframe {
+#+HTML_HEAD:    border: 0;
+#+HTML_HEAD:    height: 100%;
+#+HTML_HEAD:    left: 0;
+#+HTML_HEAD:    position: absolute;
+#+HTML_HEAD:    top: 0;
+#+HTML_HEAD:    width: 100%;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+MACRO: cnc {{{sc(cnc)}}}
+* Overview
+* Schedule of topics
+1. Introduction
+   1. NLP: Lexeme/ Grapheme
+   2. Speech: Phoneme
+   3. Statistical Models: Noise/ Pattern/
+      Characterisation
+   4. Language Model: N-Grams/ TFIDF/ Word2Vec/ BERT
+   5. Speech Models: Wav2Vec/ HuBERT
+   6. Pre-requisites:
+      1. [[https://www.3blue1brown.com/topics/linear-algebra][Linear Algebra]]: Vector Spaces/ Linear Maps/
+         Singularity/ Matrix Decomposition/ Null
+         Space/ Span/ Markov Chains…
+      2. Probability and Statistics: Central Limit
+         Theorem/ Conditionals & Marginals/ Bayes
+         Theorem/ Markov Assumption/ Stochastic
+         Process…
+      3. Information Theory: Cross Entropy
+      4. Neural Network: Perceptron Model/ Hidden
+         Layers/ Convolution/ Activation/ Pooling/
+         Atrous/ Padding/ Backpropagation…
+      5. Optimisation: Stochastic Gradient Descent/
+         Momentum/ Dropout/ RMSProp/ Adam…
+      6. Deep Learning: Sequential Model/ Residual
+         Model/ Adversarial Model/ Attention Model/
+         Encoder-Decoder Model…
+2. Recognition
+   1. Hidden Markov Model
+   2. [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][Jasper]]
+   3. 
+3. Synthesis
+* Resources
++ Speech :: 
+  1. [[https://github.com/wenet-e2e/speech-synthesis-paper][Directory Listing of SoTA]]
+  2. [[https://github.com/zzw922cn/awesome-speech-recognition-speech-synthesis-papers][Another Directory Listing of SoTA]]
+  3. [[https://arxiv.org/abs/1904.03288][Jasper (2019)]]
+  4. [[https://arxiv.org/abs/1910.10261][QuartzNet (2019)]]
+  5. [[https://arxiv.org/abs/2104.01721][Citrinet (2021)]]
+  6. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/intro.html][NVidia NeMo Framework]]
+  7. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/intro.html][Speech Synthesis Model Zoo (NeMo)]]
++ Linear Algebra ::
+  1. [[https://www.3blue1brown.com/topics/linear-algebra][3B1B]]
+  2. [[https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/][Gilbert Strang]]
++ Probability and Statistics ::
+  1. Bertsekas & Tsitsiklis: [[https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/][Introduction To
+     Probability]]; [[https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/][Probabilistic Systems Analysis And
+     Applied Probability]]
+  2. [[https://www.3blue1brown.com/topics/probability][3B1B]]
++ Neural Network Concepts ::
+  1. [[https://www.coursera.org/specializations/deep-learning][Andrew Ng on Coursera]]
+  2. [[https://www.youtube.com/playlist?list=PLkt2uSq6rBVctENoVBg1TpCC7OQi31AlC][Andrej Karpathy on Youtube]]; also on [[https://cs231n.stanford.edu/2016/][Stanford]]
++ Information Theory & Learning ::
+  1. [[https://www.inference.org.uk/itila/][David McKay]]
+
