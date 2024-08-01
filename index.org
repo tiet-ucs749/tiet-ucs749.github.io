@@ -49,6 +49,8 @@
 
 * Overview
 
+[[file:ucs749-syllabus.pdf][Link to Syllabus [PDF]​]]
+
 #+caption: Academic Calendar
 [[file:image/2024-07-15_22-56-44_screenshot.png]]
 
@@ -102,6 +104,14 @@
    1. Hidden Markov Model
    2. [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][Jasper]]
 3. Synthesis
+
+* Schedule of Practicals
+
+1. 
+   1. [[https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html][Speech Recognition with Wav2Vec2]] (Pytorch)
+   2. [[https://www.tensorflow.org/tutorials/audio/simple_audio][Simple Audio Recognition : Recognising keywords]] (Tensorflow)
+   3. [[https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html][Speech Command Classification with M5]] (Pytorch)
+
 * Resources
 + Speech :: 
   1. [[https://github.com/wenet-e2e/speech-synthesis-paper][Directory Listing of SoTA]]
@@ -111,6 +121,7 @@
   5. [[https://arxiv.org/abs/2104.01721][Citrinet (2021)]]
   6. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/intro.html][NVidia NeMo Framework]]
   7. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/intro.html][Speech Synthesis Model Zoo (NeMo)]]
+  8. [[https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53][Mel Spectrogram]]
 + Linear Algebra ::
   1. [[https://www.3blue1brown.com/topics/linear-algebra][3B1B]]
   2. [[https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/][Gilbert Strang]]
