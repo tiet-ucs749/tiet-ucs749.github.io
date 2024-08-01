@@ -1,0 +1,35 @@
+
+:PROPERTIES:
+:ID:       e7e91868-b722-4d3b-9a54-ca40b5d5da0a
+:END:
+
+#+header: :var ID="P0801M"
+#+begin_src elisp
+  (require 's)
+  (let* ((protocol "https")
+         (host "docs.google.com")
+         (path "/forms/d/e/1FAIpQLSfT0dleroqF8c4XzY8TD1rJcNEasy7miJHTmOabDpninQrsHw/viewform")
+         (id (format "%s-%s"
+                     (s-left 4 (uuidgen-4))
+                     ID))
+         (args (list (cons 'usp "pp_url")
+                     ;; Code
+                     (cons 'entry.1584333336 "UCS749")
+                     ;; Name
+                     (cons 'entry.7436054 "Conversational+AI:+Speech+Processing+and+Synthesis")
+                     ;; LTP
+                     (cons 'entry.1886629696 "Practical")
+                     ;; ID
+                     (cons 'entry.449014170 id))))
+    (format "%s://%s%s?%s"
+            protocol
+            host
+            path
+            (s-join "&" (cl-loop for (k . v) in args collect
+                                 (format "%s=%s" k
+                                         (s-replace " " "+" v))))))
+
+#+end_src
+
+#+RESULTS:
+: https://docs.google.com/forms/d/e/1FAIpQLSfT0dleroqF8c4XzY8TD1rJcNEasy7miJHTmOabDpninQrsHw/viewform?usp=pp_url&entry.1584333336=UCS749&entry.7436054=Conversational+AI:+Speech+Processing+and+Synthesis&entry.1886629696=Practical&entry.449014170=cbfc-P0801M
