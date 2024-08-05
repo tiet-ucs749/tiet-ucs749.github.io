@@ -1,7 +1,7 @@
 # -*- org-image-actual-width: (64 128 256 512); openwith-associations: (("\.pdf\'" "evince" (file))); -*-
 #+OPTIONS: num:nil html-postamble:t html-style:nil toc:1
-#+TITLE: Course Page
-#+SUBTITLE: UCS749 Speech Processing and Synthesis
+#+TITLE: UCS749 Speech Processing and Synthesis
+#+SUBTITLE: Course Page
 #+DATE: [2024-07-15 Mon]
 #+AUTHOR: Raghav B. Venkataramaiyer
 # #+AUTHOR: B.V. Raghav, Subham Kumar, Vinay P. Namboodiri
