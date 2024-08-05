@@ -52,6 +52,9 @@
 | 2 | 0 | 2 |  3 |
 
 * Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
 
 [[file:ucs749-syllabus.pdf][Link to Syllabus [PDF]​]]
 
@@ -65,6 +68,9 @@
 | Diwali – EST | 4 |  8 | 4   |
 
 ** Evaluation Schedule
+:PROPERTIES:
+:CUSTOM_ID: evaluation-schedule
+:END:
 
 |            | Date            |  MM |
 |------------+-----------------+-----|
@@ -80,6 +86,9 @@
 
 
 * Schedule of topics
+:PROPERTIES:
+:CUSTOM_ID: schedule-of-topics
+:END:
 1. Introduction
    1. NLP: Lexeme/ Grapheme
    2. Speech: Phoneme
@@ -110,8 +119,14 @@
 3. Synthesis
 
 * Schedule of Practicals
+:PROPERTIES:
+:CUSTOM_ID: schedule-of-practicals
+:END:
 
 *** Lab 1
+:PROPERTIES:
+:CUSTOM_ID: lab-1
+:END:
 1. Getting familiar with the pipeline of Speech
    Recognition: \\
    [[https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html][Speech Recognition with Wav2Vec2]] (Pytorch)
@@ -122,6 +137,9 @@
    + (Pytorch) [[https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html][Speech Command Classification with M5]].
 
 * Resources
+:PROPERTIES:
+:CUSTOM_ID: resources
+:END:
 + Speech :: 
   1. [[https://github.com/wenet-e2e/speech-synthesis-paper][Directory Listing of SoTA]]
   2. [[https://github.com/zzw922cn/awesome-speech-recognition-speech-synthesis-papers][Another Directory Listing of SoTA]]
