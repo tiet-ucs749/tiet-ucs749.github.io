@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-31 Wed 18:00 -->
+<!-- 2024-08-05 Mon 08:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Course Page</title>
@@ -33,6 +33,9 @@ position: absolute;
 top: 0;
 width: 100%;
 }
+</style>
+<style type="text/css">
+ol.alpha { list-style-type: lower-alpha; }
 </style>
 <style>.project-head{font-variant: small-caps;text-transform: lowercase;} .project-head a {padding-left: .5em;} .project-head a:first-child {padding-left: 0;}</style>
 </head>
@@ -403,9 +406,10 @@ width: 100%;
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd0be090">Overview</a></li>
-<li><a href="#org1c4755f">Schedule of topics</a></li>
-<li><a href="#org31dc177">Resources</a></li>
+<li><a href="#org269f3b0">Overview</a></li>
+<li><a href="#org502cc48">Schedule of topics</a></li>
+<li><a href="#org749384f">Schedule of Practicals</a></li>
+<li><a href="#org0be4384">Resources</a></li>
 </ul>
 </div>
 </div>
@@ -439,15 +443,15 @@ width: 100%;
 </tbody>
 </table>
 
-<div id="outline-container-orgd0be090" class="outline-2">
-<h2 id="orgd0be090">Overview</h2>
-<div class="outline-text-2" id="text-orgd0be090">
+<div id="outline-container-org269f3b0" class="outline-2">
+<h2 id="org269f3b0">Overview</h2>
+<div class="outline-text-2" id="text-org269f3b0">
 <p>
 <a href="ucs749-syllabus.pdf">Link to Syllabus [PDF]​</a>
 </p>
 
 
-<div id="org3399686" class="figure">
+<div id="org12fdcad" class="figure">
 <p><img src="image/2024-07-15_22-56-44_screenshot.png" alt="2024-07-15_22-56-44_screenshot.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Academic Calendar</p>
@@ -498,9 +502,9 @@ width: 100%;
 </table>
 </div>
 
-<div id="outline-container-orgeebeab2" class="outline-3">
-<h3 id="orgeebeab2">Evaluation Schedule</h3>
-<div class="outline-text-3" id="text-orgeebeab2">
+<div id="outline-container-orgf7ae719" class="outline-3">
+<h3 id="orgf7ae719">Evaluation Schedule</h3>
+<div class="outline-text-3" id="text-orgf7ae719">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -568,9 +572,9 @@ width: 100%;
 </div>
 
 
-<div id="outline-container-org1c4755f" class="outline-2">
-<h2 id="org1c4755f">Schedule of topics</h2>
-<div class="outline-text-2" id="text-org1c4755f">
+<div id="outline-container-org502cc48" class="outline-2">
+<h2 id="org502cc48">Schedule of topics</h2>
+<div class="outline-text-2" id="text-org502cc48">
 <ol class="org-ol">
 <li>Introduction
 <ol class="org-ol">
@@ -609,9 +613,33 @@ Encoder-Decoder Model…</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org31dc177" class="outline-2">
-<h2 id="org31dc177">Resources</h2>
-<div class="outline-text-2" id="text-org31dc177">
+
+<div id="outline-container-org749384f" class="outline-2">
+<h2 id="org749384f">Schedule of Practicals</h2>
+<div class="outline-text-2" id="text-org749384f">
+</div>
+<div id="outline-container-orgacbc14a" class="outline-4">
+<h4 id="orgacbc14a">Lab 1</h4>
+<div class="outline-text-4" id="text-orgacbc14a">
+<ol class="org-ol">
+<li>Getting familiar with the pipeline of Speech
+Recognition: <br />
+<a href="https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html">Speech Recognition with Wav2Vec2</a> (Pytorch)</li>
+<li>Perform a simple command classification task with
+a sequential model:
+<ul class="org-ul">
+<li>(Tensorflow) <a href="https://www.tensorflow.org/tutorials/audio/simple_audio">Simple Audio Recognition :Recognising
+keywords</a>; or if you prefer</li>
+<li>(Pytorch) <a href="https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html">Speech Command Classification with M5</a>.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0be4384" class="outline-2">
+<h2 id="org0be4384">Resources</h2>
+<div class="outline-text-2" id="text-org0be4384">
 <dl class="org-dl">
 <dt>Speech</dt><dd><ol class="org-ol">
 <li><a href="https://github.com/wenet-e2e/speech-synthesis-paper">Directory Listing of SoTA</a></li>
@@ -621,6 +649,7 @@ Encoder-Decoder Model…</li>
 <li><a href="https://arxiv.org/abs/2104.01721">Citrinet (2021)</a></li>
 <li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/intro.html">NVidia NeMo Framework</a></li>
 <li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/intro.html">Speech Synthesis Model Zoo (NeMo)</a></li>
+<li><a href="https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53">Mel Spectrogram</a></li>
 </ol></dd>
 <dt>Linear Algebra</dt><dd><ol class="org-ol">
 <li><a href="https://www.3blue1brown.com/topics/linear-algebra">3B1B</a></li>
@@ -644,7 +673,7 @@ Applied Probability</a></li>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-07-31 Wed 18:00</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-05 Mon 08:13</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

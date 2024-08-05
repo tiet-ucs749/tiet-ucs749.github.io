@@ -38,6 +38,10 @@
 #+HTML_HEAD: }
 #+HTML_HEAD: </style>
 
+#+HTML_HEAD: <style type="text/css">
+#+HTML_HEAD:  ol.alpha { list-style-type: lower-alpha; }
+#+HTML_HEAD: </style>
+
 #+PROPERTY: header-args+ :exports both :eval never-export
 #+PROPERTY: header-args:python+ :results output replace verbatim
 
@@ -107,10 +111,15 @@
 
 * Schedule of Practicals
 
-1. 
-   1. [[https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html][Speech Recognition with Wav2Vec2]] (Pytorch)
-   2. [[https://www.tensorflow.org/tutorials/audio/simple_audio][Simple Audio Recognition : Recognising keywords]] (Tensorflow)
-   3. [[https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html][Speech Command Classification with M5]] (Pytorch)
+*** Lab 1
+1. Getting familiar with the pipeline of Speech
+   Recognition: \\
+   [[https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html][Speech Recognition with Wav2Vec2]] (Pytorch)
+2. Perform a simple command classification task with
+   a sequential model:
+   + (Tensorflow) [[https://www.tensorflow.org/tutorials/audio/simple_audio][Simple Audio Recognition :Recognising
+     keywords]]; or if you prefer
+   + (Pytorch) [[https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html][Speech Command Classification with M5]].
 
 * Resources
 + Speech :: 
