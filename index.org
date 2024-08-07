@@ -89,34 +89,47 @@
 :PROPERTIES:
 :CUSTOM_ID: schedule-of-topics
 :END:
-1. Introduction
-   1. NLP: Lexeme/ Grapheme
-   2. Speech: Phoneme
-   3. Statistical Models: Noise/ Pattern/
-      Characterisation
-   4. Language Model: N-Grams/ TFIDF/ Word2Vec/ BERT
-   5. Speech Models: Wav2Vec/ HuBERT
-   6. Pre-requisites:
-      1. [[https://www.3blue1brown.com/topics/linear-algebra][Linear Algebra]]: Vector Spaces/ Linear Maps/
-         Singularity/ Matrix Decomposition/ Null
-         Space/ Span/ Markov Chains…
-      2. Probability and Statistics: Central Limit
-         Theorem/ Conditionals & Marginals/ Bayes
-         Theorem/ Markov Assumption/ Stochastic
-         Process…
-      3. Information Theory: Cross Entropy
-      4. Neural Network: Perceptron Model/ Hidden
-         Layers/ Convolution/ Activation/ Pooling/
-         Atrous/ Padding/ Backpropagation…
-      5. Optimisation: Stochastic Gradient Descent/
-         Momentum/ Dropout/ RMSProp/ Adam…
-      6. Deep Learning: Sequential Model/ Residual
-         Model/ Adversarial Model/ Attention Model/
-         Encoder-Decoder Model…
-2. Recognition
-   1. Hidden Markov Model
-   2. [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][Jasper]]
-3. Synthesis
+
+** Introduction
+:PROPERTIES:
+:CUSTOM_ID: schedule-introduction
+:END:
+1. NLP: Lexeme/ Grapheme
+2. Speech: Phoneme
+3. Statistical Models: Noise/ Pattern/
+   Characterisation
+4. Language Model: N-Grams/ TFIDF/ Word2Vec/ BERT
+5. Speech Models: Wav2Vec/ HuBERT
+6. Pre-requisites:
+   1. [[https://www.3blue1brown.com/topics/linear-algebra][Linear Algebra]]: Vector Spaces/ Linear Maps/
+      Singularity/ Matrix Decomposition/ Null
+      Space/ Span/ Markov Chains…
+   2. Probability and Statistics: Central Limit
+      Theorem/ Conditionals & Marginals/ Bayes
+      Theorem/ Markov Assumption/ Stochastic
+      Process…
+   3. Information Theory: Cross Entropy
+   4. Neural Network: Perceptron Model/ Hidden
+      Layers/ Convolution/ Activation/ Pooling/
+      Atrous/ Padding/ Backpropagation…
+   5. Optimisation: Stochastic Gradient Descent/
+      Momentum/ Dropout/ RMSProp/ Adam…
+   6. Deep Learning: Sequential Model/ Residual
+      Model/ Adversarial Model/ Attention Model/
+      Encoder-Decoder Model…
+
+** Recognition
+:PROPERTIES:
+:CUSTOM_ID: schedule-recognition
+:END:
++ Hidden Markov Model :: [[https://web.stanford.edu/~jurafsky/slp3/A.pdf][=PDF= (Concise)]], More
+  literature from [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]], [[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]].
++ [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][Jasper]]
+
+** Synthesis
+:PROPERTIES:
+:CUSTOM_ID: schedule-synthesis
+:END:
 
 * Schedule of Practicals
 :PROPERTIES:
