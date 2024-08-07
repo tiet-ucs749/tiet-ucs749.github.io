@@ -12,13 +12,16 @@
          (id (format "%s-%s"
                      (s-left 4 (uuidgen-4))
                      ID))
+         (ltp (cond ((s-starts-with? "P" ID) "Practical")
+                    ((s-starts-with? "L" ID) "Lecture")
+                    (t "Tutorial")))
          (args (list (cons 'usp "pp_url")
                      ;; Code
                      (cons 'entry.1584333336 "UCS749")
                      ;; Name
                      (cons 'entry.7436054 "Conversational+AI:+Speech+Processing+and+Synthesis")
                      ;; LTP
-                     (cons 'entry.1886629696 "Practical")
+                     (cons 'entry.1886629696 ltp)
                      ;; ID
                      (cons 'entry.449014170 id))))
     (format "%s://%s%s?%s"
