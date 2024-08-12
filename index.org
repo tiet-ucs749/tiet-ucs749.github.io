@@ -1,5 +1,5 @@
 # -*- org-image-actual-width: (64 128 256 512); openwith-associations: (("\.pdf\'" "evince" (file))); -*-
-#+OPTIONS: num:nil html-postamble:t html-style:nil toc:1
+#+OPTIONS: num:nil html-postamble:t html-style:nil toc:nil
 #+TITLE: UCS749 Speech Processing and Synthesis
 #+SUBTITLE: Course Page
 #+DATE: [2024-07-15 Mon]
@@ -50,6 +50,8 @@
 | L | T | P | Cr |
 |---+---+---+----|
 | 2 | 0 | 2 |  3 |
+
+#+toc: headlines 2 local
 
 * Overview
 :PROPERTIES:
@@ -122,8 +124,9 @@
 :PROPERTIES:
 :CUSTOM_ID: schedule-recognition
 :END:
-+ Hidden Markov Model :: [[https://web.stanford.edu/~jurafsky/slp3/A.pdf][=PDF= (Concise)]], More
-  literature from [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]], [[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]].
++ Hidden Markov Model :: [[https://web.stanford.edu/~jurafsky/slp3/A.pdf][PDF (Concise)]], More
+  literature from [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]], [[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]]; [[https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition][Rabiner’s
+  Tutorial]].
 + [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][Jasper]]
 
 ** Synthesis
@@ -136,7 +139,9 @@
 :CUSTOM_ID: schedule-of-practicals
 :END:
 
-*** Lab 1
+#+TOC: headlines 1 local :target #schedule-of-practicals
+
+** Lab 1: Getting familiar with speech processing
 :PROPERTIES:
 :CUSTOM_ID: lab-1
 :END:
@@ -148,6 +153,49 @@
    + (Tensorflow) [[https://www.tensorflow.org/tutorials/audio/simple_audio][Simple Audio Recognition :Recognising
      keywords]]; or if you prefer
    + (Pytorch) [[https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html][Speech Command Classification with M5]].
+
+** Lab 2: Hidden Markov Model
+:PROPERTIES:
+:CUSTOM_ID: lab-2
+:END:
+
+Using MFCCs as features from this example: \\
+[[https://colab.research.google.com/drive/1pkopM-0bSoxH1WDwq94bFSBxXpkHrjI3?usp=sharing][MFCC Example [Colab]​]] by [[https://github.com/bvraghav][Raghav B. Venkataramaiyer]];\\
+along with the following dataset: \\
+[[https://github.com/Jakobovski/free-spoken-digit-dataset][Free Spoken Digit Dataset (10 digits x 6 speakers x 50
+repeats) [Github]​]]; \\
+and using hmmlearn as in this tutorial to fit the
+model
+[[https://colab.research.google.com/github/bambschool/BAMB2023/blob/main/6-latent_variable_models/hidden-markov-models.ipynb][HMM Tutorial [Colab]​]] by [[https://github.com/bambschool/BAMB2023][BAMB School 2023]]; \\
+
+1. Compute the probability of occurrence of a given
+   sequence, say $\{3,2,5,4,0\}$. (Encode the Forward
+   Algorithm)
+2. Predict the most likely sequence, given an audio
+   sequence. (Encode the Viterbi algorithm)
+
+*Theory*
+
+[[https://web.stanford.edu/~jurafsky/slp3/A.pdf][PDF (Concise)]], More literature from [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]],
+[[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]]; [[https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition][Rabiner’s Tutorial]].
+
+*More Datasets*
+
+[[https://code.google.com/archive/p/hmm-speech-recognition/downloads][hmm-speech-recognition [Google Code]​]]
+
+*More Feature Descriptors*
+
+[[https://en.wikipedia.org/wiki/Cepstral_mean_and_variance_normalization][CMVN]], [[http://people.csail.mit.edu/sshum/talks/ivector_tutorial_interspeech_27Aug2011.pdf][i-vectors]]
+
+
+*See Also*
+
+[[https://colab.research.google.com/github/bambschool/BAMB2023/blob/main/6-latent_variable_models/hidden-markov-models.ipynb][HMM Tutorial [Colab]​]] by [[https://github.com/bambschool/BAMB2023][BAMB School 2023]] \\
+[[https://colab.research.google.com/github/facebookresearch/beanmachine/blob/main/tutorials/Hidden_Markov_model.ipynb#scrollTo=vwxlljQwXOxg][Bean-Machine based Tutorial [Colab]​]] \\
+[[https://medium.com/@natsunoyuki/hidden-markov-models-with-python-c026f778dfa7][HMM Predicting Gold Prices [Medium]​]] \\
+[[https://colab.research.google.com/github/kastnerkyle/kastnerkyle.github.io/blob/master/posts/single-speaker-word-recognition-with-hidden-markov-models/single-speaker-word-recognition-with-hidden-markov-models.ipynb][Single Speaker Word Recognition with HMM [Colab]​]] \\
+[[https://colab.research.google.com/drive/1aFgzrUv3udM_gNJNUoLaHIm78QHtxdIz?usp=sharing][ASR using HMM from scratch [Colab]​]]
+
 
 * Resources
 :PROPERTIES:
@@ -176,3 +224,5 @@
 + Information Theory & Learning ::
   1. [[https://www.inference.org.uk/itila/][David McKay]]
 
+# * References
+# bibliography:~/.bibliography.bib

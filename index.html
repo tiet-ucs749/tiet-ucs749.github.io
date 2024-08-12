@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-07 Wed 11:35 -->
+<!-- 2024-08-12 Mon 08:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>UCS749 Speech Processing and Synthesis</title>
@@ -38,6 +38,38 @@ width: 100%;
 ol.alpha { list-style-type: lower-alpha; }
 </style>
 <style>.project-head{font-variant: small-caps;text-transform: lowercase;} .project-head a {padding-left: .5em;} .project-head a:first-child {padding-left: 0;}</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 0.85,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 0.85,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-tex',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML">
+</script>
 </head>
 <body>
 <div id="preamble" class="status">
@@ -402,17 +434,6 @@ ol.alpha { list-style-type: lower-alpha; }
 <br />
 <span class="subtitle">Course Page</span>
 </h1>
-<div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#schedule-of-topics">Schedule of topics</a></li>
-<li><a href="#schedule-of-practicals">Schedule of Practicals</a></li>
-<li><a href="#resources">Resources</a></li>
-</ul>
-</div>
-</div>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -443,6 +464,30 @@ ol.alpha { list-style-type: lower-alpha; }
 </tbody>
 </table>
 
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#evaluation-schedule">Evaluation Schedule</a></li>
+</ul>
+</li>
+<li><a href="#schedule-of-topics">Schedule of topics</a>
+<ul>
+<li><a href="#schedule-introduction">Introduction</a></li>
+<li><a href="#schedule-recognition">Recognition</a></li>
+<li><a href="#schedule-synthesis">Synthesis</a></li>
+</ul>
+</li>
+<li><a href="#schedule-of-practicals">Schedule of Practicals</a>
+<ul>
+<li><a href="#lab-1">Lab 1: Getting familiar with speech processing</a></li>
+<li><a href="#lab-2">Lab 2: Hidden Markov Model</a></li>
+</ul>
+</li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</div>
+
 <div id="outline-container-overview" class="outline-2">
 <h2 id="overview">Overview</h2>
 <div class="outline-text-2" id="text-overview">
@@ -451,7 +496,7 @@ ol.alpha { list-style-type: lower-alpha; }
 </p>
 
 
-<div id="orged39c86" class="figure">
+<div id="org2d84885" class="figure">
 <p><img src="image/2024-07-15_22-56-44_screenshot.png" alt="2024-07-15_22-56-44_screenshot.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Academic Calendar</p>
@@ -614,8 +659,9 @@ Encoder-Decoder Model…</li>
 <h3 id="schedule-recognition">Recognition</h3>
 <div class="outline-text-3" id="text-schedule-recognition">
 <dl class="org-dl">
-<dt>Hidden Markov Model</dt><dd><a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf"><code>PDF</code> (Concise)</a>, More
-literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20markov%20model%20filetype%3Apdf">Google</a>, <a href="https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&amp;ia=web">Duck,Duck,Go</a>.</dd>
+<dt>Hidden Markov Model</dt><dd><a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf">PDF (Concise)</a>, More
+literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20markov%20model%20filetype%3Apdf">Google</a>, <a href="https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&amp;ia=web">Duck,Duck,Go</a>; <a href="https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition">Rabiner’s
+Tutorial</a>.</dd>
 <dt>(no term)</dt><dd><a href="https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code">Jasper</a></dd>
 </dl>
 </div>
@@ -631,11 +677,17 @@ literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20mark
 <div id="outline-container-schedule-of-practicals" class="outline-2">
 <h2 id="schedule-of-practicals">Schedule of Practicals</h2>
 <div class="outline-text-2" id="text-schedule-of-practicals">
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#lab-1">Lab 1: Getting familiar with speech processing</a></li>
+<li><a href="#lab-2">Lab 2: Hidden Markov Model</a></li>
+</ul>
+</div>
 </div>
 
-<div id="outline-container-lab-1" class="outline-4">
-<h4 id="lab-1">Lab 1</h4>
-<div class="outline-text-4" id="text-lab-1">
+<div id="outline-container-lab-1" class="outline-3">
+<h3 id="lab-1">Lab 1: Getting familiar with speech processing</h3>
+<div class="outline-text-3" id="text-lab-1">
 <ol class="org-ol">
 <li>Getting familiar with the pipeline of Speech
 Recognition: <br />
@@ -650,7 +702,70 @@ keywords</a>; or if you prefer</li>
 </ol>
 </div>
 </div>
+
+<div id="outline-container-lab-2" class="outline-3">
+<h3 id="lab-2">Lab 2: Hidden Markov Model</h3>
+<div class="outline-text-3" id="text-lab-2">
+<p>
+Using MFCCs as features from this example: <br />
+<a href="https://colab.research.google.com/drive/1pkopM-0bSoxH1WDwq94bFSBxXpkHrjI3?usp=sharing">MFCC Example [Colab]​</a> by <a href="https://github.com/bvraghav">Raghav B. Venkataramaiyer</a>;<br />
+along with the following dataset: <br />
+<a href="https://github.com/Jakobovski/free-spoken-digit-dataset">Free Spoken Digit Dataset (10 digits x 6 speakers x 50
+repeats) [Github]​</a>; <br />
+and using hmmlearn as in this tutorial to fit the
+model
+<a href="https://colab.research.google.com/github/bambschool/BAMB2023/blob/main/6-latent_variable_models/hidden-markov-models.ipynb">HMM Tutorial [Colab]​</a> by <a href="https://github.com/bambschool/BAMB2023">BAMB School 2023</a>; <br />
+</p>
+
+<ol class="org-ol">
+<li>Compute the probability of occurrence of a given
+sequence, say \(\{3,2,5,4,0\}\). (Encode the Forward
+Algorithm)</li>
+<li>Predict the most likely sequence, given an audio
+sequence. (Encode the Viterbi algorithm)</li>
+</ol>
+
+<p>
+<b>Theory</b>
+</p>
+
+<p>
+<a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf">PDF (Concise)</a>, More literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20markov%20model%20filetype%3Apdf">Google</a>,
+<a href="https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&amp;ia=web">Duck,Duck,Go</a>; <a href="https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition">Rabiner’s Tutorial</a>.
+</p>
+
+<p>
+<b>More Datasets</b>
+</p>
+
+<p>
+<a href="https://code.google.com/archive/p/hmm-speech-recognition/downloads">hmm-speech-recognition [Google Code]​</a>
+</p>
+
+<p>
+<b>More Feature Descriptors</b>
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Cepstral_mean_and_variance_normalization">CMVN</a>, <a href="http://people.csail.mit.edu/sshum/talks/ivector_tutorial_interspeech_27Aug2011.pdf">i-vectors</a>
+</p>
+
+
+<p>
+<b>See Also</b>
+</p>
+
+<p>
+<a href="https://colab.research.google.com/github/bambschool/BAMB2023/blob/main/6-latent_variable_models/hidden-markov-models.ipynb">HMM Tutorial [Colab]​</a> by <a href="https://github.com/bambschool/BAMB2023">BAMB School 2023</a> <br />
+<a href="https://colab.research.google.com/github/facebookresearch/beanmachine/blob/main/tutorials/Hidden_Markov_model.ipynb#scrollTo=vwxlljQwXOxg">Bean-Machine based Tutorial [Colab]​</a> <br />
+<a href="https://medium.com/@natsunoyuki/hidden-markov-models-with-python-c026f778dfa7">HMM Predicting Gold Prices [Medium]​</a> <br />
+<a href="https://colab.research.google.com/github/kastnerkyle/kastnerkyle.github.io/blob/master/posts/single-speaker-word-recognition-with-hidden-markov-models/single-speaker-word-recognition-with-hidden-markov-models.ipynb">Single Speaker Word Recognition with HMM [Colab]​</a> <br />
+<a href="https://colab.research.google.com/drive/1aFgzrUv3udM_gNJNUoLaHIm78QHtxdIz?usp=sharing">ASR using HMM from scratch [Colab]​</a>
+</p>
 </div>
+</div>
+</div>
+
 
 <div id="outline-container-resources" class="outline-2">
 <h2 id="resources">Resources</h2>
@@ -688,7 +803,7 @@ Applied Probability</a></li>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-07 Wed 11:35</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-12 Mon 08:09</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
