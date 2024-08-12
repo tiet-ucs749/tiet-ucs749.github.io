@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-12 Mon 10:11 -->
+<!-- 2024-08-13 Tue 00:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>UCS749 Speech Processing and Synthesis</title>
@@ -481,7 +481,7 @@ ol.alpha { list-style-type: lower-alpha; }
 </p>
 
 
-<div id="org9ffefe1" class="figure">
+<div id="org5979d64" class="figure">
 <p><img src="image/2024-07-15_22-56-44_screenshot.png" alt="2024-07-15_22-56-44_screenshot.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Academic Calendar</p>
@@ -609,7 +609,7 @@ ol.alpha { list-style-type: lower-alpha; }
 <ul>
 <li><a href="#schedule-introduction">Introduction</a></li>
 <li><a href="#schedule-recognition">Recognition</a></li>
-<li><a href="#schedule-synthesis">Synthesis</a></li>
+<li><a href="#schedule-synthesis">Synthesis (Text-to-Speech; TTS)</a></li>
 </ul>
 </div>
 </div>
@@ -655,14 +655,20 @@ Encoder-Decoder Model…</li>
 <dt>Hidden Markov Model</dt><dd><a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf">PDF (Concise)</a>, More
 literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20markov%20model%20filetype%3Apdf">Google</a>, <a href="https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&amp;ia=web">Duck,Duck,Go</a>; <a href="https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition">Rabiner’s
 Tutorial</a>.</dd>
-<dt>(no term)</dt><dd><a href="https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code">Jasper</a></dd>
+<dt>Time Delay DNN (TDNN)</dt><dd><a href="https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code">Jasper</a>, <a href="https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition">QuartzNet</a>, <a href="https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non">Citrinet</a></dd>
+<dt>Speech Command Recognition</dt><dd><a href="https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1">MatchboxNet</a>
+(<a href="https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py">Implementation</a>)</dd>
 </dl>
 </div>
 </div>
 
 <div id="outline-container-schedule-synthesis" class="outline-3">
-<h3 id="schedule-synthesis">Synthesis</h3>
+<h3 id="schedule-synthesis">Synthesis (Text-to-Speech; TTS)</h3>
 <div class="outline-text-3" id="text-schedule-synthesis">
+<dl class="org-dl">
+<dt>Spectrogram Generators</dt><dd><a href="https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet">Tacotron2</a>, <a href="https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech">GlowTTS</a></dd>
+<dt>Audio Generators</dt><dd><a href="https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for">WaveGlow</a>, <a href="https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders">SqueezeWave</a></dd>
+</dl>
 </div>
 </div>
 </div>
@@ -674,6 +680,11 @@ Tutorial</a>.</dd>
 <ul>
 <li><a href="#lab-1">Lab 1: Getting familiar with speech processing</a></li>
 <li><a href="#lab-2">Lab 2: Hidden Markov Model</a></li>
+<li><a href="#lab-3">Lab 3: ASR in English</a></li>
+<li><a href="#lab-4">Lab 4: ASR in Indic Language</a></li>
+<li><a href="#lab-5">Lab 5: Speech Commands</a></li>
+<li><a href="#lab-6">Lab 6: TTS with Tacotron 2</a></li>
+<li><a href="#lab-7">Lab 7: TTS in Indic Language</a></li>
 </ul>
 </div>
 </div>
@@ -757,8 +768,60 @@ sequence. (Encode the Viterbi algorithm)</li>
 </p>
 </div>
 </div>
+
+
+<div id="outline-container-lab-3" class="outline-3">
+<h3 id="lab-3">Lab 3: ASR in English</h3>
+<div class="outline-text-3" id="text-lab-3">
+<p>
+<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_with_NeMo.ipynbASR_with_NeMo">ASR with NeMo (Colab)</a>
+</p>
+
+<p>
+For Starters : <br />
+<a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/starthere/intro.html#quick-start-guide">NeMo Installation and Getting Started Guide with
+Citrinet ASR Evaluation</a>
+</p>
+</div>
 </div>
 
+<div id="outline-container-lab-4" class="outline-3">
+<h3 id="lab-4">Lab 4: ASR in Indic Language</h3>
+<div class="outline-text-3" id="text-lab-4">
+<p>
+Use the method from Lab 3, but use <a href="https://github.com/AI4Bharat/vistaar">Indic Dataset</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-lab-5" class="outline-3">
+<h3 id="lab-5">Lab 5: Speech Commands</h3>
+<div class="outline-text-3" id="text-lab-5">
+<p>
+<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/Speech_Commands.ipynb">Speech Command Recognition with MatchboxNet</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-lab-6" class="outline-3">
+<h3 id="lab-6">Lab 6: TTS with Tacotron 2</h3>
+<div class="outline-text-3" id="text-lab-6">
+<p>
+<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/tts/Tacotron2_Training.ipynb">Training with Tacotron 2</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-lab-7" class="outline-3">
+<h3 id="lab-7">Lab 7: TTS in Indic Language</h3>
+<div class="outline-text-3" id="text-lab-7">
+<p>
+Use the method from Lab 6, but along with <a href="https://github.com/AI4Bharat/Indic-TTS">Indic Dataset
+for TTS</a>.
+</p>
+</div>
+</div>
+</div>
 
 <div id="outline-container-resources" class="outline-2">
 <h2 id="resources">Resources</h2>
@@ -791,12 +854,28 @@ Applied Probability</a></li>
 <dt>Information Theory &amp; Learning</dt><dd><ol class="org-ol">
 <li><a href="https://www.inference.org.uk/itila/">David McKay</a></li>
 </ol></dd>
+<dt>Datasets</dt><dd><ol class="org-ol">
+<li><a href="https://pytorch.org/audio/stable/datasets.html">Torch Audio (Pytorch)</a></li>
+<li><a href="https://www.tensorflow.org/datasets/catalog/overview#speech">Speech &amp; Speech Recognition Datasets (Tensorflow)</a></li>
+<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html">ASR Datasets (NeMo)</a></li>
+<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speech_classification/datasets.html">Speech Classification Datasets (NeMo)</a></li>
+<li><a href="https://github.com/lhotse-speech/lhotse">Lhotse Speech</a> and <a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html#lhotse-dataloading">its use with NeMo</a></li>
+<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speaker_recognition/datasets.html">Speaker Recognition Datasets (NeMo)</a></li>
+<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/datasets.html#public-tts-datasets">Public TTS Datasets (NeMo)</a></li>
+<li><a href="https://github.com/AI4Bharat/vistaar">Indic ASR Dataset</a></li>
+<li><a href="https://github.com/AI4Bharat/Indic-TTS">Indic Dataset for TTS</a></li>
+</ol></dd>
+<dt>Code</dt><dd><ol class="org-ol">
+<li><a href="https://github.com/NVIDIA/OpenSeq2Seq">OpenSeq2Seq</a></li>
+<li><a href="https://github.com/AI4Bharat/Indic-TTS">AI4Bharat</a></li>
+<li><a href="https://github.com/NVIDIA/NeMo/tree/stable/tutorials/">NeMo Tutorials</a></li>
+</ol></dd>
 </dl>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-12 Mon 10:11</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-13 Tue 00:04</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

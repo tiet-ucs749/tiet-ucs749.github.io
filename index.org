@@ -130,12 +130,16 @@
 + Hidden Markov Model :: [[https://web.stanford.edu/~jurafsky/slp3/A.pdf][PDF (Concise)]], More
   literature from [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]], [[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]]; [[https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition][Rabiner’s
   Tutorial]].
-+ [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][Jasper]]
++ Time Delay DNN (TDNN) :: [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][Jasper]], [[https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition][QuartzNet]], [[https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non][Citrinet]]
++ Speech Command Recognition :: [[https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1][MatchboxNet]]
+  ([[https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py][Implementation]])
 
-** Synthesis
+** Synthesis (Text-to-Speech; TTS)
 :PROPERTIES:
 :CUSTOM_ID: schedule-synthesis
 :END:
++ Spectrogram Generators :: [[https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet][Tacotron2]], [[https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech][GlowTTS]]
++ Audio Generators :: [[https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for][WaveGlow]], [[https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders][SqueezeWave]]
 
 * Schedule of Practicals
 :PROPERTIES:
@@ -200,6 +204,42 @@ model \\
 [[https://colab.research.google.com/drive/1aFgzrUv3udM_gNJNUoLaHIm78QHtxdIz?usp=sharing][ASR using HMM from scratch [Colab]​]]
 
 
+** Lab 3: ASR in English
+:PROPERTIES:
+:CUSTOM_ID: lab-3
+:END:
+
+[[https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_with_NeMo.ipynbASR_with_NeMo][ASR with NeMo (Colab)]]
+
+For Starters : \\
+[[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/starthere/intro.html#quick-start-guide][NeMo Installation and Getting Started Guide with
+Citrinet ASR Evaluation]]
+
+** Lab 4: ASR in Indic Language
+:PROPERTIES:
+:CUSTOM_ID: lab-4
+:END:
+Use the method from Lab 3, but use [[https://github.com/AI4Bharat/vistaar][Indic Dataset]].
+
+** Lab 5: Speech Commands
+:PROPERTIES:
+:CUSTOM_ID: lab-5
+:END:
+[[https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/Speech_Commands.ipynb][Speech Command Recognition with MatchboxNet]]
+
+** Lab 6: TTS with Tacotron 2
+:PROPERTIES:
+:CUSTOM_ID: lab-6
+:END:
+[[https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/tts/Tacotron2_Training.ipynb][Training with Tacotron 2]]
+
+** Lab 7: TTS in Indic Language
+:PROPERTIES:
+:CUSTOM_ID: lab-7
+:END:
+Use the method from Lab 6, but along with [[https://github.com/AI4Bharat/Indic-TTS][Indic Dataset
+for TTS]].
+
 * Resources
 :PROPERTIES:
 :CUSTOM_ID: resources
@@ -226,6 +266,20 @@ model \\
   2. [[https://www.youtube.com/playlist?list=PLkt2uSq6rBVctENoVBg1TpCC7OQi31AlC][Andrej Karpathy on Youtube]]; also on [[https://cs231n.stanford.edu/2016/][Stanford]]
 + Information Theory & Learning ::
   1. [[https://www.inference.org.uk/itila/][David McKay]]
++ Datasets ::
+  1. [[https://pytorch.org/audio/stable/datasets.html][Torch Audio (Pytorch)]]
+  2. [[https://www.tensorflow.org/datasets/catalog/overview#speech][Speech & Speech Recognition Datasets (Tensorflow)]]
+  3. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html][ASR Datasets (NeMo)]]
+  4. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speech_classification/datasets.html][Speech Classification Datasets (NeMo)]]
+  5. [[https://github.com/lhotse-speech/lhotse][Lhotse Speech]] and [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html#lhotse-dataloading][its use with NeMo]]
+  6. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speaker_recognition/datasets.html][Speaker Recognition Datasets (NeMo)]]
+  7. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/datasets.html#public-tts-datasets][Public TTS Datasets (NeMo)]]
+  8. [[https://github.com/AI4Bharat/vistaar][Indic ASR Dataset]]
+  9. [[https://github.com/AI4Bharat/Indic-TTS][Indic Dataset for TTS]]
++ Code ::
+  1. [[https://github.com/NVIDIA/OpenSeq2Seq][OpenSeq2Seq]]
+  2. [[https://github.com/AI4Bharat/Indic-TTS][AI4Bharat]]
+  3. [[https://github.com/NVIDIA/NeMo/tree/stable/tutorials/][NeMo Tutorials]]
 
 # * References
 # bibliography:~/.bibliography.bib
