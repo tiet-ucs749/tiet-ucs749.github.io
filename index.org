@@ -51,7 +51,7 @@
 |---+---+---+----|
 | 2 | 0 | 2 |  3 |
 
-#+toc: headlines 2 local
+#+toc: headlines 1 local
 
 * Overview
 :PROPERTIES:
@@ -91,6 +91,9 @@
 :PROPERTIES:
 :CUSTOM_ID: schedule-of-topics
 :END:
+
+#+TOC: headlines 1 local
+
 
 ** Introduction
 :PROPERTIES:
@@ -139,7 +142,7 @@
 :CUSTOM_ID: schedule-of-practicals
 :END:
 
-#+TOC: headlines 1 local :target #schedule-of-practicals
+#+TOC: headlines 1 local
 
 ** Lab 1: Getting familiar with speech processing
 :PROPERTIES:
@@ -165,8 +168,8 @@ along with the following dataset: \\
 [[https://github.com/Jakobovski/free-spoken-digit-dataset][Free Spoken Digit Dataset (10 digits x 6 speakers x 50
 repeats) [Github]​]]; \\
 and using hmmlearn as in this tutorial to fit the
-model
-[[https://colab.research.google.com/github/bambschool/BAMB2023/blob/main/6-latent_variable_models/hidden-markov-models.ipynb][HMM Tutorial [Colab]​]] by [[https://github.com/bambschool/BAMB2023][BAMB School 2023]]; \\
+model \\
+[[https://hmmlearn.readthedocs.io/en/latest/tutorial.html][HMM Learn [ReadTheDocs]​]]
 
 1. Compute the probability of occurrence of a given
    sequence, say $\{3,2,5,4,0\}$. (Encode the Forward
