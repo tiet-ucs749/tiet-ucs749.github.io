@@ -1,0 +1,559 @@
+:PROPERTIES: 
+:ID:       6b23b8b1-0ce1-4e6c-9d25-aef6538cfbb8
+:END:
+#+title: Jasper
+#+subtitle: End-to-End Convolutional Neural Acoustic Model
+#+OPTIONS: num:nil html-postamble:t html-style:nil toc:nil
+#+DATE: [2024-08-19 Mon]
+#+AUTHOR: Raghav B. Venkataramaiyer
+# #+AUTHOR: B.V. Raghav, Subham Kumar, Vinay P. Namboodiri
+#+EMAIL: bv.raghav@thapar.edu
+# #+EMAIL: bvraghav@iitk.ac.in, subhamkr@iitk.ac.in, vinaypn@iitk.ac.in
+#+LANGUAGE: en
+
+#+HTML_HEAD: <meta name="keywords" content="jasper,notes,speech processing">
+
+#+HTML_HEAD: <meta name="description" content="Notes on Jasper Speech Model">
+
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/css/dhiw.css" />
+#+HTML_HEAD: <link rel="shortcut icon" type="image/png"
+#+HTML_HEAD:   href="https://www.gravatar.com/avatar/034c3feded7a09f8a5c481a2bd35d676.png?s=16" />
+
+#+HTML_HEAD: <style>
+#+HTML_HEAD: .iframe-container {
+#+HTML_HEAD:   overflow: hidden;
+#+HTML_HEAD:   /* Calculated from the aspect ratio of the content (in case of 16:9 it is 9/16= 0.5625) */
+#+HTML_HEAD:   padding-top: 56.25%;
+#+HTML_HEAD:   position: relative;
+#+HTML_HEAD:   margin-bottom: 1em;
+#+HTML_HEAD: }
+#+HTML_HEAD:  
+#+HTML_HEAD: .iframe-container iframe {
+#+HTML_HEAD:    border: 0;
+#+HTML_HEAD:    height: 100%;
+#+HTML_HEAD:    left: 0;
+#+HTML_HEAD:    position: absolute;
+#+HTML_HEAD:    top: 0;
+#+HTML_HEAD:    width: 100%;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+
+#+HTML_HEAD: <style type="text/css">
+#+HTML_HEAD:  ol.alpha { list-style-type: lower-alpha; }
+#+HTML_HEAD: </style>
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+MACRO: cnc {{{sc(cnc)}}}
+
+[[../][[Parent]​]]
+
+- tags :: Interspeech 2019
+- keywords :: Computer Science - Computation and
+  Language, Computer Science - Machine Learning,
+  Computer Science - Sound, Electrical Engineering and
+  Systems Science - Audio and Speech Processing
+- author :: Li, J., Lavrukhin, V., Ginsburg, B., Leary,
+  R., Kuchaiev, O., Cohen, J. M., Nguyen, H., …
+- url :: [[http://arxiv.org/abs/1904.03288][[arXiv]​]], [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][[Papers With Code]​]]
+
+#+toc: headlines 2
+
+* Prior Art
+:PROPERTIES:
+:CUSTOM_ID: sec:prior-art
+:END:
+
+** Datasets
+:PROPERTIES:
+:CUSTOM_ID: sec:datasets
+:END:
++ [[https://doi.org/10.1109/ICASSP.2015.7178964][LibriSpeech (ICASSP ’15)]]
++ WSJ
++ 2000hr Fisher+Switchboard (F+S)
+
+
+** Ideas and Strategy
+:PROPERTIES:
+:CUSTOM_ID: sec:ideas-and-strategy
+:END:
++ [[https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf][Time-delay Networks (TDNN)]]
++ [[https://dl.acm.org/doi/abs/10.1145/1143844.1143891][Connectionist Temporal Classification (CTC) ICML ’06]]
++ [[https://arxiv.org/abs/1609.03193][Wav2Letter (ICLR '17)]]
++ [[https://arxiv.org/abs/1712.09444][Gated Convnets (for ASR)]]
+
+** Technology
+:PROPERTIES:
+:CUSTOM_ID: sec:technology
+:END:
++ Normalisation ::
+  + [[#sec:batch-norm][Batch Norm]]; See also:[[https://arxiv.org/abs/1502.03167][[arXiv];]]
+  + [[#sec:weight-norm][Weight Norm]]; See also: [[http://arxiv.org/abs/1602.07868][[arXiv];]]
+  + [[#sec:layer-norm][Layer Norm]]; See also: [[http://arxiv.org/abs/1607.06450][[arXiv];]]
++ Activation ::
+  + [[*Rectifier Activation][ReLU]]
+  + [[*Rectifier Activation][Clipped ReLU]]
+  + [[*Rectifier Activation][Leaky ReLU]]
++ Gated Units ::
+  + [[#sec:gated-linear-unit][Gated Linear Units]]
+  + [[#sec:gated-activation-unit][Gated Activation Units]]
+
+* Contribution
+:PROPERTIES:
+:CUSTOM_ID: sec:contribution
+:END:
++ Jasper Model; and Dense Residual Topology;
++ Evidence-based insights on convergence and
+  non-convergence;
++ NovoGrad Solver (like Adam);
++ WER improvement on LibriSpeech test-clean.
+
+* Appendix
+:PROPERTIES:
+:CUSTOM_ID: sec:appendix
+:END:
+
+
+** Covariate Shift
+:PROPERTIES:
+:CUSTOM_ID: sec:covariate-shift
+:END:
+
+/Adapted from [[http://arxiv.org/abs/1607.06450][Layer Normalisation Paper]],/
+#+begin_quote
+One of the challenges of deep learning is that the
+gradients with respect to the weights in one layer are
+highly dependent on the outputs of the neurons in the
+previous layer especially if these outputs change in a
+highly correlated way.
+#+end_quote
+
+** Batch Norm
+:PROPERTIES:
+:CUSTOM_ID: sec:batch-norm
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-08-20 00:59:14
+#+name: fig:batch-norm
+#+caption: Courtesy: [[https://arxiv.org/abs/1502.03167][Batch Norm Paper]]
+#+attr_html: :style width:23rem
+[[file:org-download-images/Appendix/2024-08-20_00-59-14_screenshot.png]]
+
+** Weight Norm
+:PROPERTIES:
+:CUSTOM_ID: sec:weight-norm
+:END:
+
+Each neuron on an artificial neural network may be
+represented as,
+
+\begin{align}
+\notag
+y &= \phi(\mathbf{w}\cdot\mathbf{x}+b)
+\end{align}
+
+where, \\
+$\mathbf{x}$ is $k$ dimensional vector of input
+features, \\
+$\mathbf{w}$ is $k$ dimensional vector of learnable
+weights, \\
+$b$ is a (learnable) scalar bias term, and \\
+$\phi$ denotes element-wise non-linearity.
+
+The *key idea* in weight normalisation is to
+re-parameterise the weight vector, as
+\begin{align}
+  \notag
+  \mathbf{w} &= \frac{g}{\|\mathbf{v}\|} \mathbf{v}
+\end{align}
+so that, \\
+$\mathbf{v}$ is $k$ dimensional vector of learnable
+weights, \\
+$g$ is a learnable scalar parameter, and
+$\|\mathbf{w}\|=g$, independent of $\mathbf{v}$.
+
+Instead of working with $g$ directly, we may also use
+an exponential parameterisation for the scale,
+\begin{align}
+  \notag
+  g &= e^s
+\end{align}
+where, $s$ is a log-scale learnable scalar parameter.
+
+For more intuition, please see $\S 2.1$ and $\S 2.2$ of
+the [[http://arxiv.org/abs/1602.07868][weight norm paper]].
+
+** Layer Norm
+:PROPERTIES:
+:CUSTOM_ID: sec:layer-norm
+:END:
+
+The $l^{\text{th}}$ layer in a feed forward neural
+network with inputs $\mathbf{h}^l$ and weight matrix
+$W^{l}$ and non-linear activation $f$, may be written
+as,
+\begin{align}
+  \notag
+  a_i^l &= {\mathbf{w}_{:,i}^l}^\top\mathbf{h}^l
+          \qquad h_i^{l+1} = f(a_i^l+b_i^l) 
+\end{align}
+
+A Batch Norm may be summarised as,
+\begin{align}
+  \notag
+  h_i^{l+1} = f(\hat{a}_i^l+b_i^l)
+  &\qquad
+    \hat{a}_i^l = \frac{g_i^l}{\sigma_i^l} (a_i^l -
+    \mu_i^l) \\
+  \notag
+  \mu_i^l = \underset{\mathbf{x}\sim P(\mathbf{x})}
+  {\mathbb{E}} \left[a_i^l\right]
+  &\qquad
+    \sigma_i^l = \sqrt{\underset{\mathbf{x}\sim
+    P(\mathbf{x})} {\mathbb{E}} \left[\left(a_i^l -
+    \mu_i^l\right)^2\right]}
+\end{align}
+
+#+begin_quote
+It is  typically impractical  to [exactly]  compute the
+expectations in  [the equation  above,] since  it would
+require  forward  passes  through  the  whole  training
+dataset with the current set of weights. Instead, $\mu$
+and $\sigma$ are estimated  using the empirical samples
+from the current mini-batch.
+#+end_quote
+
+#+begin_quote
+Notice that changes in the output of one layer will
+tend to cause highly correlated changes in the summed
+inputs to the next layer, especially with ReLU units
+whose outputs can change by a lot.
+#+end_quote
+
+#+begin_quote
+We, thus, compute the layer normalization statistics
+over *all the hidden units* in the same layer as
+follows:
+#+end_quote
+
+\begin{align}
+  \notag
+  \mu_i^l = \mu^l
+  &= \frac1H\sum_{i=1}^{H}a_i^l \\
+  \notag
+  \sigma_i^l = \sigma^l
+  &= \sqrt{ \frac1H \sum_{i=1}^H \left( a_i^l - \mu^l
+    \right)}
+\end{align}
+
+
+#+DOWNLOADED: screenshot @ 2024-08-20 03:20:24
+#+caption: Courtesy: [[http://arxiv.org/abs/1607.06450][Layer Norm Paper]]
+[[file:org-download-images/Appendix/2024-08-20_03-20-24_screenshot.png]]
+** Sigmoid Activation
+:PROPERTIES:
+:CUSTOM_ID: sec:sigmoid-activation
+:END:
+
+*** Error Function
+:PROPERTIES:
+:CUSTOM_ID: sec:error-function
+:END:
+\begin{align}
+  \notag
+  \mathrm{erf}\;z &= \frac2{\sqrt2} \int_0^z e^{-t^2}
+                   \mathrm{d}t 
+\end{align}
+
+#+attr_html: :style width:25em
+[[file:image/Error_Function.svg]]
+
+*** Sigmoid (Logistic Function)
+:PROPERTIES:
+:CUSTOM_ID: sec:sigmoid-logistic-function
+:END:
+\begin{align}
+  \notag
+  \sigma(x)
+  &= \frac1{1+e^{-x} }
+    = \frac{e^x}{1+e^x}
+    = 1 - \sigma(-x)
+\end{align}
+
+#+attr_html: :style width:25em
+[[file:image/Logistic-curve.svg]]
+
+*** Other Sigmoidal Functions
+:PROPERTIES:
+:CUSTOM_ID: sec:other-sigmoidal-functions
+:END:
+
+[[file:image/sigmoid-comparison.svg]]
+
++ Hyperbolic Tangent ::
+  \begin{align}
+    \notag
+    \mathrm{tanh}\;x
+    &= \frac {e^x - e^{-x}}{e^x + e^{-x}}
+  \end{align}
+
++ Arc Tangent :: 
+  \begin{align}
+    \notag
+    y &= \mathrm{arctan}\;x \iff x = \tan y; \quad y \in
+        \left[-\frac\pi2,\frac\pi2\right]
+  \end{align}
+
+
++ Gudermannian Function ::
+  \begin{align}
+    \notag
+    \mathrm{gd}(x)
+    &=\int_0^x \frac{\mathrm{d}t}{\mathrm{cosh}\;t}
+      = 2\;\mathrm{arctan}\left(\mathrm{tanh}\left(\frac
+      x2 \right) \right)
+  \end{align}
+
++ Algebraic Functions :: 
+  \begin{align}
+    \notag
+    f(x) &= \frac{x}{\left(1+|x|^k\right)^{1/k}} \\
+    \notag
+    &= \frac{x}{\left(1+|x|\right)}; \qquad k=1 \\
+    \notag
+    &= \frac{x}{\sqrt{1+x^2}}; \qquad k=2
+  \end{align}
+
+
+** Rectifier Activation
+:PROPERTIES:
+:CUSTOM_ID: sec:rectifier-activation
+:END:
+#+attr_html: :style width:15em
+[[file:image/rectifier.svg]]
+
++ ReLU (Rectified Linear Unit) ::
+  \begin{align}
+    \notag
+    \mathrm{ReLU}(x)
+    &= x^+ = \max(0,x) = \frac{x+|x|}2 = \begin{cases}
+      x;&\text{if } x>0, \\
+      0;&\text{otherwise.}
+    \end{cases}
+  \end{align}
+
++ Clipped ReLU :: 
+  \begin{align}
+    \notag
+    \mathrm{cReLU}(x;a) &= \max(0,\min(a,x))
+  \end{align}
+  /e.g./ [[https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#relu6][ReLU6 in Pytorch]]
+
++ Parametric and Leaky ReLU :: 
+  \begin{align}
+    \notag
+    \mathrm{PReLU}(x; a)
+    &= \begin{cases}
+      x;&\text{if } x>0, \\
+      ax;&\text{otherwise.}
+    \end{cases} \\
+    \notag
+    \mathrm{LeakyReLU}(x)
+    &= \mathrm{PReLU}(x, 0.01)
+  \end{align}
+
++ GELU (Gaussian-error linear unit) :: 
+  \begin{align}
+    \notag
+    GELU(x) &= x\cdot\Phi(x) \\
+    \frac\partial{\partial x} GELU(x)
+    &= x\cdot\Phi'(x) + \Phi(x)
+  \end{align}
+  where $\Phi(x) = Pr(X\leqslant x)$ is the cumulative
+  Gaussian distribution.
+
+** Vanishing/Exploding Gradient Problem
+:PROPERTIES:
+:CUSTOM_ID: sec:vanishing-exploding-gradient-problem
+:END:
+#+begin_quote
+[[https://doi.org/10.1109/9780470544037.ch14][Hochreiter’s work]] formally identified a major reason:
+Typical deep NNs suffer from the now famous problem of
+vanishing or exploding gradients. With standard
+activation functions (Sec. 1), cumulative
+backpropagated error signals (Sec. 5.5.1) either shrink
+rapidly, or grow out of bounds. In fact, they decay
+*exponentially* in the number of layers or CAP depth
+(Sec. 3), or they explode. This is also known as the
+long time lag problem.
+#+end_quote
+Also see [[https://arxiv.org/abs/1404.7828][Deep Learning by Jürgen Schmidhuber]]
+
+** Gating History
+:PROPERTIES:
+:CUSTOM_ID: sec:gating-history
+:END:
+Gating was introduced in the [[https://ieeexplore.ieee.org/abstract/document/6795963][LSTM paper]] in ’97, in
+order to address vanishing/exploding gradient problem.
+Simply put, gating mechanism is element-wise
+multiplication of input vector with a gate-activation
+vector.  The gate, in turn, is activated by looking at
+the input vector itself.  For example, a basic gate
+would be formulated as,
+
+\begin{align}
+  \notag
+  \mathbf{y} &= \mathbf{g} \otimes \mathbf{x} \\
+  \notag
+  \mathbf{g} &= \sigma_{\otimes}(W\mathbf{x} +
+               \mathbf{b}) 
+\end{align}
+where, \\
+$\sigma_{\otimes}(\mathbf{x})$ is the element-wise
+sigmoid activation of input vector $\mathbf{x}$; and \\
+$\otimes$ represents element-wise multiplication.
+
+For a more involved use-case, let an RNN be defined for
+$T$ time steps, with
++ Given inputs as
+  $\{\mathbf{z}_1,\ldots,\mathbf{z}_T\}$;
++ Cell States, $\{\mathbf{c}_1,\ldots,\mathbf{c}_T\}$;
++ Hidden States,
+  $\{\mathbf{h}_1,\ldots,\mathbf{h}_T\}$;
++ Given initial states as
+  $\mathbf{c}_{0},\mathbf{h}_{0}$;
++ Neural Network
+  $\Phi(\mathbf{z},\mathbf{c},\mathbf{h})$ to compute
+  pre gate activation;
+
+*LSTM* \\
+$\forall t\in\{1,\ldots,T\}$,
+\begin{align}
+  \notag
+  \mathbf{x}
+  &\gets \Phi(\mathbf{z}_t, \mathbf{c}_{t-1},
+    \mathbf{h}_{t-1}) \\
+  \notag
+  \mathbf{i}
+  &\gets
+    \sigma_{\otimes}(W_i\mathbf{x}+U_i\mathbf{h}_{t-1}
+    + \mathbf{b}_i) \\
+  \notag
+  \mathbf{f}
+  &\gets \sigma_{\otimes} (W_f\mathbf{x} +
+    U_f\mathbf{h}_{t-1} + \mathbf{b}_f) \\  
+  \notag
+  \mathbf{o}
+  &\gets \sigma_{\otimes} (W_o\mathbf{x} +
+    U_o\mathbf{h}_{t-1} + \mathbf{b}_o) \\ 
+  \notag
+  \mathbf{g}
+  &\gets \tanh_{\otimes} (W_g\mathbf{x} +
+    U_g\mathbf{h}_{t-1} + \mathbf{b}_g) \\  
+  \notag
+  \mathbf{c}_t
+  &\gets \mathbf{f}\otimes\mathbf{c}_{t-1} +
+    \mathbf{i}\otimes\mathbf{g} \\
+  \notag
+  \mathbf{h}_t
+  &\gets \mathbf{o}\otimes\tanh_{\otimes} \mathbf{c}_t
+\end{align}
+
+*GRU* \\
+$\forall t\in\{1,\ldots,T\}$,
+\begin{align}
+  \notag
+  \mathbf{x}
+  &\gets \Phi(\mathbf{z}_t, \mathbf{c}_{t-1},
+    \mathbf{h}_{t-1}) \\
+  \notag
+  \mathbf{r}
+  &\gets
+    \sigma_{\otimes}(W_r\mathbf{x}+U_r\mathbf{h}_{t-1}
+    + \mathbf{b}_r) \\
+  \notag
+  \tilde{\mathbf{h}}
+  &\gets
+    \tanh_{\otimes}(W_h\mathbf{x} +
+    U_h(\mathbf{r}\otimes\mathbf{h}_{t-1}) +
+    \mathbf{b}_h) \\
+  \notag
+  \mathbf{c}_t
+  &\gets
+    \sigma_{\otimes}(W_c\mathbf{x}+U_c\mathbf{h}_{t-1}
+    + \mathbf{b}_c) \\
+  \notag
+  \mathbf{h}_t
+  &\gets \mathbf{c}_t\otimes \mathbf{h}_{t-1} +
+    (1-\mathbf{c}_t) \otimes \tilde{\mathbf{h}}
+\end{align}
+
+*See also:*
++ [[https://medium.com/@eugenesh4work/gating-mechanisms-in-neural-networks-dc83a0bdb8c3][[Medium] ​Gating Mechanisms (Blog by Eugene
+  Shevchenko)]];
++ [[https://arxiv.org/abs/2007.14823][[arXiv]​ Jacobian Spectrum of Gates (Fig.1; Theory of
+  Gating)]]
+
+** Gated Linear Unit
+:PROPERTIES:
+:CUSTOM_ID: sec:gated-linear-unit
+:END:
+In the context of speech processing, let
+$\tilde{X}=W*X;
+\tilde{X}\in\mathbb{R}^{n\times(\cdot)},
+W\in\mathbb{R}^{n\times m\times k},
+X\in\mathbb{R}^{m\times(\cdot)}$ represent a 1-D
+convolution operation with kernel size $k$, input
+filters $m$ and output filters $n$.  A gated linear
+unit (GLU) wraps a convolution layer with a linear
+activation and sigmoid gate as follows,
+
+\begin{align}
+  \notag
+  h_l(X) &= (W*X+B) \otimes \sigma_{\otimes} (V*X+C)
+\end{align}
+
+Since the element-wise multiplication is a symmetric
+operation, this may as well be interpreted as a linear
+gate over a sigmoid activation.
+
+With hardware acceleration, this operation may be
+implemented with single parallelised convolution
+operations with double filter size, namely
+$W\in\mathbb{R}^{2n\times m\times k}$, and bias
+$B\in\mathbb{R}^{2n\times(\cdot)}$, as follows,
+
+\begin{align}
+  \notag
+  \tilde{X} &= W*X+B \\
+  \notag
+  h_l(X) &= \tilde{X}_{:n} \otimes \sigma_{\otimes}
+           (\tilde{X}_{n:})
+\end{align}
+
+See also: [[https://arxiv.org/abs/1612.08083][Gated Conv-Net Paper [arXiv]​]]
+
+** Gated Activation Unit
+:PROPERTIES:
+:CUSTOM_ID: sec:gated-activation-unit
+:END:
+A gated activation unit (GLU) wraps a convolution layer
+with a hyperbolic tangent activation and sigmoid gate
+as follows,
+
+\begin{align}
+  \notag
+  \tilde{X} &= W*X+B \\
+  \notag
+  h_l(X) &= \tanh_{\otimes} (\tilde{X}_{:n}) \otimes
+           \sigma_{\otimes} (\tilde{X}_{n:}) 
+\end{align}
+
+Since the element-wise multiplication is a symmetric
+operation, this may equally well be interpreted as a
+hyperbolic tangent gate and sigmoid activation.
+
+See also: [[https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html][Conditional PixelCNN Paper [NeurIPS '16]​]]

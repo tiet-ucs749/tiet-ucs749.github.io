@@ -6,12 +6,11 @@
 <!-- 2024-08-20 Tue 08:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>UCS749 Speech Processing and Synthesis</title>
+<title>Jasper</title>
 <meta name="author" content="Raghav B. Venkataramaiyer" />
 <meta name="generator" content="Org Mode" />
-<meta name="keywords" content="speech processing">
-<meta name="description" content="Initial notes for
-Course UCS749 Speech Synthesis and Processing">
+<meta name="keywords" content="jasper,notes,speech processing">
+<meta name="description" content="Notes on Jasper Speech Model">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="/css/dhiw.css" />
 <link rel="shortcut icon" type="image/png"
@@ -430,451 +429,654 @@ ol.alpha { list-style-type: lower-alpha; }
 </p>
 </div>
 <div id="content" class="content">
-<h1 class="title">UCS749 Speech Processing and Synthesis
+<h1 class="title">Jasper
 <br />
-<span class="subtitle">Course Page</span>
+<span class="subtitle">End-to-End Convolutional Neural Acoustic Model</span>
 </h1>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-right">L</th>
-<th scope="col" class="org-right">T</th>
-<th scope="col" class="org-right">P</th>
-<th scope="col" class="org-right">Cr</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-right">2</td>
-<td class="org-right">0</td>
-<td class="org-right">2</td>
-<td class="org-right">3</td>
-</tr>
-</tbody>
-</table>
-
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#schedule-of-topics">Schedule of topics</a></li>
-<li><a href="#schedule-of-practicals">Schedule of Practicals</a></li>
-<li><a href="#resources">Resources</a></li>
-</ul>
-</div>
-
-<div id="outline-container-overview" class="outline-2">
-<h2 id="overview">Overview</h2>
-<div class="outline-text-2" id="text-overview">
 <p>
-<a href="ucs749-syllabus.pdf">Link to Syllabus [PDF]​</a>
+<a href="../">[Parent]​</a>
 </p>
 
+<dl class="org-dl">
+<dt>tags</dt><dd>Interspeech 2019</dd>
+<dt>keywords</dt><dd>Computer Science - Computation and
+Language, Computer Science - Machine Learning,
+Computer Science - Sound, Electrical Engineering and
+Systems Science - Audio and Speech Processing</dd>
+<dt>author</dt><dd>Li, J., Lavrukhin, V., Ginsburg, B., Leary,
+R., Kuchaiev, O., Cohen, J. M., Nguyen, H., …</dd>
+<dt>url</dt><dd><a href="http://arxiv.org/abs/1904.03288">[arXiv]​</a>, <a href="https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code">[Papers With Code]​</a></dd>
+</dl>
 
-<div id="org477dfd2" class="figure">
-<p><img src="image/2024-07-15_22-56-44_screenshot.png" alt="2024-07-15_22-56-44_screenshot.png" />
-</p>
-<p><span class="figure-number">Figure 1: </span>Academic Calendar</p>
-</div>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">&#xa0;</th>
-<th scope="col" class="org-right">W</th>
-<th scope="col" class="org-right">L</th>
-<th scope="col" class="org-left">P</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Prior to MST</td>
-<td class="org-right">8</td>
-<td class="org-right">16</td>
-<td class="org-left">7/8</td>
-</tr>
-
-<tr>
-<td class="org-left">MST – Diwali</td>
-<td class="org-right">3</td>
-<td class="org-right">6</td>
-<td class="org-left">2/3</td>
-</tr>
-
-<tr>
-<td class="org-left">Diwali – EST</td>
-<td class="org-right">4</td>
-<td class="org-right">8</td>
-<td class="org-left">4</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div id="outline-container-evaluation-schedule" class="outline-3">
-<h3 id="evaluation-schedule">Evaluation Schedule</h3>
-<div class="outline-text-3" id="text-evaluation-schedule">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">&#xa0;</th>
-<th scope="col" class="org-left">Date</th>
-<th scope="col" class="org-right">MM</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">MST</td>
-<td class="org-left">TBA</td>
-<td class="org-right">25</td>
-</tr>
-
-<tr>
-<td class="org-left">EST</td>
-<td class="org-left">TBA</td>
-<td class="org-right">35</td>
-</tr>
-
-<tr>
-<td class="org-left">Quiz 1</td>
-<td class="org-left">12-Sep 05:30pm</td>
-<td class="org-right">5</td>
-</tr>
-
-<tr>
-<td class="org-left">Quiz 2</td>
-<td class="org-left">21-Nov 05:30pm</td>
-<td class="org-right">5</td>
-</tr>
-
-<tr>
-<td class="org-left">Lab Eval 1</td>
-<td class="org-left">9-Sep–13-Sep</td>
-<td class="org-right">10</td>
-</tr>
-
-<tr>
-<td class="org-left">Lab Eval 2</td>
-<td class="org-left">18-Nov–22-Nov</td>
-<td class="org-right">20</td>
-</tr>
-</tbody>
-<tbody>
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-right">100</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-schedule-of-topics" class="outline-2">
-<h2 id="schedule-of-topics">Schedule of topics</h2>
-<div class="outline-text-2" id="text-schedule-of-topics">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#schedule-introduction">Introduction</a></li>
-<li><a href="#schedule-recognition">Recognition</a></li>
-<li><a href="#schedule-synthesis">Synthesis (Text-to-Speech; TTS)</a></li>
+<li><a href="#sec:prior-art">Prior Art</a>
+<ul>
+<li><a href="#sec:datasets">Datasets</a></li>
+<li><a href="#sec:ideas-and-strategy">Ideas and Strategy</a></li>
+<li><a href="#sec:technology">Technology</a></li>
+</ul>
+</li>
+<li><a href="#sec:contribution">Contribution</a></li>
+<li><a href="#sec:appendix">Appendix</a>
+<ul>
+<li><a href="#sec:covariate-shift">Covariate Shift</a></li>
+<li><a href="#sec:batch-norm">Batch Norm</a></li>
+<li><a href="#sec:weight-norm">Weight Norm</a></li>
+<li><a href="#sec:layer-norm">Layer Norm</a></li>
+<li><a href="#sec:sigmoid-activation">Sigmoid Activation</a></li>
+<li><a href="#sec:rectifier-activation">Rectifier Activation</a></li>
+<li><a href="#sec:vanishing-exploding-gradient-problem">Vanishing/Exploding Gradient Problem</a></li>
+<li><a href="#sec:gating-history">Gating History</a></li>
+<li><a href="#sec:gated-linear-unit">Gated Linear Unit</a></li>
+<li><a href="#sec:gated-activation-unit">Gated Activation Unit</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
-
-<div id="outline-container-schedule-introduction" class="outline-3">
-<h3 id="schedule-introduction">Introduction</h3>
-<div class="outline-text-3" id="text-schedule-introduction">
-<ol class="org-ol">
-<li>NLP: Lexeme/ Grapheme</li>
-<li>Speech: Phoneme</li>
-<li>Statistical Models: Noise/ Pattern/
-Characterisation</li>
-<li>Language Model: N-Grams/ TFIDF/ Word2Vec/ BERT</li>
-<li>Speech Models: Wav2Vec/ HuBERT</li>
-<li>Pre-requisites:
-<ol class="org-ol">
-<li><a href="https://www.3blue1brown.com/topics/linear-algebra">Linear Algebra</a>: Vector Spaces/ Linear Maps/
-Singularity/ Matrix Decomposition/ Null
-Space/ Span/ Markov Chains…</li>
-<li>Probability and Statistics: Central Limit
-Theorem/ Conditionals &amp; Marginals/ Bayes
-Theorem/ Markov Assumption/ Stochastic
-Process…</li>
-<li>Information Theory: Cross Entropy</li>
-<li>Neural Network: Perceptron Model/ Hidden
-Layers/ Convolution/ Activation/ Pooling/
-Atrous/ Padding/ Backpropagation…</li>
-<li>Optimisation: Stochastic Gradient Descent/
-Momentum/ Dropout/ RMSProp/ Adam…</li>
-<li>Deep Learning: Sequential Model/ Residual
-Model/ Adversarial Model/ Attention Model/
-Encoder-Decoder Model…</li>
-</ol></li>
-</ol>
-</div>
+<div id="outline-container-sec:prior-art" class="outline-2">
+<h2 id="sec:prior-art">Prior Art</h2>
+<div class="outline-text-2" id="text-sec:prior-art">
 </div>
 
-<div id="outline-container-schedule-recognition" class="outline-3">
-<h3 id="schedule-recognition">Recognition</h3>
-<div class="outline-text-3" id="text-schedule-recognition">
-<dl class="org-dl">
-<dt>Hidden Markov Model</dt><dd><a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf">PDF (Concise)</a>, More
-literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20markov%20model%20filetype%3Apdf">Google</a>, <a href="https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&amp;ia=web">Duck,Duck,Go</a>; <a href="https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition">Rabiner’s
-Tutorial</a>.</dd>
-<dt>Time Delay DNN (TDNN)</dt><dd><ul class="org-ul">
-<li><a href="./jasper/">Jasper</a>,</li>
-<li><a href="https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition">QuartzNet</a>,</li>
-<li><a href="https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non">Citrinet</a></li>
-</ul></dd>
-<dt>Speech Command Recognition</dt><dd><a href="https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1">MatchboxNet</a>
-(<a href="https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py">Implementation</a>)</dd>
-</dl>
-</div>
-</div>
-
-<div id="outline-container-schedule-synthesis" class="outline-3">
-<h3 id="schedule-synthesis">Synthesis (Text-to-Speech; TTS)</h3>
-<div class="outline-text-3" id="text-schedule-synthesis">
-<dl class="org-dl">
-<dt>Spectrogram Generators</dt><dd><a href="https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet">Tacotron2</a>, <a href="https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech">GlowTTS</a></dd>
-<dt>Audio Generators</dt><dd><a href="https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for">WaveGlow</a>, <a href="https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders">SqueezeWave</a></dd>
-</dl>
-</div>
-</div>
-</div>
-
-<div id="outline-container-schedule-of-practicals" class="outline-2">
-<h2 id="schedule-of-practicals">Schedule of Practicals</h2>
-<div class="outline-text-2" id="text-schedule-of-practicals">
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#lab-1">Lab 1: Getting familiar with speech processing</a></li>
-<li><a href="#lab-2">Lab 2: Hidden Markov Model</a></li>
-<li><a href="#lab-3">Lab 3: ASR in English</a></li>
-<li><a href="#lab-4">Lab 4: ASR in Indic Language</a></li>
-<li><a href="#lab-5">Lab 5: Speech Commands</a></li>
-<li><a href="#lab-6">Lab 6: TTS with Tacotron 2</a></li>
-<li><a href="#lab-7">Lab 7: TTS in Indic Language</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-lab-1" class="outline-3">
-<h3 id="lab-1">Lab 1: Getting familiar with speech processing</h3>
-<div class="outline-text-3" id="text-lab-1">
-<ol class="org-ol">
-<li>Getting familiar with the pipeline of Speech
-Recognition: <br />
-<a href="https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html">Speech Recognition with Wav2Vec2</a> (Pytorch)</li>
-<li>Perform a simple command classification task with
-a sequential model:
+<div id="outline-container-sec:datasets" class="outline-3">
+<h3 id="sec:datasets">Datasets</h3>
+<div class="outline-text-3" id="text-sec:datasets">
 <ul class="org-ul">
-<li>(Tensorflow) <a href="https://www.tensorflow.org/tutorials/audio/simple_audio">Simple Audio Recognition :Recognising
-keywords</a>; or if you prefer</li>
-<li>(Pytorch) <a href="https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html">Speech Command Classification with M5</a>.</li>
-</ul></li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-lab-2" class="outline-3">
-<h3 id="lab-2">Lab 2: Hidden Markov Model</h3>
-<div class="outline-text-3" id="text-lab-2">
-<p>
-Using MFCCs as features from this example: <br />
-<a href="https://colab.research.google.com/drive/1pkopM-0bSoxH1WDwq94bFSBxXpkHrjI3?usp=sharing">MFCC Example [Colab]​</a> by <a href="https://github.com/bvraghav">Raghav B. Venkataramaiyer</a>;<br />
-along with the following dataset: <br />
-<a href="https://github.com/Jakobovski/free-spoken-digit-dataset">Free Spoken Digit Dataset (10 digits x 6 speakers x 50
-repeats) [Github]​</a>; <br />
-and using hmmlearn as in this tutorial to fit the
-model <br />
-<a href="https://hmmlearn.readthedocs.io/en/latest/tutorial.html">HMM Learn [ReadTheDocs]​</a>
-</p>
-
-<ol class="org-ol">
-<li>Compute the probability of occurrence of a given
-sequence, say \(\{3,2,5,4,0\}\). (Encode the Forward
-Algorithm)</li>
-<li>Predict the most likely sequence, given an audio
-sequence. (Encode the Viterbi algorithm)</li>
-</ol>
-
-<p>
-<b>Theory</b>
-</p>
-
-<p>
-<a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf">PDF (Concise)</a>, More literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20markov%20model%20filetype%3Apdf">Google</a>,
-<a href="https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&amp;ia=web">Duck,Duck,Go</a>; <a href="https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition">Rabiner’s Tutorial</a>.
-</p>
-
-<p>
-<b>More Datasets</b>
-</p>
-
-<p>
-<a href="https://code.google.com/archive/p/hmm-speech-recognition/downloads">hmm-speech-recognition [Google Code]​</a>
-</p>
-
-<p>
-<b>More Feature Descriptors</b>
-</p>
-
-<p>
-<a href="https://en.wikipedia.org/wiki/Cepstral_mean_and_variance_normalization">CMVN</a>, <a href="http://people.csail.mit.edu/sshum/talks/ivector_tutorial_interspeech_27Aug2011.pdf">i-vectors</a>
-</p>
-
-
-<p>
-<b>See Also</b>
-</p>
-
-<p>
-<a href="https://colab.research.google.com/github/bambschool/BAMB2023/blob/main/6-latent_variable_models/hidden-markov-models.ipynb">HMM Tutorial [Colab]​</a> by <a href="https://github.com/bambschool/BAMB2023">BAMB School 2023</a> <br />
-<a href="https://colab.research.google.com/github/facebookresearch/beanmachine/blob/main/tutorials/Hidden_Markov_model.ipynb#scrollTo=vwxlljQwXOxg">Bean-Machine based Tutorial [Colab]​</a> <br />
-<a href="https://medium.com/@natsunoyuki/hidden-markov-models-with-python-c026f778dfa7">HMM Predicting Gold Prices [Medium]​</a> <br />
-<a href="https://colab.research.google.com/github/kastnerkyle/kastnerkyle.github.io/blob/master/posts/single-speaker-word-recognition-with-hidden-markov-models/single-speaker-word-recognition-with-hidden-markov-models.ipynb">Single Speaker Word Recognition with HMM [Colab]​</a> <br />
-<a href="https://colab.research.google.com/drive/1aFgzrUv3udM_gNJNUoLaHIm78QHtxdIz?usp=sharing">ASR using HMM from scratch [Colab]​</a>
-</p>
+<li><a href="https://doi.org/10.1109/ICASSP.2015.7178964">LibriSpeech (ICASSP ’15)</a></li>
+<li>WSJ</li>
+<li>2000hr Fisher+Switchboard (F+S)</li>
+</ul>
 </div>
 </div>
 
 
-<div id="outline-container-lab-3" class="outline-3">
-<h3 id="lab-3">Lab 3: ASR in English</h3>
-<div class="outline-text-3" id="text-lab-3">
-<p>
-<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_with_NeMo.ipynb">ASR with NeMo (Colab)</a>
-</p>
-
-<p>
-For Starters : <br />
-<a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/starthere/intro.html#quick-start-guide">NeMo Installation and Getting Started Guide with
-Citrinet ASR Evaluation</a>
-</p>
+<div id="outline-container-sec:ideas-and-strategy" class="outline-3">
+<h3 id="sec:ideas-and-strategy">Ideas and Strategy</h3>
+<div class="outline-text-3" id="text-sec:ideas-and-strategy">
+<ul class="org-ul">
+<li><a href="https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf">Time-delay Networks (TDNN)</a></li>
+<li><a href="https://dl.acm.org/doi/abs/10.1145/1143844.1143891">Connectionist Temporal Classification (CTC) ICML ’06</a></li>
+<li><a href="https://arxiv.org/abs/1609.03193">Wav2Letter (ICLR '17)</a></li>
+<li><a href="https://arxiv.org/abs/1712.09444">Gated Convnets (for ASR)</a></li>
+</ul>
 </div>
 </div>
 
-<div id="outline-container-lab-4" class="outline-3">
-<h3 id="lab-4">Lab 4: ASR in Indic Language</h3>
-<div class="outline-text-3" id="text-lab-4">
-<p>
-Use the method from Lab 3, but use <a href="https://github.com/AI4Bharat/vistaar">Indic Dataset</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-lab-5" class="outline-3">
-<h3 id="lab-5">Lab 5: Speech Commands</h3>
-<div class="outline-text-3" id="text-lab-5">
-<p>
-<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/Speech_Commands.ipynb">Speech Command Recognition with MatchboxNet</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-lab-6" class="outline-3">
-<h3 id="lab-6">Lab 6: TTS with Tacotron 2</h3>
-<div class="outline-text-3" id="text-lab-6">
-<p>
-<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/tts/Tacotron2_Training.ipynb">Training with Tacotron 2</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-lab-7" class="outline-3">
-<h3 id="lab-7">Lab 7: TTS in Indic Language</h3>
-<div class="outline-text-3" id="text-lab-7">
-<p>
-Use the method from Lab 6, but along with <a href="https://github.com/AI4Bharat/Indic-TTS">Indic Dataset
-for TTS</a>.
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-resources" class="outline-2">
-<h2 id="resources">Resources</h2>
-<div class="outline-text-2" id="text-resources">
+<div id="outline-container-sec:technology" class="outline-3">
+<h3 id="sec:technology">Technology</h3>
+<div class="outline-text-3" id="text-sec:technology">
 <dl class="org-dl">
-<dt>Speech</dt><dd><ol class="org-ol">
-<li><a href="https://github.com/wenet-e2e/speech-synthesis-paper">Directory Listing of SoTA</a></li>
-<li><a href="https://github.com/zzw922cn/awesome-speech-recognition-speech-synthesis-papers">Another Directory Listing of SoTA</a></li>
-<li><a href="https://arxiv.org/abs/1904.03288">Jasper (2019)</a></li>
-<li><a href="https://arxiv.org/abs/1910.10261">QuartzNet (2019)</a></li>
-<li><a href="https://arxiv.org/abs/2104.01721">Citrinet (2021)</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/intro.html">NVidia NeMo Framework</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/intro.html">Speech Synthesis Model Zoo (NeMo)</a></li>
-<li><a href="https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53">Mel Spectrogram</a></li>
-</ol></dd>
-<dt>Linear Algebra</dt><dd><ol class="org-ol">
-<li><a href="https://www.3blue1brown.com/topics/linear-algebra">3B1B</a></li>
-<li><a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/">Gilbert Strang</a></li>
-</ol></dd>
-<dt>Probability and Statistics</dt><dd><ol class="org-ol">
-<li>Bertsekas &amp; Tsitsiklis: <a href="https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/">Introduction To
-Probability</a>; <a href="https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/">Probabilistic Systems Analysis And
-Applied Probability</a></li>
-<li><a href="https://www.3blue1brown.com/topics/probability">3B1B</a></li>
-</ol></dd>
-<dt>Neural Network Concepts</dt><dd><ol class="org-ol">
-<li><a href="https://www.coursera.org/specializations/deep-learning">Andrew Ng on Coursera</a></li>
-<li><a href="https://www.youtube.com/playlist?list=PLkt2uSq6rBVctENoVBg1TpCC7OQi31AlC">Andrej Karpathy on Youtube</a>; also on <a href="https://cs231n.stanford.edu/2016/">Stanford</a></li>
-</ol></dd>
-<dt>Information Theory &amp; Learning</dt><dd><ol class="org-ol">
-<li><a href="https://www.inference.org.uk/itila/">David McKay</a></li>
-</ol></dd>
-<dt>Datasets</dt><dd><ol class="org-ol">
-<li><a href="https://pytorch.org/audio/stable/datasets.html">Torch Audio (Pytorch)</a></li>
-<li><a href="https://www.tensorflow.org/datasets/catalog/overview#speech">Speech &amp; Speech Recognition Datasets (Tensorflow)</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html">ASR Datasets (NeMo)</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speech_classification/datasets.html">Speech Classification Datasets (NeMo)</a></li>
-<li><a href="https://github.com/lhotse-speech/lhotse">Lhotse Speech</a> and <a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html#lhotse-dataloading">its use with NeMo</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speaker_recognition/datasets.html">Speaker Recognition Datasets (NeMo)</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/datasets.html#public-tts-datasets">Public TTS Datasets (NeMo)</a></li>
-<li><a href="https://github.com/AI4Bharat/vistaar">Indic ASR Dataset</a></li>
-<li><a href="https://github.com/AI4Bharat/Indic-TTS">Indic Dataset for TTS</a></li>
-</ol></dd>
-<dt>Code</dt><dd><ol class="org-ol">
-<li><a href="https://github.com/NVIDIA/OpenSeq2Seq">OpenSeq2Seq</a></li>
-<li><a href="https://github.com/AI4Bharat/Indic-TTS">AI4Bharat</a></li>
-<li><a href="https://github.com/NVIDIA/NeMo/tree/stable/tutorials/">NeMo Tutorials</a></li>
-</ol></dd>
+<dt>Normalisation</dt><dd><ul class="org-ul">
+<li><a href="#sec:batch-norm">Batch Norm</a>; See also:<a href="https://arxiv.org/abs/1502.03167">[arXiv];</a></li>
+<li><a href="#sec:weight-norm">Weight Norm</a>; See also: <a href="http://arxiv.org/abs/1602.07868">[arXiv];</a></li>
+<li><a href="#sec:layer-norm">Layer Norm</a>; See also: <a href="http://arxiv.org/abs/1607.06450">[arXiv];</a></li>
+</ul></dd>
+<dt>Activation</dt><dd><ul class="org-ul">
+<li><a href="#sec:rectifier-activation">ReLU</a></li>
+<li><a href="#sec:rectifier-activation">Clipped ReLU</a></li>
+<li><a href="#sec:rectifier-activation">Leaky ReLU</a></li>
+</ul></dd>
+<dt>Gated Units</dt><dd><ul class="org-ul">
+<li><a href="#sec:gated-linear-unit">Gated Linear Units</a></li>
+<li><a href="#sec:gated-activation-unit">Gated Activation Units</a></li>
+</ul></dd>
 </dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec:contribution" class="outline-2">
+<h2 id="sec:contribution">Contribution</h2>
+<div class="outline-text-2" id="text-sec:contribution">
+<ul class="org-ul">
+<li>Jasper Model; and Dense Residual Topology;</li>
+<li>Evidence-based insights on convergence and
+non-convergence;</li>
+<li>NovoGrad Solver (like Adam);</li>
+<li>WER improvement on LibriSpeech test-clean.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec:appendix" class="outline-2">
+<h2 id="sec:appendix">Appendix</h2>
+<div class="outline-text-2" id="text-sec:appendix">
+</div>
+
+
+<div id="outline-container-sec:covariate-shift" class="outline-3">
+<h3 id="sec:covariate-shift">Covariate Shift</h3>
+<div class="outline-text-3" id="text-sec:covariate-shift">
+<p>
+<i>Adapted from <a href="http://arxiv.org/abs/1607.06450">Layer Normalisation Paper</a>,</i>
+</p>
+<blockquote>
+<p>
+One of the challenges of deep learning is that the
+gradients with respect to the weights in one layer are
+highly dependent on the outputs of the neurons in the
+previous layer especially if these outputs change in a
+highly correlated way.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-sec:batch-norm" class="outline-3">
+<h3 id="sec:batch-norm">Batch Norm</h3>
+<div class="outline-text-3" id="text-sec:batch-norm">
+
+<div id="orgb5335ee" class="figure">
+<p><img src="org-download-images/Appendix/2024-08-20_00-59-14_screenshot.png" alt="2024-08-20_00-59-14_screenshot.png" style="width:23rem" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Courtesy: <a href="https://arxiv.org/abs/1502.03167">Batch Norm Paper</a></p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec:weight-norm" class="outline-3">
+<h3 id="sec:weight-norm">Weight Norm</h3>
+<div class="outline-text-3" id="text-sec:weight-norm">
+<p>
+Each neuron on an artificial neural network may be
+represented as,
+</p>
+
+\begin{align}
+\notag
+y &= \phi(\mathbf{w}\cdot\mathbf{x}+b)
+\end{align}
+
+<p>
+where, <br />
+\(\mathbf{x}\) is \(k\) dimensional vector of input
+features, <br />
+\(\mathbf{w}\) is \(k\) dimensional vector of learnable
+weights, <br />
+\(b\) is a (learnable) scalar bias term, and <br />
+\(\phi\) denotes element-wise non-linearity.
+</p>
+
+<p>
+The <b>key idea</b> in weight normalisation is to
+re-parameterise the weight vector, as
+</p>
+\begin{align}
+  \notag
+  \mathbf{w} &= \frac{g}{\|\mathbf{v}\|} \mathbf{v}
+\end{align}
+<p>
+so that, <br />
+\(\mathbf{v}\) is \(k\) dimensional vector of learnable
+weights, <br />
+\(g\) is a learnable scalar parameter, and
+\(\|\mathbf{w}\|=g\), independent of \(\mathbf{v}\).
+</p>
+
+<p>
+Instead of working with \(g\) directly, we may also use
+an exponential parameterisation for the scale,
+</p>
+\begin{align}
+  \notag
+  g &= e^s
+\end{align}
+<p>
+where, \(s\) is a log-scale learnable scalar parameter.
+</p>
+
+<p>
+For more intuition, please see \(\S 2.1\) and \(\S 2.2\) of
+the <a href="http://arxiv.org/abs/1602.07868">weight norm paper</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec:layer-norm" class="outline-3">
+<h3 id="sec:layer-norm">Layer Norm</h3>
+<div class="outline-text-3" id="text-sec:layer-norm">
+<p>
+The \(l^{\text{th}}\) layer in a feed forward neural
+network with inputs \(\mathbf{h}^l\) and weight matrix
+\(W^{l}\) and non-linear activation \(f\), may be written
+as,
+</p>
+\begin{align}
+  \notag
+  a_i^l &= {\mathbf{w}_{:,i}^l}^\top\mathbf{h}^l
+          \qquad h_i^{l+1} = f(a_i^l+b_i^l) 
+\end{align}
+
+<p>
+A Batch Norm may be summarised as,
+</p>
+\begin{align}
+  \notag
+  h_i^{l+1} = f(\hat{a}_i^l+b_i^l)
+  &\qquad
+    \hat{a}_i^l = \frac{g_i^l}{\sigma_i^l} (a_i^l -
+    \mu_i^l) \\
+  \notag
+  \mu_i^l = \underset{\mathbf{x}\sim P(\mathbf{x})}
+  {\mathbb{E}} \left[a_i^l\right]
+  &\qquad
+    \sigma_i^l = \sqrt{\underset{\mathbf{x}\sim
+    P(\mathbf{x})} {\mathbb{E}} \left[\left(a_i^l -
+    \mu_i^l\right)^2\right]}
+\end{align}
+
+<blockquote>
+<p>
+It is  typically impractical  to [exactly]  compute the
+expectations in  [the equation  above,] since  it would
+require  forward  passes  through  the  whole  training
+dataset with the current set of weights. Instead, \(\mu\)
+and \(\sigma\) are estimated  using the empirical samples
+from the current mini-batch.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+Notice that changes in the output of one layer will
+tend to cause highly correlated changes in the summed
+inputs to the next layer, especially with ReLU units
+whose outputs can change by a lot.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+We, thus, compute the layer normalization statistics
+over <b>all the hidden units</b> in the same layer as
+follows:
+</p>
+</blockquote>
+
+\begin{align}
+  \notag
+  \mu_i^l = \mu^l
+  &= \frac1H\sum_{i=1}^{H}a_i^l \\
+  \notag
+  \sigma_i^l = \sigma^l
+  &= \sqrt{ \frac1H \sum_{i=1}^H \left( a_i^l - \mu^l
+    \right)}
+\end{align}
+
+
+
+<div id="org45174b2" class="figure">
+<p><img src="org-download-images/Appendix/2024-08-20_03-20-24_screenshot.png" alt="2024-08-20_03-20-24_screenshot.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Courtesy: <a href="http://arxiv.org/abs/1607.06450">Layer Norm Paper</a></p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec:sigmoid-activation" class="outline-3">
+<h3 id="sec:sigmoid-activation">Sigmoid Activation</h3>
+<div class="outline-text-3" id="text-sec:sigmoid-activation">
+</div>
+
+<div id="outline-container-sec:error-function" class="outline-4">
+<h4 id="sec:error-function">Error Function</h4>
+<div class="outline-text-4" id="text-sec:error-function">
+\begin{align}
+  \notag
+  \mathrm{erf}\;z &= \frac2{\sqrt2} \int_0^z e^{-t^2}
+                   \mathrm{d}t 
+\end{align}
+
+
+<div id="orged62583" class="figure">
+<p><img src="image/Error_Function.svg" alt="Error_Function.svg" class="org-svg" style="width:25em" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec:sigmoid-logistic-function" class="outline-4">
+<h4 id="sec:sigmoid-logistic-function">Sigmoid (Logistic Function)</h4>
+<div class="outline-text-4" id="text-sec:sigmoid-logistic-function">
+\begin{align}
+  \notag
+  \sigma(x)
+  &= \frac1{1+e^{-x} }
+    = \frac{e^x}{1+e^x}
+    = 1 - \sigma(-x)
+\end{align}
+
+
+<div id="orga5719f1" class="figure">
+<p><img src="image/Logistic-curve.svg" alt="Logistic-curve.svg" class="org-svg" style="width:25em" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec:other-sigmoidal-functions" class="outline-4">
+<h4 id="sec:other-sigmoidal-functions">Other Sigmoidal Functions</h4>
+<div class="outline-text-4" id="text-sec:other-sigmoidal-functions">
+
+<div id="org63285a5" class="figure">
+<p><img src="image/sigmoid-comparison.svg" alt="sigmoid-comparison.svg" class="org-svg" />
+</p>
+</div>
+
+<dl class="org-dl">
+<dt>Hyperbolic Tangent</dt><dd>\begin{align}
+  \notag
+  \mathrm{tanh}\;x
+  &= \frac {e^x - e^{-x}}{e^x + e^{-x}}
+\end{align}</dd>
+
+<dt>Arc Tangent</dt><dd>\begin{align}
+  \notag
+  y &= \mathrm{arctan}\;x \iff x = \tan y; \quad y \in
+      \left[-\frac\pi2,\frac\pi2\right]
+\end{align}</dd>
+</dl>
+
+
+<dl class="org-dl">
+<dt>Gudermannian Function</dt><dd>\begin{align}
+  \notag
+  \mathrm{gd}(x)
+  &=\int_0^x \frac{\mathrm{d}t}{\mathrm{cosh}\;t}
+    = 2\;\mathrm{arctan}\left(\mathrm{tanh}\left(\frac
+    x2 \right) \right)
+\end{align}</dd>
+
+<dt>Algebraic Functions</dt><dd>\begin{align}
+  \notag
+  f(x) &= \frac{x}{\left(1+|x|^k\right)^{1/k}} \\
+  \notag
+  &= \frac{x}{\left(1+|x|\right)}; \qquad k=1 \\
+  \notag
+  &= \frac{x}{\sqrt{1+x^2}}; \qquad k=2
+\end{align}</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec:rectifier-activation" class="outline-3">
+<h3 id="sec:rectifier-activation">Rectifier Activation</h3>
+<div class="outline-text-3" id="text-sec:rectifier-activation">
+
+<div id="orgac196b7" class="figure">
+<p><img src="image/rectifier.svg" alt="rectifier.svg" class="org-svg" style="width:15em" />
+</p>
+</div>
+
+<dl class="org-dl">
+<dt>ReLU (Rectified Linear Unit)</dt><dd>\begin{align}
+  \notag
+  \mathrm{ReLU}(x)
+  &= x^+ = \max(0,x) = \frac{x+|x|}2 = \begin{cases}
+    x;&\text{if } x>0, \\
+    0;&\text{otherwise.}
+  \end{cases}
+\end{align}</dd>
+
+<dt>Clipped ReLU</dt><dd>\begin{align}
+  \notag
+  \mathrm{cReLU}(x;a) &= \max(0,\min(a,x))
+\end{align}
+<p>
+<i>e.g.</i> <a href="https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#relu6">ReLU6 in Pytorch</a>
+</p></dd>
+
+<dt>Parametric and Leaky ReLU</dt><dd>\begin{align}
+  \notag
+  \mathrm{PReLU}(x; a)
+  &= \begin{cases}
+    x;&\text{if } x>0, \\
+    ax;&\text{otherwise.}
+  \end{cases} \\
+  \notag
+  \mathrm{LeakyReLU}(x)
+  &= \mathrm{PReLU}(x, 0.01)
+\end{align}</dd>
+
+<dt>GELU (Gaussian-error linear unit)</dt><dd>\begin{align}
+  \notag
+  GELU(x) &= x\cdot\Phi(x) \\
+  \frac\partial{\partial x} GELU(x)
+  &= x\cdot\Phi'(x) + \Phi(x)
+\end{align}
+<p>
+where \(\Phi(x) = Pr(X\leqslant x)\) is the cumulative
+Gaussian distribution.
+</p></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec:vanishing-exploding-gradient-problem" class="outline-3">
+<h3 id="sec:vanishing-exploding-gradient-problem">Vanishing/Exploding Gradient Problem</h3>
+<div class="outline-text-3" id="text-sec:vanishing-exploding-gradient-problem">
+<blockquote>
+<p>
+<a href="https://doi.org/10.1109/9780470544037.ch14">Hochreiter’s work</a> formally identified a major reason:
+Typical deep NNs suffer from the now famous problem of
+vanishing or exploding gradients. With standard
+activation functions (Sec. 1), cumulative
+backpropagated error signals (Sec. 5.5.1) either shrink
+rapidly, or grow out of bounds. In fact, they decay
+<b>exponentially</b> in the number of layers or CAP depth
+(Sec. 3), or they explode. This is also known as the
+long time lag problem.
+</p>
+</blockquote>
+<p>
+Also see <a href="https://arxiv.org/abs/1404.7828">Deep Learning by Jürgen Schmidhuber</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec:gating-history" class="outline-3">
+<h3 id="sec:gating-history">Gating History</h3>
+<div class="outline-text-3" id="text-sec:gating-history">
+<p>
+Gating was introduced in the <a href="https://ieeexplore.ieee.org/abstract/document/6795963">LSTM paper</a> in ’97, in
+order to address vanishing/exploding gradient problem.
+Simply put, gating mechanism is element-wise
+multiplication of input vector with a gate-activation
+vector.  The gate, in turn, is activated by looking at
+the input vector itself.  For example, a basic gate
+would be formulated as,
+</p>
+
+\begin{align}
+  \notag
+  \mathbf{y} &= \mathbf{g} \otimes \mathbf{x} \\
+  \notag
+  \mathbf{g} &= \sigma_{\otimes}(W\mathbf{x} +
+               \mathbf{b}) 
+\end{align}
+<p>
+where, <br />
+\(\sigma_{\otimes}(\mathbf{x})\) is the element-wise
+sigmoid activation of input vector \(\mathbf{x}\); and <br />
+\(\otimes\) represents element-wise multiplication.
+</p>
+
+<p>
+For a more involved use-case, let an RNN be defined for
+\(T\) time steps, with
+</p>
+<ul class="org-ul">
+<li>Given inputs as
+\(\{\mathbf{z}_1,\ldots,\mathbf{z}_T\}\);</li>
+<li>Cell States, \(\{\mathbf{c}_1,\ldots,\mathbf{c}_T\}\);</li>
+<li>Hidden States,
+\(\{\mathbf{h}_1,\ldots,\mathbf{h}_T\}\);</li>
+<li>Given initial states as
+\(\mathbf{c}_{0},\mathbf{h}_{0}\);</li>
+<li>Neural Network
+\(\Phi(\mathbf{z},\mathbf{c},\mathbf{h})\) to compute
+pre gate activation;</li>
+</ul>
+
+<p>
+<b>LSTM</b> <br />
+\(\forall t\in\{1,\ldots,T\}\),
+</p>
+\begin{align}
+  \notag
+  \mathbf{x}
+  &\gets \Phi(\mathbf{z}_t, \mathbf{c}_{t-1},
+    \mathbf{h}_{t-1}) \\
+  \notag
+  \mathbf{i}
+  &\gets
+    \sigma_{\otimes}(W_i\mathbf{x}+U_i\mathbf{h}_{t-1}
+    + \mathbf{b}_i) \\
+  \notag
+  \mathbf{f}
+  &\gets \sigma_{\otimes} (W_f\mathbf{x} +
+    U_f\mathbf{h}_{t-1} + \mathbf{b}_f) \\  
+  \notag
+  \mathbf{o}
+  &\gets \sigma_{\otimes} (W_o\mathbf{x} +
+    U_o\mathbf{h}_{t-1} + \mathbf{b}_o) \\ 
+  \notag
+  \mathbf{g}
+  &\gets \tanh_{\otimes} (W_g\mathbf{x} +
+    U_g\mathbf{h}_{t-1} + \mathbf{b}_g) \\  
+  \notag
+  \mathbf{c}_t
+  &\gets \mathbf{f}\otimes\mathbf{c}_{t-1} +
+    \mathbf{i}\otimes\mathbf{g} \\
+  \notag
+  \mathbf{h}_t
+  &\gets \mathbf{o}\otimes\tanh_{\otimes} \mathbf{c}_t
+\end{align}
+
+<p>
+<b>GRU</b> <br />
+\(\forall t\in\{1,\ldots,T\}\),
+</p>
+\begin{align}
+  \notag
+  \mathbf{x}
+  &\gets \Phi(\mathbf{z}_t, \mathbf{c}_{t-1},
+    \mathbf{h}_{t-1}) \\
+  \notag
+  \mathbf{r}
+  &\gets
+    \sigma_{\otimes}(W_r\mathbf{x}+U_r\mathbf{h}_{t-1}
+    + \mathbf{b}_r) \\
+  \notag
+  \tilde{\mathbf{h}}
+  &\gets
+    \tanh_{\otimes}(W_h\mathbf{x} +
+    U_h(\mathbf{r}\otimes\mathbf{h}_{t-1}) +
+    \mathbf{b}_h) \\
+  \notag
+  \mathbf{c}_t
+  &\gets
+    \sigma_{\otimes}(W_c\mathbf{x}+U_c\mathbf{h}_{t-1}
+    + \mathbf{b}_c) \\
+  \notag
+  \mathbf{h}_t
+  &\gets \mathbf{c}_t\otimes \mathbf{h}_{t-1} +
+    (1-\mathbf{c}_t) \otimes \tilde{\mathbf{h}}
+\end{align}
+
+<p>
+<b>See also:</b>
+</p>
+<ul class="org-ul">
+<li><a href="https://medium.com/@eugenesh4work/gating-mechanisms-in-neural-networks-dc83a0bdb8c3">[Medium] ​Gating Mechanisms (Blog by Eugene
+Shevchenko)</a>;</li>
+<li><a href="https://arxiv.org/abs/2007.14823">[arXiv]​ Jacobian Spectrum of Gates (Fig.1; Theory of
+Gating)</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec:gated-linear-unit" class="outline-3">
+<h3 id="sec:gated-linear-unit">Gated Linear Unit</h3>
+<div class="outline-text-3" id="text-sec:gated-linear-unit">
+<p>
+In the context of speech processing, let
+\(\tilde{X}=W*X;
+\tilde{X}\in\mathbb{R}^{n\times(\cdot)},
+W\in\mathbb{R}^{n\times m\times k},
+X\in\mathbb{R}^{m\times(\cdot)}\) represent a 1-D
+convolution operation with kernel size \(k\), input
+filters \(m\) and output filters \(n\).  A gated linear
+unit (GLU) wraps a convolution layer with a linear
+activation and sigmoid gate as follows,
+</p>
+
+\begin{align}
+  \notag
+  h_l(X) &= (W*X+B) \otimes \sigma_{\otimes} (V*X+C)
+\end{align}
+
+<p>
+Since the element-wise multiplication is a symmetric
+operation, this may as well be interpreted as a linear
+gate over a sigmoid activation.
+</p>
+
+<p>
+With hardware acceleration, this operation may be
+implemented with single parallelised convolution
+operations with double filter size, namely
+\(W\in\mathbb{R}^{2n\times m\times k}\), and bias
+\(B\in\mathbb{R}^{2n\times(\cdot)}\), as follows,
+</p>
+
+\begin{align}
+  \notag
+  \tilde{X} &= W*X+B \\
+  \notag
+  h_l(X) &= \tilde{X}_{:n} \otimes \sigma_{\otimes}
+           (\tilde{X}_{n:})
+\end{align}
+
+<p>
+See also: <a href="https://arxiv.org/abs/1612.08083">Gated Conv-Net Paper [arXiv]​</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec:gated-activation-unit" class="outline-3">
+<h3 id="sec:gated-activation-unit">Gated Activation Unit</h3>
+<div class="outline-text-3" id="text-sec:gated-activation-unit">
+<p>
+A gated activation unit (GLU) wraps a convolution layer
+with a hyperbolic tangent activation and sigmoid gate
+as follows,
+</p>
+
+\begin{align}
+  \notag
+  \tilde{X} &= W*X+B \\
+  \notag
+  h_l(X) &= \tanh_{\otimes} (\tilde{X}_{:n}) \otimes
+           \sigma_{\otimes} (\tilde{X}_{n:}) 
+\end{align}
+
+<p>
+Since the element-wise multiplication is a symmetric
+operation, this may equally well be interpreted as a
+hyperbolic tangent gate and sigmoid activation.
+</p>
+
+<p>
+See also: <a href="https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html">Conditional PixelCNN Paper [NeurIPS '16]​</a>
+</p>
+</div>
 </div>
 </div>
 </div>
