@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-20 Tue 08:40 -->
+<!-- 2024-08-20 Tue 08:53 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Jasper</title>
@@ -552,16 +552,14 @@ non-convergence;</li>
 <div id="outline-container-sec:covariate-shift" class="outline-3">
 <h3 id="sec:covariate-shift">Covariate Shift</h3>
 <div class="outline-text-3" id="text-sec:covariate-shift">
-<p>
-<i>Adapted from <a href="http://arxiv.org/abs/1607.06450">Layer Normalisation Paper</a>,</i>
-</p>
 <blockquote>
 <p>
 One of the challenges of deep learning is that the
 gradients with respect to the weights in one layer are
 highly dependent on the outputs of the neurons in the
 previous layer especially if these outputs change in a
-highly correlated way.
+highly correlated way. <br />
+&#x2014; <a href="http://arxiv.org/abs/1607.06450">Layer Normalisation Paper</a>
 </p>
 </blockquote>
 </div>
@@ -571,7 +569,7 @@ highly correlated way.
 <h3 id="sec:batch-norm">Batch Norm</h3>
 <div class="outline-text-3" id="text-sec:batch-norm">
 
-<div id="orgb5335ee" class="figure">
+<div id="orgfc88729" class="figure">
 <p><img src="org-download-images/Appendix/2024-08-20_00-59-14_screenshot.png" alt="2024-08-20_00-59-14_screenshot.png" style="width:23rem" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Courtesy: <a href="https://arxiv.org/abs/1502.03167">Batch Norm Paper</a></p>
@@ -710,7 +708,7 @@ follows:
 
 
 
-<div id="org45174b2" class="figure">
+<div id="org1570b82" class="figure">
 <p><img src="org-download-images/Appendix/2024-08-20_03-20-24_screenshot.png" alt="2024-08-20_03-20-24_screenshot.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Courtesy: <a href="http://arxiv.org/abs/1607.06450">Layer Norm Paper</a></p>
@@ -732,9 +730,10 @@ follows:
 \end{align}
 
 
-<div id="orged62583" class="figure">
+<div id="orgbc37bc8" class="figure">
 <p><img src="image/Error_Function.svg" alt="Error_Function.svg" class="org-svg" style="width:25em" />
 </p>
+<p><span class="figure-number">Figure 3: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Error_function#/media/File:Error_Function.svg">Wikipedia</a></p>
 </div>
 </div>
 </div>
@@ -751,9 +750,10 @@ follows:
 \end{align}
 
 
-<div id="orga5719f1" class="figure">
+<div id="org3ffd1e7" class="figure">
 <p><img src="image/Logistic-curve.svg" alt="Logistic-curve.svg" class="org-svg" style="width:25em" />
 </p>
+<p><span class="figure-number">Figure 4: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Logistic-curve.svg">Wikipedia</a></p>
 </div>
 </div>
 </div>
@@ -762,9 +762,10 @@ follows:
 <h4 id="sec:other-sigmoidal-functions">Other Sigmoidal Functions</h4>
 <div class="outline-text-4" id="text-sec:other-sigmoidal-functions">
 
-<div id="org63285a5" class="figure">
+<div id="orgfcd0c1a" class="figure">
 <p><img src="image/sigmoid-comparison.svg" alt="sigmoid-comparison.svg" class="org-svg" />
 </p>
+<p><span class="figure-number">Figure 5: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Gjl-t(x).svg">Wikipedia</a></p>
 </div>
 
 <dl class="org-dl">
@@ -809,9 +810,10 @@ follows:
 <h3 id="sec:rectifier-activation">Rectifier Activation</h3>
 <div class="outline-text-3" id="text-sec:rectifier-activation">
 
-<div id="orgac196b7" class="figure">
+<div id="org7d1d139" class="figure">
 <p><img src="image/rectifier.svg" alt="rectifier.svg" class="org-svg" style="width:15em" />
 </p>
+<p><span class="figure-number">Figure 6: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#/media/File:ReLU_and_GELU.svg">Wikipedia</a></p>
 </div>
 
 <dl class="org-dl">
@@ -875,7 +877,7 @@ long time lag problem.
 </p>
 </blockquote>
 <p>
-Also see <a href="https://arxiv.org/abs/1404.7828">Deep Learning by Jürgen Schmidhuber</a>
+<b>See also:</b> <a href="https://arxiv.org/abs/1404.7828">Deep Learning by Jürgen Schmidhuber</a>
 </p>
 </div>
 </div>
@@ -1045,7 +1047,7 @@ operations with double filter size, namely
 \end{align}
 
 <p>
-See also: <a href="https://arxiv.org/abs/1612.08083">Gated Conv-Net Paper [arXiv]​</a>
+<b>See also:</b> <a href="https://arxiv.org/abs/1612.08083">Gated Conv-Net Paper [arXiv]​</a>
 </p>
 </div>
 </div>
@@ -1074,14 +1076,14 @@ hyperbolic tangent gate and sigmoid activation.
 </p>
 
 <p>
-See also: <a href="https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html">Conditional PixelCNN Paper [NeurIPS '16]​</a>
+<b>See also:</b> <a href="https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html">Conditional PixelCNN Paper [NeurIPS '16]​</a>
 </p>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-20 Tue 08:40</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-20 Tue 08:53</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

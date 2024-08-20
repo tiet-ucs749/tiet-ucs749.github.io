@@ -121,13 +121,13 @@
 :CUSTOM_ID: sec:covariate-shift
 :END:
 
-/Adapted from [[http://arxiv.org/abs/1607.06450][Layer Normalisation Paper]],/
 #+begin_quote
 One of the challenges of deep learning is that the
 gradients with respect to the weights in one layer are
 highly dependent on the outputs of the neurons in the
 previous layer especially if these outputs change in a
-highly correlated way.
+highly correlated way. \\
+--- [[http://arxiv.org/abs/1607.06450][Layer Normalisation Paper]]
 #+end_quote
 
 ** Batch Norm
@@ -269,6 +269,7 @@ follows:
 \end{align}
 
 #+attr_html: :style width:25em
+#+caption: Image Courtesy: [[https://en.wikipedia.org/wiki/Error_function#/media/File:Error_Function.svg][Wikipedia]]
 [[file:image/Error_Function.svg]]
 
 *** Sigmoid (Logistic Function)
@@ -284,6 +285,7 @@ follows:
 \end{align}
 
 #+attr_html: :style width:25em
+#+caption: Image Courtesy: [[https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Logistic-curve.svg][Wikipedia]]
 [[file:image/Logistic-curve.svg]]
 
 *** Other Sigmoidal Functions
@@ -291,6 +293,7 @@ follows:
 :CUSTOM_ID: sec:other-sigmoidal-functions
 :END:
 
+#+caption: Image Courtesy: [[https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Gjl-t(x).svg][Wikipedia]]
 [[file:image/sigmoid-comparison.svg]]
 
 + Hyperbolic Tangent ::
@@ -333,6 +336,7 @@ follows:
 :CUSTOM_ID: sec:rectifier-activation
 :END:
 #+attr_html: :style width:15em
+#+caption: Image Courtesy: [[https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#/media/File:ReLU_and_GELU.svg][Wikipedia]]
 [[file:image/rectifier.svg]]
 
 + ReLU (Rectified Linear Unit) ::
@@ -390,7 +394,7 @@ rapidly, or grow out of bounds. In fact, they decay
 (Sec. 3), or they explode. This is also known as the
 long time lag problem.
 #+end_quote
-Also see [[https://arxiv.org/abs/1404.7828][Deep Learning by Jürgen Schmidhuber]]
+*See also:* [[https://arxiv.org/abs/1404.7828][Deep Learning by Jürgen Schmidhuber]]
 
 ** Gating History
 :PROPERTIES:
@@ -534,7 +538,7 @@ $B\in\mathbb{R}^{2n\times(\cdot)}$, as follows,
            (\tilde{X}_{n:})
 \end{align}
 
-See also: [[https://arxiv.org/abs/1612.08083][Gated Conv-Net Paper [arXiv]​]]
+*See also:* [[https://arxiv.org/abs/1612.08083][Gated Conv-Net Paper [arXiv]​]]
 
 ** Gated Activation Unit
 :PROPERTIES:
@@ -556,4 +560,4 @@ Since the element-wise multiplication is a symmetric
 operation, this may equally well be interpreted as a
 hyperbolic tangent gate and sigmoid activation.
 
-See also: [[https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html][Conditional PixelCNN Paper [NeurIPS '16]​]]
+*See also:* [[https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html][Conditional PixelCNN Paper [NeurIPS '16]​]]
