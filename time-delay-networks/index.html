@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-21 Wed 03:41 -->
+<!-- 2024-08-21 Wed 12:05 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jasper</title>
+<title>A time-delay neural network architecture for isolated word recognition</title>
 <meta name="author" content="Raghav B. Venkataramaiyer" />
 <meta name="generator" content="Org Mode" />
-<meta name="keywords" content="jasper,notes,speech processing">
-<meta name="description" content="Notes on Jasper Speech Model">
+<meta name="keywords" content="Constrained links,Isolated word recognition,Multiresolution learning,Multispeaker speech recognition,Network architecture,Neural networks,Time delays">
+<meta name="description" content="Notes on Time delay neural networks">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="/css/dhiw.css" />
 <link rel="shortcut icon" type="image/png"
@@ -429,117 +429,186 @@ ol.alpha { list-style-type: lower-alpha; }
 </p>
 </div>
 <div id="content" class="content">
-<h1 class="title">Jasper
-<br />
-<span class="subtitle">End-to-End Convolutional Neural Acoustic Model</span>
-</h1>
+<h1 class="title">A time-delay neural network architecture for isolated word recognition</h1>
 <p>
 <a href="../">[Parent]​</a>
 </p>
 
 <dl class="org-dl">
-<dt>tags</dt><dd>Interspeech 2019</dd>
-<dt>keywords</dt><dd>Computer Science - Computation and
-Language, Computer Science - Machine Learning,
-Computer Science - Sound, Electrical Engineering and
-Systems Science - Audio and Speech Processing</dd>
-<dt>author</dt><dd>Li, J., Lavrukhin, V., Ginsburg, B., Leary,
-R., Kuchaiev, O., Cohen, J. M., Nguyen, H., …</dd>
-<dt>url</dt><dd><a href="http://arxiv.org/abs/1904.03288">[arXiv]​</a>, <a href="https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code">[Papers With Code]​</a></dd>
+<dt>tags</dt><dd></dd>
+
+<dt>keywords</dt><dd>Constrained links, Isolated word
+recognition, Multiresolution learning, Multispeaker
+speech recognition, Network architecture, Neural
+networks, Time delays</dd>
+<dt>author</dt><dd>Lang, K. J., Waibel, A. H., &amp; Hinton, G. E.</dd>
+<dt>url</dt><dd><a href="https://www.sciencedirect.com/science/article/pii/089360809090044L">[Science Direct]​</a> <a href="https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf">[PDF]​</a></dd>
+<dt>date</dt><dd>1990</dd>
 </dl>
 
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#sec:prior-art">Prior Art</a>
-<ul>
-<li><a href="#sec:datasets">Datasets</a></li>
-<li><a href="#sec:ideas-and-strategy">Ideas and Strategy</a></li>
-<li><a href="#sec:technology">Technology</a></li>
-</ul>
-</li>
-<li><a href="#sec:contribution">Contribution</a></li>
+<li><a href="#sec:summary">Summary</a></li>
+<li><a href="#sec:motivation">Motivation</a></li>
+<li><a href="#sec:key-idea">Key Idea</a></li>
+<li><a href="#sec:method">Method</a></li>
+<li><a href="#sec:dataset">Dataset</a></li>
 <li><a href="#sec:appendix">Appendix</a>
 <ul>
-<li><a href="#sec:covariate-shift">Covariate Shift</a></li>
-<li><a href="#sec:batch-norm">Batch Norm</a></li>
-<li><a href="#sec:weight-norm">Weight Norm</a></li>
-<li><a href="#sec:layer-norm">Layer Norm</a></li>
-<li><a href="#sec:sigmoid-activation">Sigmoid Activation</a></li>
-<li><a href="#sec:rectifier-activation">Rectifier Activation</a></li>
-<li><a href="#sec:vanishing-exploding-gradient-problem">Vanishing/Exploding Gradient Problem</a></li>
-<li><a href="#sec:gating-history">Gating History</a></li>
-<li><a href="#sec:gated-linear-unit">Gated Linear Unit</a></li>
-<li><a href="#sec:gated-activation-unit">Gated Activation Unit</a></li>
+<li><a href="#sec:feature-extraction">Feature Extraction</a></li>
+<li><a href="#sec:viterbi-alignment">Viterbi Alignment</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec:prior-art" class="outline-2">
-<h2 id="sec:prior-art">Prior Art</h2>
-<div class="outline-text-2" id="text-sec:prior-art">
+<div id="outline-container-sec:summary" class="outline-2">
+<h2 id="sec:summary">Summary</h2>
+<div class="outline-text-2" id="text-sec:summary">
+<p>
+In the authors’ own words, in the context of
+“difficult” word recognition, this literature documents
+the success of,
+</p>
+
+<blockquote>
+<p>
+a network that extracted features by repeatedly
+convolving a set of narrow weight patterns with the
+contents of a sliding window into the input.
+</p>
+</blockquote>
+
+<p>
+This is a widely referenced early work that lays
+foundation for 1-D convolution based approaches in the
+recent advances, like <a href="../jasper/">Jasper</a> and its derivatives.
+</p>
+
+<p>
+<b>See also</b>: <a href="#sec:dataset">Dataset</a> to understand the problem better.
+</p>
+</div>
 </div>
 
-<div id="outline-container-sec:datasets" class="outline-3">
-<h3 id="sec:datasets">Datasets</h3>
-<div class="outline-text-3" id="text-sec:datasets">
+<div id="outline-container-sec:motivation" class="outline-2">
+<h2 id="sec:motivation">Motivation</h2>
+<div class="outline-text-2" id="text-sec:motivation">
+<blockquote>
+<p>
+[…] the Viterbi-aligned speech fragments contained
+enough alignment errors to motivate a shift-invariant
+[model]
+</p>
+</blockquote>
+
+<p>
+Ref: <a href="#sec:viterbi-alignment">Viterbi Alignment</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec:key-idea" class="outline-2">
+<h2 id="sec:key-idea">Key Idea</h2>
+<div class="outline-text-2" id="text-sec:key-idea">
 <ul class="org-ul">
-<li><a href="https://doi.org/10.1109/ICASSP.2015.7178964">LibriSpeech (ICASSP ’15)</a></li>
-<li>WSJ</li>
-<li>2000hr Fisher+Switchboard (F+S)</li>
+<li>Neural networks are universal approximators;</li>
+<li>Convolution controls model size; and</li>
+<li>Pooling leads to positional invariance.</li>
 </ul>
 </div>
 </div>
 
+<div id="outline-container-sec:method" class="outline-2">
+<h2 id="sec:method">Method</h2>
+<div class="outline-text-2" id="text-sec:method">
+<p>
+Let
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" style="vertical-align:baseline">
 
-<div id="outline-container-sec:ideas-and-strategy" class="outline-3">
-<h3 id="sec:ideas-and-strategy">Ideas and Strategy</h3>
-<div class="outline-text-3" id="text-sec:ideas-and-strategy">
-<ul class="org-ul">
-<li><a href="../time-delay-networks/">Time-delay Networks (TDNN)</a> <a href="https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf">[PDF]​</a></li>
-<li><a href="https://dl.acm.org/doi/abs/10.1145/1143844.1143891">Connectionist Temporal Classification (CTC) ICML ’06</a></li>
-<li><a href="https://arxiv.org/abs/1609.03193">Wav2Letter (ICLR '17)</a></li>
-<li><a href="https://arxiv.org/abs/1712.09444">Gated Convnets (for ASR)</a></li>
-</ul>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">\(\text{data}\)</td>
+<td class="org-left">be a set of \((y,\mathbf{x})\) pairs; \(\mathbf{x}\) being the input vector, and \(y\in\mathbb{Z}_{\geqslant0}\) being the labels.</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\mathbf{x}\in\mathbb{X}\subseteq\mathbb{R}^{C\times T}\)</td>
+<td class="org-left">be input vector; \(C=16\) being number of channels; and \(T\) being temporal resolution.</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\Phi(\;\cdot;\theta):\mathbb{X}\to\mathbb{R}^{K\times T'}\)</td>
+<td class="org-left">be 1-D convolutional neural network, with its output being a \(T'\) long sequence of \(K\) dimensional vector, representing word probabilities; \(K\) being the vocabulary size and \(\theta\) being network params.</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\boldsymbol{1}_{k}:\mathbb{Z}_{\geqslant0}\to\mathbb{R}^{k}\)</td>
+<td class="org-left">be whole number to one-hot vector converter</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\mathrm{avg}\)</td>
+<td class="org-left">be the average pooling operator.</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\parallel\,\cdot\,\parallel_{p,\mathrm{row}}\)</td>
+<td class="org-left">be an operator that computes \(L_{p}\) norm for each row vector in the tensor, defined here for mathematical convenience.</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\mathbf{x}^{\otimes n}\)</td>
+<td class="org-left">be element-wise exponentiation operation, defined here for mathematical convenience.</td>
+</tr>
+
+<tr>
+<td class="org-left">\(\Delta_{E}\)</td>
+<td class="org-left">be Euclidean distance between two vectors.</td>
+</tr>
+</tbody>
+</table>
+
+\begin{align}
+  \notag \theta_*
+  &= \arg \min_{\theta} \underset {y,\mathbf{x}
+    \sim\text{data}} {\mathbb{E}} \left[ \Delta(y,
+    f(\mathbf{x};\theta)) \right] \\
+  \notag f(\mathbf{x};\theta)
+  &= \mathrm{avg} \circ \left\| \Phi(\mathbf{x};
+    \theta) \right\|_{2,\mathrm{row}}^2 \\
+  \notag \Delta(y, \widetilde{\mathbf{y}})
+  &= \Delta_E \left(\boldsymbol{1}_K(y),
+    \widetilde{\mathbf{y}} \right)
+\end{align}
 </div>
 </div>
 
-<div id="outline-container-sec:technology" class="outline-3">
-<h3 id="sec:technology">Technology</h3>
-<div class="outline-text-3" id="text-sec:technology">
-<dl class="org-dl">
-<dt>Normalisation</dt><dd><ul class="org-ul">
-<li><a href="#sec:batch-norm">Batch Norm</a>; See also:<a href="https://arxiv.org/abs/1502.03167">[arXiv];</a></li>
-<li><a href="#sec:weight-norm">Weight Norm</a>; See also: <a href="http://arxiv.org/abs/1602.07868">[arXiv];</a></li>
-<li><a href="#sec:layer-norm">Layer Norm</a>; See also: <a href="http://arxiv.org/abs/1607.06450">[arXiv];</a></li>
-</ul></dd>
-<dt>Activation</dt><dd><ul class="org-ul">
-<li><a href="#sec:rectifier-activation">ReLU</a></li>
-<li><a href="#sec:rectifier-activation">Clipped ReLU</a></li>
-<li><a href="#sec:rectifier-activation">Leaky ReLU</a></li>
-</ul></dd>
-<dt>Gated Units</dt><dd><ul class="org-ul">
-<li><a href="#sec:gated-linear-unit">Gated Linear Units</a></li>
-<li><a href="#sec:gated-activation-unit">Gated Activation Units</a></li>
-</ul></dd>
-</dl>
-</div>
-</div>
-</div>
+<div id="outline-container-sec:dataset" class="outline-2">
+<h2 id="sec:dataset">Dataset</h2>
+<div class="outline-text-2" id="text-sec:dataset">
+<p>
+400 samples
+</p>
 
-<div id="outline-container-sec:contribution" class="outline-2">
-<h2 id="sec:contribution">Contribution</h2>
-<div class="outline-text-2" id="text-sec:contribution">
-<ul class="org-ul">
-<li>Jasper Model; and Dense Residual Topology;</li>
-<li>Evidence-based insights on convergence and
-non-convergence;</li>
-<li>NovoGrad Solver (like Adam);</li>
-<li>WER improvement on LibriSpeech test-clean.</li>
-</ul>
+<blockquote>
+<p>
+the four <b>words</b>, “bee,” “dee,” “ee,” and “vee” [B, D,
+E, and V] were used; earlier IBM research had shown
+that these four words were the most confusable members
+of the E-set of the alphabet.
+</p>
+</blockquote>
 </div>
 </div>
 
@@ -548,542 +617,82 @@ non-convergence;</li>
 <div class="outline-text-2" id="text-sec:appendix">
 </div>
 
+<div id="outline-container-sec:feature-extraction" class="outline-3">
+<h3 id="sec:feature-extraction">Feature Extraction</h3>
+<div class="outline-text-3" id="text-sec:feature-extraction">
+<p>
+Initial spectrogram feature was extracted from \(150\) ms
+waveform containing log energy values and bearing shape
+\(128\times48\); \(128\) frequencies \(\times48\) frames each
+lasting \(3\) ms.  In an experiment with input feature
+size, it was observed, however that \(16\times12\)
+input-based 2-layer hidden model exhibited the best
+performance; \(16\) frequency bands on linear scale
+\(\times12\) frames each lasting \(12\) ms.
+</p>
 
-<div id="outline-container-sec:covariate-shift" class="outline-3">
-<h3 id="sec:covariate-shift">Covariate Shift</h3>
-<div class="outline-text-3" id="text-sec:covariate-shift">
 <blockquote>
 <p>
-One of the challenges of deep learning is that the
-gradients with respect to the weights in one layer are
-highly dependent on the outputs of the neurons in the
-previous layer especially if these outputs change in a
-highly correlated way. <br />
-&#x2014; <a href="http://arxiv.org/abs/1607.06450">Layer Normalisation Paper</a>
+[…] the program converted our 150 ms waveform samples
+into spectrograms containing 128 log energies ranging
+up to 8 kHz, and 49 time frames of 3 ms each.  The
+first frame of each spectrogram was then discarded so
+that there would be 48 time steps (a highly
+factorizable number), and the DC bias com- ponent of
+each frame was set to zero.  Because each of the 48
+time frames represented 3 ms, the final duration of the
+spectrograms was 144 ms.
 </p>
 </blockquote>
 </div>
 </div>
 
-<div id="outline-container-sec:batch-norm" class="outline-3">
-<h3 id="sec:batch-norm">Batch Norm</h3>
-<div class="outline-text-3" id="text-sec:batch-norm">
-
-<div id="org7cbaf0e" class="figure">
-<p><img src="org-download-images/Appendix/2024-08-20_00-59-14_screenshot.png" alt="2024-08-20_00-59-14_screenshot.png" style="width:23rem" />
-</p>
-<p><span class="figure-number">Figure 1: </span>Courtesy: <a href="https://arxiv.org/abs/1502.03167">Batch Norm Paper</a></p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec:weight-norm" class="outline-3">
-<h3 id="sec:weight-norm">Weight Norm</h3>
-<div class="outline-text-3" id="text-sec:weight-norm">
+<div id="outline-container-sec:viterbi-alignment" class="outline-3">
+<h3 id="sec:viterbi-alignment">Viterbi Alignment</h3>
+<div class="outline-text-3" id="text-sec:viterbi-alignment">
 <p>
-Each neuron on an artificial neural network may be
-represented as,
+In a prior art at IBM, a hidden Markov model (HMM) was
+used to model the distribution of labels and spoken
+word.  The Viterbi search listed the most likely
+sequence of <i>labels</i>, corresponding to each frame of
+utterance in a spoken word; where the word identity was
+known.
 </p>
-
-\begin{align}
-\notag
-y &= \phi(\mathbf{w}\cdot\mathbf{x}+b)
-\end{align}
-
-<p>
-where, <br />
-\(\mathbf{x}\) is \(k\) dimensional vector of input
-features, <br />
-\(\mathbf{w}\) is \(k\) dimensional vector of learnable
-weights, <br />
-\(b\) is a (learnable) scalar bias term, and <br />
-\(\phi\) denotes element-wise non-linearity.
-</p>
-
-<p>
-The <b>key idea</b> in weight normalisation is to
-re-parameterise the weight vector, as
-</p>
-\begin{align}
-  \notag
-  \mathbf{w} &= \frac{g}{\|\mathbf{v}\|} \mathbf{v}
-\end{align}
-<p>
-so that, <br />
-\(\mathbf{v}\) is \(k\) dimensional vector of learnable
-weights, <br />
-\(g\) is a learnable scalar parameter, and
-\(\|\mathbf{w}\|=g\), independent of \(\mathbf{v}\).
-</p>
-
-<p>
-Instead of working with \(g\) directly, we may also use
-an exponential parameterisation for the scale,
-</p>
-\begin{align}
-  \notag
-  g &= e^s
-\end{align}
-<p>
-where, \(s\) is a log-scale learnable scalar parameter.
-</p>
-
-<p>
-For more intuition, please see \(\S 2.1\) and \(\S 2.2\) of
-the <a href="http://arxiv.org/abs/1602.07868">weight norm paper</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec:layer-norm" class="outline-3">
-<h3 id="sec:layer-norm">Layer Norm</h3>
-<div class="outline-text-3" id="text-sec:layer-norm">
-<p>
-The \(l^{\text{th}}\) layer in a feed forward neural
-network with inputs \(\mathbf{h}^l\) and weight matrix
-\(W^{l}\) and non-linear activation \(f\), may be written
-as,
-</p>
-\begin{align}
-  \notag
-  a_i^l &= {\mathbf{w}_{:,i}^l}^\top\mathbf{h}^l
-          \qquad h_i^{l+1} = f(a_i^l+b_i^l) 
-\end{align}
-
-<p>
-A Batch Norm may be summarised as,
-</p>
-\begin{align}
-  \notag
-  h_i^{l+1} = f(\hat{a}_i^l+b_i^l)
-  &\qquad
-    \hat{a}_i^l = \frac{g_i^l}{\sigma_i^l} (a_i^l -
-    \mu_i^l) \\
-  \notag
-  \mu_i^l = \underset{\mathbf{x}\sim P(\mathbf{x})}
-  {\mathbb{E}} \left[a_i^l\right]
-  &\qquad
-    \sigma_i^l = \sqrt{\underset{\mathbf{x}\sim
-    P(\mathbf{x})} {\mathbb{E}} \left[\left(a_i^l -
-    \mu_i^l\right)^2\right]}
-\end{align}
 
 <blockquote>
 <p>
-It is  typically impractical  to [exactly]  compute the
-expectations in  [the equation  above,] since  it would
-require  forward  passes  through  the  whole  training
-dataset with the current set of weights. Instead, \(\mu\)
-and \(\sigma\) are estimated  using the empirical samples
-from the current mini-batch.
+These labels were used to extract a 150 ms salient
+section of each utterance which included 100 ms before
+the first frame that was labeled “E” (this region
+should contain the consonant), plus 50 ms of the vowel.
 </p>
 </blockquote>
 
+<p>
+<b>HMM Model Details:</b>
+</p>
 <blockquote>
 <p>
-Notice that changes in the output of one layer will
-tend to cause highly correlated changes in the summed
-inputs to the next layer, especially with ReLU units
-whose outputs can change by a lot.
+[…] the words <b>B</b>, <b>D</b>, and <b>V</b> are modelled by a
+concatenation of the state machines for <span class="underline">noise</span>,
+<span class="underline">voiced consonant onset</span>, <span class="underline">{B,D,V}</span>, <span class="underline">E</span>, <span class="underline">E
+trail-off</span>, and <span class="underline">noise</span>. The word <b>E</b> is modelled by a
+concatenation of the state machines for <span class="underline">noise</span>, <span class="underline">E
+onset</span>, <span class="underline">E</span>, <span class="underline">E trail-off</span>, and <span class="underline">noise</span>. The state
+machines contain 3 main states with associated
+transitions to model the <span class="underline">beginning</span>, <span class="underline">middle</span>, and
+<span class="underline">end</span> of each phone. The consonant and vowel machines
+include <b>self-loops</b> to model steady-state portions of
+the acoustic signal, and all of the machines include
+<span class="underline">null transitions</span> to model short durations.
 </p>
 </blockquote>
-
-<blockquote>
-<p>
-We, thus, compute the layer normalization statistics
-over <b>all the hidden units</b> in the same layer as
-follows:
-</p>
-</blockquote>
-
-\begin{align}
-  \notag
-  \mu_i^l = \mu^l
-  &= \frac1H\sum_{i=1}^{H}a_i^l \\
-  \notag
-  \sigma_i^l = \sigma^l
-  &= \sqrt{ \frac1H \sum_{i=1}^H \left( a_i^l - \mu^l
-    \right)}
-\end{align}
-
-
-
-<div id="org255c145" class="figure">
-<p><img src="org-download-images/Appendix/2024-08-20_03-20-24_screenshot.png" alt="2024-08-20_03-20-24_screenshot.png" />
-</p>
-<p><span class="figure-number">Figure 2: </span>Courtesy: <a href="http://arxiv.org/abs/1607.06450">Layer Norm Paper</a></p>
-</div>
-</div>
-</div>
-<div id="outline-container-sec:sigmoid-activation" class="outline-3">
-<h3 id="sec:sigmoid-activation">Sigmoid Activation</h3>
-<div class="outline-text-3" id="text-sec:sigmoid-activation">
-</div>
-
-<div id="outline-container-sec:error-function" class="outline-4">
-<h4 id="sec:error-function">Error Function</h4>
-<div class="outline-text-4" id="text-sec:error-function">
-\begin{align}
-  \notag
-  \mathrm{erf}\;z &= \frac2{\sqrt\pi} \int_0^z e^{-t^2}
-                   \mathrm{d}t 
-\end{align}
-
-
-<div id="org125ac30" class="figure">
-<p><img src="image/Error_Function.svg" alt="Error_Function.svg" class="org-svg" style="width:25em" />
-</p>
-<p><span class="figure-number">Figure 3: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Error_function#/media/File:Error_Function.svg">Wikipedia</a></p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec:sigmoid-logistic-function" class="outline-4">
-<h4 id="sec:sigmoid-logistic-function">Sigmoid (Logistic Function)</h4>
-<div class="outline-text-4" id="text-sec:sigmoid-logistic-function">
-\begin{align}
-  \notag
-  \sigma(x)
-  &= \frac1{1+e^{-x} }
-    = \frac{e^x}{1+e^x}
-    = 1 - \sigma(-x)
-\end{align}
-
-
-<div id="org34fc302" class="figure">
-<p><img src="image/Logistic-curve.svg" alt="Logistic-curve.svg" class="org-svg" style="width:25em" />
-</p>
-<p><span class="figure-number">Figure 4: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Logistic-curve.svg">Wikipedia</a></p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec:other-sigmoidal-functions" class="outline-4">
-<h4 id="sec:other-sigmoidal-functions">Other Sigmoidal Functions</h4>
-<div class="outline-text-4" id="text-sec:other-sigmoidal-functions">
-
-<div id="org76f81ec" class="figure">
-<p><img src="image/sigmoid-comparison.svg" alt="sigmoid-comparison.svg" class="org-svg" />
-</p>
-<p><span class="figure-number">Figure 5: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Gjl-t(x).svg">Wikipedia</a></p>
-</div>
-
-<dl class="org-dl">
-<dt>Hyperbolic Tangent</dt><dd>\begin{align}
-  \notag
-  \mathrm{tanh}\;x
-  &= \frac {e^x - e^{-x}}{e^x + e^{-x}}
-\end{align}</dd>
-
-<dt>Arc Tangent</dt><dd>\begin{align}
-  \notag
-  y &= \mathrm{arctan}\;x \iff x = \tan y; \quad y \in
-      \left[-\frac\pi2,\frac\pi2\right]
-\end{align}</dd>
-</dl>
-
-
-<dl class="org-dl">
-<dt>Gudermannian Function</dt><dd>\begin{align}
-  \notag
-  \mathrm{gd}(x)
-  &=\int_0^x \frac{\mathrm{d}t}{\mathrm{cosh}\;t}
-    = 2\;\mathrm{arctan}\left(\mathrm{tanh}\left(\frac
-    x2 \right) \right)
-\end{align}</dd>
-
-<dt>Algebraic Functions</dt><dd>\begin{align}
-  \notag
-  f(x) &= \frac{x}{\left(1+|x|^k\right)^{1/k}} \\
-  \notag
-  &= \frac{x}{\left(1+|x|\right)}; \qquad k=1 \\
-  \notag
-  &= \frac{x}{\sqrt{1+x^2}}; \qquad k=2
-\end{align}</dd>
-</dl>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-sec:rectifier-activation" class="outline-3">
-<h3 id="sec:rectifier-activation">Rectifier Activation</h3>
-<div class="outline-text-3" id="text-sec:rectifier-activation">
-
-<div id="orgf7a11a1" class="figure">
-<p><img src="image/rectifier.svg" alt="rectifier.svg" class="org-svg" style="width:15em" />
-</p>
-<p><span class="figure-number">Figure 6: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#/media/File:ReLU_and_GELU.svg">Wikipedia</a></p>
-</div>
-
-<dl class="org-dl">
-<dt>ReLU (Rectified Linear Unit)</dt><dd>\begin{align}
-  \notag
-  \mathrm{ReLU}(x)
-  &= x^+ = \max(0,x) = \frac{x+|x|}2 = \begin{cases}
-    x;&\text{if } x>0, \\
-    0;&\text{otherwise.}
-  \end{cases}
-\end{align}</dd>
-
-<dt>Clipped ReLU</dt><dd>\begin{align}
-  \notag
-  \mathrm{cReLU}(x;a) &= \max(0,\min(a,x))
-\end{align}
-<p>
-<i>e.g.</i> <a href="https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#relu6">ReLU6 in Pytorch</a>
-</p></dd>
-
-<dt>Parametric and Leaky ReLU</dt><dd>\begin{align}
-  \notag
-  \mathrm{PReLU}(x; a)
-  &= \begin{cases}
-    x;&\text{if } x>0, \\
-    ax;&\text{otherwise.}
-  \end{cases} \\
-  \notag
-  \mathrm{LeakyReLU}(x)
-  &= \mathrm{PReLU}(x, 0.01)
-\end{align}</dd>
-
-<dt>GELU (Gaussian-error linear unit)</dt><dd>\begin{align}
-  \notag
-  GELU(x) &= x\cdot\Phi(x) \\
-  \frac\partial{\partial x} GELU(x)
-  &= x\cdot\Phi'(x) + \Phi(x)
-\end{align}
-<p>
-where \(\Phi(x) = Pr(X\leqslant x)\) is the cumulative
-Gaussian distribution.
-</p></dd>
-</dl>
-</div>
-</div>
-
-<div id="outline-container-sec:vanishing-exploding-gradient-problem" class="outline-3">
-<h3 id="sec:vanishing-exploding-gradient-problem">Vanishing/Exploding Gradient Problem</h3>
-<div class="outline-text-3" id="text-sec:vanishing-exploding-gradient-problem">
-<blockquote>
-<p>
-<a href="https://doi.org/10.1109/9780470544037.ch14">Hochreiter’s work</a> formally identified a major reason:
-Typical deep NNs suffer from the now famous problem of
-vanishing or exploding gradients. With standard
-activation functions (Sec. 1), cumulative
-backpropagated error signals (Sec. 5.5.1) either shrink
-rapidly, or grow out of bounds. In fact, they decay
-<b>exponentially</b> in the number of layers or CAP depth
-(Sec. 3), or they explode. This is also known as the
-long time lag problem.
-</p>
-</blockquote>
-<p>
-<b>See also:</b> <a href="https://arxiv.org/abs/1404.7828">Deep Learning by Jürgen Schmidhuber</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec:gating-history" class="outline-3">
-<h3 id="sec:gating-history">Gating History</h3>
-<div class="outline-text-3" id="text-sec:gating-history">
-<p>
-Gating was introduced in the <a href="https://ieeexplore.ieee.org/abstract/document/6795963">LSTM paper</a> in ’97, in
-order to address vanishing/exploding gradient problem.
-Simply put, gating mechanism is element-wise
-multiplication of input vector with a gate-activation
-vector.  The gate, in turn, is activated by looking at
-the input vector itself.  For example, a basic gate
-would be formulated as,
-</p>
-
-\begin{align}
-  \notag
-  \mathbf{y} &= \mathbf{g} \otimes \mathbf{x} \\
-  \notag
-  \mathbf{g} &= \sigma_{\otimes}(W\mathbf{x} +
-               \mathbf{b}) 
-\end{align}
-<p>
-where, <br />
-\(\sigma_{\otimes}(\mathbf{x})\) is the element-wise
-sigmoid activation of input vector \(\mathbf{x}\); and <br />
-\(\otimes\) represents element-wise multiplication.
-</p>
-
-<p>
-For a more involved use-case, let an RNN be defined for
-\(T\) time steps, with
-</p>
-<ul class="org-ul">
-<li>Given inputs as
-\(\{\mathbf{z}_1,\ldots,\mathbf{z}_T\}\);</li>
-<li>Cell States, \(\{\mathbf{c}_1,\ldots,\mathbf{c}_T\}\);</li>
-<li>Hidden States,
-\(\{\mathbf{h}_1,\ldots,\mathbf{h}_T\}\);</li>
-<li>Given initial states as
-\(\mathbf{c}_{0},\mathbf{h}_{0}\);</li>
-<li>Neural Network
-\(\Phi(\mathbf{z},\mathbf{c},\mathbf{h})\) to compute
-pre gate activation;</li>
-</ul>
-
-<p>
-<b>LSTM</b> <br />
-\(\forall t\in\{1,\ldots,T\}\),
-</p>
-\begin{align}
-  \notag
-  \mathbf{x}
-  &\gets \Phi(\mathbf{z}_t, \mathbf{c}_{t-1},
-    \mathbf{h}_{t-1}) \\
-  \notag
-  \mathbf{i}
-  &\gets
-    \sigma_{\otimes}(W_i\mathbf{x}+U_i\mathbf{h}_{t-1}
-    + \mathbf{b}_i) \\
-  \notag
-  \mathbf{f}
-  &\gets \sigma_{\otimes} (W_f\mathbf{x} +
-    U_f\mathbf{h}_{t-1} + \mathbf{b}_f) \\  
-  \notag
-  \mathbf{o}
-  &\gets \sigma_{\otimes} (W_o\mathbf{x} +
-    U_o\mathbf{h}_{t-1} + \mathbf{b}_o) \\ 
-  \notag
-  \mathbf{g}
-  &\gets \tanh_{\otimes} (W_g\mathbf{x} +
-    U_g\mathbf{h}_{t-1} + \mathbf{b}_g) \\  
-  \notag
-  \mathbf{c}_t
-  &\gets \mathbf{f}\otimes\mathbf{c}_{t-1} +
-    \mathbf{i}\otimes\mathbf{g} \\
-  \notag
-  \mathbf{h}_t
-  &\gets \mathbf{o}\otimes\tanh_{\otimes} \mathbf{c}_t
-\end{align}
-
-<p>
-<b>GRU</b> <br />
-\(\forall t\in\{1,\ldots,T\}\),
-</p>
-\begin{align}
-  \notag
-  \mathbf{x}
-  &\gets \Phi(\mathbf{z}_t, \mathbf{c}_{t-1},
-    \mathbf{h}_{t-1}) \\
-  \notag
-  \mathbf{r}
-  &\gets
-    \sigma_{\otimes}(W_r\mathbf{x}+U_r\mathbf{h}_{t-1}
-    + \mathbf{b}_r) \\
-  \notag
-  \tilde{\mathbf{h}}
-  &\gets
-    \tanh_{\otimes}(W_h\mathbf{x} +
-    U_h(\mathbf{r}\otimes\mathbf{h}_{t-1}) +
-    \mathbf{b}_h) \\
-  \notag
-  \mathbf{c}_t
-  &\gets
-    \sigma_{\otimes}(W_c\mathbf{x}+U_c\mathbf{h}_{t-1}
-    + \mathbf{b}_c) \\
-  \notag
-  \mathbf{h}_t
-  &\gets \mathbf{c}_t\otimes \mathbf{h}_{t-1} +
-    (1-\mathbf{c}_t) \otimes \tilde{\mathbf{h}}
-\end{align}
-
-<p>
-<b>See also:</b>
-</p>
-<ul class="org-ul">
-<li><a href="https://medium.com/@eugenesh4work/gating-mechanisms-in-neural-networks-dc83a0bdb8c3">[Medium] ​Gating Mechanisms (Blog by Eugene
-Shevchenko)</a>;</li>
-<li><a href="https://arxiv.org/abs/2007.14823">[arXiv]​ Jacobian Spectrum of Gates (Fig.1; Theory of
-Gating)</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec:gated-linear-unit" class="outline-3">
-<h3 id="sec:gated-linear-unit">Gated Linear Unit</h3>
-<div class="outline-text-3" id="text-sec:gated-linear-unit">
-<p>
-In the context of speech processing, let
-\(\tilde{X}=W*X;
-\tilde{X}\in\mathbb{R}^{n\times(\cdot)},
-W\in\mathbb{R}^{n\times m\times k},
-X\in\mathbb{R}^{m\times(\cdot)}\) represent a 1-D
-convolution operation with kernel size \(k\), input
-filters \(m\) and output filters \(n\).  A gated linear
-unit (GLU) wraps a convolution layer with a linear
-activation and sigmoid gate as follows,
-</p>
-
-\begin{align}
-  \notag
-  h_l(X) &= (W*X+B) \otimes \sigma_{\otimes} (V*X+C)
-\end{align}
-
-<p>
-Since the element-wise multiplication is a symmetric
-operation, this may as well be interpreted as a linear
-gate over a sigmoid activation.
-</p>
-
-<p>
-With hardware acceleration, this operation may be
-implemented with single parallelised convolution
-operations with double filter size, namely
-\(W\in\mathbb{R}^{2n\times m\times k}\), and bias
-\(B\in\mathbb{R}^{2n\times(\cdot)}\), as follows,
-</p>
-
-\begin{align}
-  \notag
-  \tilde{X} &= W*X+B \\
-  \notag
-  h_l(X) &= \tilde{X}_{:n} \otimes \sigma_{\otimes}
-           (\tilde{X}_{n:})
-\end{align}
-
-<p>
-<b>See also:</b> <a href="https://arxiv.org/abs/1612.08083">Gated Conv-Net Paper [arXiv]​</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec:gated-activation-unit" class="outline-3">
-<h3 id="sec:gated-activation-unit">Gated Activation Unit</h3>
-<div class="outline-text-3" id="text-sec:gated-activation-unit">
-<p>
-A gated activation unit (GLU) wraps a convolution layer
-with a hyperbolic tangent activation and sigmoid gate
-as follows,
-</p>
-
-\begin{align}
-  \notag
-  \tilde{X} &= W*X+B \\
-  \notag
-  h_l(X) &= \tanh_{\otimes} (\tilde{X}_{:n}) \otimes
-           \sigma_{\otimes} (\tilde{X}_{n:}) 
-\end{align}
-
-<p>
-Since the element-wise multiplication is a symmetric
-operation, this may equally well be interpreted as a
-hyperbolic tangent gate and sigmoid activation.
-</p>
-
-<p>
-<b>See also:</b> <a href="https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html">Conditional PixelCNN Paper [NeurIPS '16]​</a>
-</p>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-21 Wed 03:41</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-21 Wed 12:05</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

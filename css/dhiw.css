@@ -4012,6 +4012,10 @@
 /* widget-single-line-field */
   background-color: #d9d9d9;
 }
+
+/* ------------------------------------------------- */
+/* Linux Libertine Fonts */
+/* ------------------------------------------------- */
 @font-face {
   font-family: 'Linux Libertine Initials';
   src: local('Linux Libertine Initials'), local('LinLibertineI'), url("/Libertine-web-fonts/hinted-LinLibertineI.woff2") format('woff2'), url("/Libertine-web-fonts/hinted-LinLibertineI.woff") format('woff');
@@ -4084,6 +4088,10 @@
   font-weight: bold;
   font-style: italic;
 }
+
+/* ------------------------------------------------- */
+/* BVR's Defs */
+/* ------------------------------------------------- */
 html {
   min-width: 100%;
   min-height: 100%;
@@ -4134,6 +4142,7 @@ blockquote {
   color: #222;
   border-left: 1em solid #e0e0e0;
 }
+
 /* Images */
 .figure {
   font-weight: 300;
@@ -4192,6 +4201,8 @@ blockquote {
   margin-top: 0;
   padding-left: 0.25em;
 }
+
+/* TODO Keywords and Tags */
 span.todo {
   font-weight: bold;
   font-size: 0.5em;
@@ -4231,4 +4242,14 @@ span.tag span::after {
   float: right;
   font-size: 0.7em;
   font-weight: normal;
+}
+
+/* Underline */
+span.underline {
+  text-decoration: underline
+}
+
+/* Table Styles */
+tbody, tr, td {
+  vertical-align: inherit
 }

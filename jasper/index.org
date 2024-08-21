@@ -79,7 +79,7 @@
 :PROPERTIES:
 :CUSTOM_ID: sec:ideas-and-strategy
 :END:
-+ [[https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf][Time-delay Networks (TDNN)]]
++ [[../time-delay-networks/][Time-delay Networks (TDNN)]] [[https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf][[PDF]​]]
 + [[https://dl.acm.org/doi/abs/10.1145/1143844.1143891][Connectionist Temporal Classification (CTC) ICML ’06]]
 + [[https://arxiv.org/abs/1609.03193][Wav2Letter (ICLR '17)]]
 + [[https://arxiv.org/abs/1712.09444][Gated Convnets (for ASR)]]
