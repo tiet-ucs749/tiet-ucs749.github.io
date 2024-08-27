@@ -132,6 +132,7 @@
   Tutorial]].
 + Time Delay DNN (TDNN) :: 
   + [[./time-delay-networks/][Time-delay Networks (TDNN)]],
+  + [[./ctc/][Connectionist Temporal Classification (CTC)]],
   + [[./jasper/][Jasper]],
   + [[https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition][QuartzNet]],
   + [[https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non][Citrinet]]
@@ -214,6 +215,11 @@ model \\
 :END:
 
 [[https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_with_NeMo.ipynb][ASR with NeMo (Colab)]]
+
+Additional references:
++ [[https://nvidia.github.io/apex/amp.html#opt-levels][=amp_level​="O1"= : the argument used in
+  =PytorchLightning.Trainer= instance]];
++ But [[https://github.com/Lightning-AI/pytorch-lightning/pull/16039][Apex deprecated out of PL]] v2.0;
 
 For Starters : \\
 [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/starthere/intro.html#quick-start-guide][NeMo Installation and Getting Started Guide with

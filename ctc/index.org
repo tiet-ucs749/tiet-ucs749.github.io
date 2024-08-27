@@ -1,0 +1,152 @@
+:PROPERTIES:
+:ID:       753384bf-f3f8-488e-aa54-25c18bd954b1
+:ROAM_REFS: cite:GFGS06
+:END:
+#+title: Connectionist temporal classification:
+#+subtitle: Labelling unsegmented sequence data with recurrent neural networks
+#+OPTIONS: num:nil html-postamble:t html-style:nil toc:nil
+#+DATE: [2024-08-21 Wed]
+#+AUTHOR: Raghav B. Venkataramaiyer
+# #+AUTHOR: B.V. Raghav, Subham Kumar, Vinay P. Namboodiri
+#+EMAIL: bv.raghav@thapar.edu
+# #+EMAIL: bvraghav@iitk.ac.in, subhamkr@iitk.ac.in, vinaypn@iitk.ac.in
+#+LANGUAGE: en
+
+#+HTML_HEAD: <meta name="keywords" content="Constrained links,Isolated word recognition,Multiresolution learning,Multispeaker speech recognition,Network architecture,Neural networks,Time delays">
+
+#+HTML_HEAD: <meta name="description" content="Notes on Time delay neural networks">
+
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/css/dhiw.css" />
+#+HTML_HEAD: <link rel="shortcut icon" type="image/png"
+#+HTML_HEAD:   href="https://www.gravatar.com/avatar/034c3feded7a09f8a5c481a2bd35d676.png?s=16" />
+
+#+HTML_HEAD: <style>
+#+HTML_HEAD: .iframe-container {
+#+HTML_HEAD:   overflow: hidden;
+#+HTML_HEAD:   /* Calculated from the aspect ratio of the content (in case of 16:9 it is 9/16= 0.5625) */
+#+HTML_HEAD:   padding-top: 56.25%;
+#+HTML_HEAD:   position: relative;
+#+HTML_HEAD:   margin-bottom: 1em;
+#+HTML_HEAD: }
+#+HTML_HEAD:  
+#+HTML_HEAD: .iframe-container iframe {
+#+HTML_HEAD:    border: 0;
+#+HTML_HEAD:    height: 100%;
+#+HTML_HEAD:    left: 0;
+#+HTML_HEAD:    position: absolute;
+#+HTML_HEAD:    top: 0;
+#+HTML_HEAD:    width: 100%;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+
+#+HTML_HEAD: <style type="text/css">
+#+HTML_HEAD:  ol.alpha { list-style-type: lower-alpha; }
+#+HTML_HEAD: </style>
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+MACRO: cnc {{{sc(cnc)}}}
+
+
+[[../][[Parent]​]]
+
+- author :: Graves, A., Fernández, S., Gomez, F., &
+  Schmidhuber, J.
+- url :: [[https://dl.acm.org/doi/10.1145/1143844.1143891][[ACM]​]], [[https://www.cs.toronto.edu/~graves/icml_2006.pdf][[PDF from toronto.edu]​]], [[https://mediatum.ub.tum.de/doc/1292048/document.pdf][[PDF from tum.de]​]]
+- date :: 2006
+- booktitle :: Proceedings of the 23rd International
+  Conference on Machine Learning
+
+* Summary
++ type of neural network output and associated scoring
+  function (for RNN’s);
++ to tackle sequence problems where the timing is
+  variable;
++ CTC refers to the outputs and scoring, and is
+  independent of the underlying neural network
+  structure.
+
+#+begin_quote
+For example, in speech audio there can be multiple time
+slices which correspond to a single phoneme. Since we
+don't know the alignment of the observed sequence with
+the target labels we predict a probability distribution
+at each time step. --- Wikipedia
+#+end_quote
+
+See also: https://distill.pub/2017/ctc/
+
+* The Problem
+An input waveform for the word =HELLO= may vary in the
+following ways,
++ A quick and slow speaker may stretch it at varying
+  lengths, /e.g./ =HELLLOO= vs =HEELLLOOOO=; and the
+  same may be extend to syllable stresses and
+  intonations when speaking in further detail;
++ The start points and blanks may vary, /e.g./
+  =---HEE-LLOO-= vs =-HELLLOO-=
+
+We call this as an *alignment* problem, where given an
+alphabet, say $\{H,E,L,O\}$, and a sequence
+$[x_1,\ldots,x_T]$, find the correspondence.
+
+Inherent to this formulation, there’s no way to
+distinguish between =HELO= vs =HELLO=.  This problem is
+like *mode collapse*.  To this end, the author
+introduces a special character called CTC blank
+$\epsilon$, that suppresses mode collapse.  /E.g./
+=LLLL= $\to$ =L= in post-processing, but =LL-LL= $\to$
+=LL=.  Hence, the alphabet now becomes
+$\{H,E,L,O,\epsilon\}$.
+
+This problem grows polynomially in alphabet size and
+exponentially in sequence size.
+
+** Formally
+
+\begin{align}
+  \notag
+  Y_*
+  &= \arg\max_YP(Y|X) \\
+  \notag
+  P(Y|X)
+  &= \sum_{A \in \mathcal{A} (X,Y)} \prod_{t=1}^T
+    P_t(\mathbf{a}_t|X) 
+\end{align}
+where,
++ $X\equiv[\mathbf{x}_1,\ldots,\mathbf{x}_n]$ be the
+  input sequence;
++ $Y\equiv[\mathbf{y}_1,\ldots,\mathbf{y}_m]$ be the
+  output sequence;
++ $A\equiv[\mathbf{a}_1,\ldots,\mathbf{a}_T]$ be an
+  alignment between $\mathbf{x}$ and $\mathbf{y}$ ---
+  also the network output; and
++ $\mathcal{A} (X,Y)$ be such an alignment space;
+
+* Implementation Details
+
+*Inputs:* $X\in\mathbb{R}^{(\cdot)\times n}$ is a
+spectrogram-like audio input, like MFCC, providing $n$
+time step sequence of input.
+
+*Network Output* (or RNN output) is the alignment
+$A\in\mathbb{R}^{|L'|\times T}$. Here $L'\equiv
+L\cup{\epsilon}$ is the alphabet augmented with CTC
+blank.
+
+*Alphabet* $Y\in\mathbb{R}^{m}$ (also known as
+$Y_{\text{mask}}$ in some implementations) is the
+output sequence augmented by blanks, /e.g./ =-HEL-LO-=
+or =HEL-LO= for =HELLO=, as a sequence of indices; or
+seldom tokens dependent upon implementation detail.
+
+* Backpropagation
+
+$\mathcal{A} (X,Y)$ is grows exponentially in the
+length of sequence, /i.e./ $\mathcal{O}(m^T)$
+
+But similar to the HMM, a recursive definition enables
+us to compute the loss efficiently in
+$\mathcal{O}(m^{2}T)$.

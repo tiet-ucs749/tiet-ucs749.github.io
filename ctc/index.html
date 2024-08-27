@@ -3,15 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-24 Sat 05:36 -->
+<!-- 2024-08-27 Tue 09:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>UCS749 Speech Processing and Synthesis</title>
+<title>Connectionist temporal classification:</title>
 <meta name="author" content="Raghav B. Venkataramaiyer" />
 <meta name="generator" content="Org Mode" />
-<meta name="keywords" content="speech processing">
-<meta name="description" content="Initial notes for
-Course UCS749 Speech Synthesis and Processing">
+<meta name="keywords" content="Constrained links,Isolated word recognition,Multiresolution learning,Multispeaker speech recognition,Network architecture,Neural networks,Time delays">
+<meta name="description" content="Notes on Time delay neural networks">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="/css/dhiw.css" />
 <link rel="shortcut icon" type="image/png"
@@ -430,467 +429,164 @@ ol.alpha { list-style-type: lower-alpha; }
 </p>
 </div>
 <div id="content" class="content">
-<h1 class="title">UCS749 Speech Processing and Synthesis
+<h1 class="title">Connectionist temporal classification:
 <br />
-<span class="subtitle">Course Page</span>
+<span class="subtitle">Labelling unsegmented sequence data with recurrent neural networks</span>
 </h1>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-right">L</th>
-<th scope="col" class="org-right">T</th>
-<th scope="col" class="org-right">P</th>
-<th scope="col" class="org-right">Cr</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-right">2</td>
-<td class="org-right">0</td>
-<td class="org-right">2</td>
-<td class="org-right">3</td>
-</tr>
-</tbody>
-</table>
-
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#schedule-of-topics">Schedule of topics</a></li>
-<li><a href="#schedule-of-practicals">Schedule of Practicals</a></li>
-<li><a href="#resources">Resources</a></li>
-</ul>
-</div>
-
-<div id="outline-container-overview" class="outline-2">
-<h2 id="overview">Overview</h2>
-<div class="outline-text-2" id="text-overview">
 <p>
-<a href="ucs749-syllabus.pdf">Link to Syllabus [PDF]​</a>
+<a href="../">[Parent]​</a>
 </p>
 
-
-<div id="org219716f" class="figure">
-<p><img src="image/2024-07-15_22-56-44_screenshot.png" alt="2024-07-15_22-56-44_screenshot.png" />
-</p>
-<p><span class="figure-number">Figure 1: </span>Academic Calendar</p>
-</div>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-right" />
-
-<col  class="org-right" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">&#xa0;</th>
-<th scope="col" class="org-right">W</th>
-<th scope="col" class="org-right">L</th>
-<th scope="col" class="org-left">P</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Prior to MST</td>
-<td class="org-right">8</td>
-<td class="org-right">16</td>
-<td class="org-left">7/8</td>
-</tr>
-
-<tr>
-<td class="org-left">MST – Diwali</td>
-<td class="org-right">3</td>
-<td class="org-right">6</td>
-<td class="org-left">2/3</td>
-</tr>
-
-<tr>
-<td class="org-left">Diwali – EST</td>
-<td class="org-right">4</td>
-<td class="org-right">8</td>
-<td class="org-left">4</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div id="outline-container-evaluation-schedule" class="outline-3">
-<h3 id="evaluation-schedule">Evaluation Schedule</h3>
-<div class="outline-text-3" id="text-evaluation-schedule">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">&#xa0;</th>
-<th scope="col" class="org-left">Date</th>
-<th scope="col" class="org-right">MM</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">MST</td>
-<td class="org-left">TBA</td>
-<td class="org-right">25</td>
-</tr>
-
-<tr>
-<td class="org-left">EST</td>
-<td class="org-left">TBA</td>
-<td class="org-right">35</td>
-</tr>
-
-<tr>
-<td class="org-left">Quiz 1</td>
-<td class="org-left">12-Sep 05:30pm</td>
-<td class="org-right">5</td>
-</tr>
-
-<tr>
-<td class="org-left">Quiz 2</td>
-<td class="org-left">21-Nov 05:30pm</td>
-<td class="org-right">5</td>
-</tr>
-
-<tr>
-<td class="org-left">Lab Eval 1</td>
-<td class="org-left">9-Sep–13-Sep</td>
-<td class="org-right">10</td>
-</tr>
-
-<tr>
-<td class="org-left">Lab Eval 2</td>
-<td class="org-left">18-Nov–22-Nov</td>
-<td class="org-right">20</td>
-</tr>
-</tbody>
-<tbody>
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-right">100</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-schedule-of-topics" class="outline-2">
-<h2 id="schedule-of-topics">Schedule of topics</h2>
-<div class="outline-text-2" id="text-schedule-of-topics">
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#schedule-introduction">Introduction</a></li>
-<li><a href="#schedule-recognition">Recognition</a></li>
-<li><a href="#schedule-synthesis">Synthesis (Text-to-Speech; TTS)</a></li>
-</ul>
-</div>
-</div>
-
-
-<div id="outline-container-schedule-introduction" class="outline-3">
-<h3 id="schedule-introduction">Introduction</h3>
-<div class="outline-text-3" id="text-schedule-introduction">
-<ol class="org-ol">
-<li>NLP: Lexeme/ Grapheme</li>
-<li>Speech: Phoneme</li>
-<li>Statistical Models: Noise/ Pattern/
-Characterisation</li>
-<li>Language Model: N-Grams/ TFIDF/ Word2Vec/ BERT</li>
-<li>Speech Models: Wav2Vec/ HuBERT</li>
-<li>Pre-requisites:
-<ol class="org-ol">
-<li><a href="https://www.3blue1brown.com/topics/linear-algebra">Linear Algebra</a>: Vector Spaces/ Linear Maps/
-Singularity/ Matrix Decomposition/ Null
-Space/ Span/ Markov Chains…</li>
-<li>Probability and Statistics: Central Limit
-Theorem/ Conditionals &amp; Marginals/ Bayes
-Theorem/ Markov Assumption/ Stochastic
-Process…</li>
-<li>Information Theory: Cross Entropy</li>
-<li>Neural Network: Perceptron Model/ Hidden
-Layers/ Convolution/ Activation/ Pooling/
-Atrous/ Padding/ Backpropagation…</li>
-<li>Optimisation: Stochastic Gradient Descent/
-Momentum/ Dropout/ RMSProp/ Adam…</li>
-<li>Deep Learning: Sequential Model/ Residual
-Model/ Adversarial Model/ Attention Model/
-Encoder-Decoder Model…</li>
-</ol></li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-schedule-recognition" class="outline-3">
-<h3 id="schedule-recognition">Recognition</h3>
-<div class="outline-text-3" id="text-schedule-recognition">
 <dl class="org-dl">
-<dt>Hidden Markov Model</dt><dd><a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf">PDF (Concise)</a>, More
-literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20markov%20model%20filetype%3Apdf">Google</a>, <a href="https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&amp;ia=web">Duck,Duck,Go</a>; <a href="https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition">Rabiner’s
-Tutorial</a>.</dd>
-<dt>Time Delay DNN (TDNN)</dt><dd><ul class="org-ul">
-<li><a href="./time-delay-networks/">Time-delay Networks (TDNN)</a>,</li>
-<li><a href="./ctc/">Connectionist Temporal Classification (CTC)</a>,</li>
-<li><a href="./jasper/">Jasper</a>,</li>
-<li><a href="https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition">QuartzNet</a>,</li>
-<li><a href="https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non">Citrinet</a></li>
-</ul></dd>
-<dt>Speech Command Recognition</dt><dd><a href="https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1">MatchboxNet</a>
-(<a href="https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py">Implementation</a>)</dd>
+<dt>author</dt><dd>Graves, A., Fernández, S., Gomez, F., &amp;
+Schmidhuber, J.</dd>
+<dt>url</dt><dd><a href="https://dl.acm.org/doi/10.1145/1143844.1143891">[ACM]​</a>, <a href="https://www.cs.toronto.edu/~graves/icml_2006.pdf">[PDF from toronto.edu]​</a>, <a href="https://mediatum.ub.tum.de/doc/1292048/document.pdf">[PDF from tum.de]​</a></dd>
+<dt>date</dt><dd>2006</dd>
+<dt>booktitle</dt><dd>Proceedings of the 23rd International
+Conference on Machine Learning</dd>
 </dl>
-</div>
-</div>
 
-<div id="outline-container-schedule-synthesis" class="outline-3">
-<h3 id="schedule-synthesis">Synthesis (Text-to-Speech; TTS)</h3>
-<div class="outline-text-3" id="text-schedule-synthesis">
-<dl class="org-dl">
-<dt>Spectrogram Generators</dt><dd><a href="https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet">Tacotron2</a>, <a href="https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech">GlowTTS</a></dd>
-<dt>Audio Generators</dt><dd><a href="https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for">WaveGlow</a>, <a href="https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders">SqueezeWave</a></dd>
-</dl>
-</div>
-</div>
-</div>
-
-<div id="outline-container-schedule-of-practicals" class="outline-2">
-<h2 id="schedule-of-practicals">Schedule of Practicals</h2>
-<div class="outline-text-2" id="text-schedule-of-practicals">
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#lab-1">Lab 1: Getting familiar with speech processing</a></li>
-<li><a href="#lab-2">Lab 2: Hidden Markov Model</a></li>
-<li><a href="#lab-3">Lab 3: ASR in English</a></li>
-<li><a href="#lab-4">Lab 4: ASR in Indic Language</a></li>
-<li><a href="#lab-5">Lab 5: Speech Commands</a></li>
-<li><a href="#lab-6">Lab 6: TTS with Tacotron 2</a></li>
-<li><a href="#lab-7">Lab 7: TTS in Indic Language</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-lab-1" class="outline-3">
-<h3 id="lab-1">Lab 1: Getting familiar with speech processing</h3>
-<div class="outline-text-3" id="text-lab-1">
-<ol class="org-ol">
-<li>Getting familiar with the pipeline of Speech
-Recognition: <br />
-<a href="https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html">Speech Recognition with Wav2Vec2</a> (Pytorch)</li>
-<li>Perform a simple command classification task with
-a sequential model:
+<div id="outline-container-orgdb7f639" class="outline-2">
+<h2 id="orgdb7f639">Summary</h2>
+<div class="outline-text-2" id="text-orgdb7f639">
 <ul class="org-ul">
-<li>(Tensorflow) <a href="https://www.tensorflow.org/tutorials/audio/simple_audio">Simple Audio Recognition :Recognising
-keywords</a>; or if you prefer</li>
-<li>(Pytorch) <a href="https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html">Speech Command Classification with M5</a>.</li>
-</ul></li>
-</ol>
-</div>
-</div>
+<li>type of neural network output and associated scoring
+function (for RNN’s);</li>
+<li>to tackle sequence problems where the timing is
+variable;</li>
+<li>CTC refers to the outputs and scoring, and is
+independent of the underlying neural network
+structure.</li>
+</ul>
 
-<div id="outline-container-lab-2" class="outline-3">
-<h3 id="lab-2">Lab 2: Hidden Markov Model</h3>
-<div class="outline-text-3" id="text-lab-2">
+<blockquote>
 <p>
-Using MFCCs as features from this example: <br />
-<a href="https://colab.research.google.com/drive/1pkopM-0bSoxH1WDwq94bFSBxXpkHrjI3?usp=sharing">MFCC Example [Colab]​</a> by <a href="https://github.com/bvraghav">Raghav B. Venkataramaiyer</a>;<br />
-along with the following dataset: <br />
-<a href="https://github.com/Jakobovski/free-spoken-digit-dataset">Free Spoken Digit Dataset (10 digits x 6 speakers x 50
-repeats) [Github]​</a>; <br />
-and using hmmlearn as in this tutorial to fit the
-model <br />
-<a href="https://hmmlearn.readthedocs.io/en/latest/tutorial.html">HMM Learn [ReadTheDocs]​</a>
+For example, in speech audio there can be multiple time
+slices which correspond to a single phoneme. Since we
+don't know the alignment of the observed sequence with
+the target labels we predict a probability distribution
+at each time step. &#x2014; Wikipedia
 </p>
-
-<ol class="org-ol">
-<li>Compute the probability of occurrence of a given
-sequence, say \(\{3,2,5,4,0\}\). (Encode the Forward
-Algorithm)</li>
-<li>Predict the most likely sequence, given an audio
-sequence. (Encode the Viterbi algorithm)</li>
-</ol>
+</blockquote>
 
 <p>
-<b>Theory</b>
-</p>
-
-<p>
-<a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf">PDF (Concise)</a>, More literature from <a href="https://www.google.com/search?hl=en&amp;q=hidden%20markov%20model%20filetype%3Apdf">Google</a>,
-<a href="https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&amp;ia=web">Duck,Duck,Go</a>; <a href="https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition">Rabiner’s Tutorial</a>.
-</p>
-
-<p>
-<b>More Datasets</b>
-</p>
-
-<p>
-<a href="https://code.google.com/archive/p/hmm-speech-recognition/downloads">hmm-speech-recognition [Google Code]​</a>
-</p>
-
-<p>
-<b>More Feature Descriptors</b>
-</p>
-
-<p>
-<a href="https://en.wikipedia.org/wiki/Cepstral_mean_and_variance_normalization">CMVN</a>, <a href="http://people.csail.mit.edu/sshum/talks/ivector_tutorial_interspeech_27Aug2011.pdf">i-vectors</a>
-</p>
-
-
-<p>
-<b>See Also</b>
-</p>
-
-<p>
-<a href="https://colab.research.google.com/github/bambschool/BAMB2023/blob/main/6-latent_variable_models/hidden-markov-models.ipynb">HMM Tutorial [Colab]​</a> by <a href="https://github.com/bambschool/BAMB2023">BAMB School 2023</a> <br />
-<a href="https://colab.research.google.com/github/facebookresearch/beanmachine/blob/main/tutorials/Hidden_Markov_model.ipynb#scrollTo=vwxlljQwXOxg">Bean-Machine based Tutorial [Colab]​</a> <br />
-<a href="https://medium.com/@natsunoyuki/hidden-markov-models-with-python-c026f778dfa7">HMM Predicting Gold Prices [Medium]​</a> <br />
-<a href="https://colab.research.google.com/github/kastnerkyle/kastnerkyle.github.io/blob/master/posts/single-speaker-word-recognition-with-hidden-markov-models/single-speaker-word-recognition-with-hidden-markov-models.ipynb">Single Speaker Word Recognition with HMM [Colab]​</a> <br />
-<a href="https://colab.research.google.com/drive/1aFgzrUv3udM_gNJNUoLaHIm78QHtxdIz?usp=sharing">ASR using HMM from scratch [Colab]​</a>
+See also: <a href="https://distill.pub/2017/ctc/">https://distill.pub/2017/ctc/</a>
 </p>
 </div>
 </div>
 
-
-<div id="outline-container-lab-3" class="outline-3">
-<h3 id="lab-3">Lab 3: ASR in English</h3>
-<div class="outline-text-3" id="text-lab-3">
+<div id="outline-container-orgd600856" class="outline-2">
+<h2 id="orgd600856">The Problem</h2>
+<div class="outline-text-2" id="text-orgd600856">
 <p>
-<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_with_NeMo.ipynb">ASR with NeMo (Colab)</a>
-</p>
-
-<p>
-Additional references:
+An input waveform for the word <code>HELLO</code> may vary in the
+following ways,
 </p>
 <ul class="org-ul">
-<li><a href="https://nvidia.github.io/apex/amp.html#opt-levels"><code>amp_level​="O1"</code> : the argument used in
-<code>PytorchLightning.Trainer</code> instance</a>;</li>
-<li>But <a href="https://github.com/Lightning-AI/pytorch-lightning/pull/16039">Apex deprecated out of PL</a> v2.0;</li>
+<li>A quick and slow speaker may stretch it at varying
+lengths, <i>e.g.</i> <code>HELLLOO</code> vs <code>HEELLLOOOO</code>; and the
+same may be extend to syllable stresses and
+intonations when speaking in further detail;</li>
+<li>The start points and blanks may vary, <i>e.g.</i>
+<code>---HEE-LLOO-</code> vs <code>-HELLLOO-</code></li>
 </ul>
 
 <p>
-For Starters : <br />
-<a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/starthere/intro.html#quick-start-guide">NeMo Installation and Getting Started Guide with
-Citrinet ASR Evaluation</a>
+We call this as an <b>alignment</b> problem, where given an
+alphabet, say \(\{H,E,L,O\}\), and a sequence
+\([x_1,\ldots,x_T]\), find the correspondence.
 </p>
-</div>
-</div>
 
-<div id="outline-container-lab-4" class="outline-3">
-<h3 id="lab-4">Lab 4: ASR in Indic Language</h3>
-<div class="outline-text-3" id="text-lab-4">
 <p>
-Use the method from Lab 3, but use <a href="https://github.com/AI4Bharat/vistaar">Indic Dataset</a>.
+Inherent to this formulation, there’s no way to
+distinguish between <code>HELO</code> vs <code>HELLO</code>.  This problem is
+like <b>mode collapse</b>.  To this end, the author
+introduces a special character called CTC blank
+\(\epsilon\), that suppresses mode collapse.  <i>E.g.</i>
+<code>LLLL</code> \(\to\) <code>L</code> in post-processing, but <code>LL-LL</code> \(\to\)
+<code>LL</code>.  Hence, the alphabet now becomes
+\(\{H,E,L,O,\epsilon\}\).
 </p>
-</div>
-</div>
 
-<div id="outline-container-lab-5" class="outline-3">
-<h3 id="lab-5">Lab 5: Speech Commands</h3>
-<div class="outline-text-3" id="text-lab-5">
 <p>
-<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/Speech_Commands.ipynb">Speech Command Recognition with MatchboxNet</a>
+This problem grows polynomially in alphabet size and
+exponentially in sequence size.
 </p>
 </div>
-</div>
 
-<div id="outline-container-lab-6" class="outline-3">
-<h3 id="lab-6">Lab 6: TTS with Tacotron 2</h3>
-<div class="outline-text-3" id="text-lab-6">
+<div id="outline-container-orgf17df10" class="outline-3">
+<h3 id="orgf17df10">Formally</h3>
+<div class="outline-text-3" id="text-orgf17df10">
+\begin{align}
+  \notag
+  Y_*
+  &= \arg\max_YP(Y|X) \\
+  \notag
+  P(Y|X)
+  &= \sum_{A \in \mathcal{A} (X,Y)} \prod_{t=1}^T
+    P_t(\mathbf{a}_t|X) 
+\end{align}
 <p>
-<a href="https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/tts/Tacotron2_Training.ipynb">Training with Tacotron 2</a>
+where,
 </p>
+<ul class="org-ul">
+<li>\(X\equiv[\mathbf{x}_1,\ldots,\mathbf{x}_n]\) be the
+input sequence;</li>
+<li>\(Y\equiv[\mathbf{y}_1,\ldots,\mathbf{y}_m]\) be the
+output sequence;</li>
+<li>\(A\equiv[\mathbf{a}_1,\ldots,\mathbf{a}_T]\) be an
+alignment between \(\mathbf{x}\) and \(\mathbf{y}\) &#x2014;
+also the network output; and</li>
+<li>\(\mathcal{A} (X,Y)\) be such an alignment space;</li>
+</ul>
+</div>
 </div>
 </div>
 
-<div id="outline-container-lab-7" class="outline-3">
-<h3 id="lab-7">Lab 7: TTS in Indic Language</h3>
-<div class="outline-text-3" id="text-lab-7">
+<div id="outline-container-org61ea0f0" class="outline-2">
+<h2 id="org61ea0f0">Implementation Details</h2>
+<div class="outline-text-2" id="text-org61ea0f0">
 <p>
-Use the method from Lab 6, but along with <a href="https://github.com/AI4Bharat/Indic-TTS">Indic Dataset
-for TTS</a>.
+<b>Inputs:</b> \(X\in\mathbb{R}^{(\cdot)\times n}\) is a
+spectrogram-like audio input, like MFCC, providing \(n\)
+time step sequence of input.
+</p>
+
+<p>
+<b>Network Output</b> (or RNN output) is the alignment
+\(A\in\mathbb{R}^{|L'|\times T}\). Here \(L'\equiv
+L\cup{\epsilon}\) is the alphabet augmented with CTC
+blank.
+</p>
+
+<p>
+<b>Alphabet</b> \(Y\in\mathbb{R}^{m}\) (also known as
+\(Y_{\text{mask}}\) in some implementations) is the
+output sequence augmented by blanks, <i>e.g.</i> <code>-HEL-LO-</code>
+or <code>HEL-LO</code> for <code>HELLO</code>, as a sequence of indices; or
+seldom tokens dependent upon implementation detail.
 </p>
 </div>
 </div>
-</div>
 
-<div id="outline-container-resources" class="outline-2">
-<h2 id="resources">Resources</h2>
-<div class="outline-text-2" id="text-resources">
-<dl class="org-dl">
-<dt>Speech</dt><dd><ol class="org-ol">
-<li><a href="https://github.com/wenet-e2e/speech-synthesis-paper">Directory Listing of SoTA</a></li>
-<li><a href="https://github.com/zzw922cn/awesome-speech-recognition-speech-synthesis-papers">Another Directory Listing of SoTA</a></li>
-<li><a href="https://arxiv.org/abs/1904.03288">Jasper (2019)</a></li>
-<li><a href="https://arxiv.org/abs/1910.10261">QuartzNet (2019)</a></li>
-<li><a href="https://arxiv.org/abs/2104.01721">Citrinet (2021)</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/intro.html">NVidia NeMo Framework</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/intro.html">Speech Synthesis Model Zoo (NeMo)</a></li>
-<li><a href="https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53">Mel Spectrogram</a></li>
-</ol></dd>
-<dt>Linear Algebra</dt><dd><ol class="org-ol">
-<li><a href="https://www.3blue1brown.com/topics/linear-algebra">3B1B</a></li>
-<li><a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/">Gilbert Strang</a></li>
-</ol></dd>
-<dt>Probability and Statistics</dt><dd><ol class="org-ol">
-<li>Bertsekas &amp; Tsitsiklis: <a href="https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/">Introduction To
-Probability</a>; <a href="https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/">Probabilistic Systems Analysis And
-Applied Probability</a></li>
-<li><a href="https://www.3blue1brown.com/topics/probability">3B1B</a></li>
-</ol></dd>
-<dt>Neural Network Concepts</dt><dd><ol class="org-ol">
-<li><a href="https://www.coursera.org/specializations/deep-learning">Andrew Ng on Coursera</a></li>
-<li><a href="https://www.youtube.com/playlist?list=PLkt2uSq6rBVctENoVBg1TpCC7OQi31AlC">Andrej Karpathy on Youtube</a>; also on <a href="https://cs231n.stanford.edu/2016/">Stanford</a></li>
-</ol></dd>
-<dt>Information Theory &amp; Learning</dt><dd><ol class="org-ol">
-<li><a href="https://www.inference.org.uk/itila/">David McKay</a></li>
-</ol></dd>
-<dt>Datasets</dt><dd><ol class="org-ol">
-<li><a href="https://pytorch.org/audio/stable/datasets.html">Torch Audio (Pytorch)</a></li>
-<li><a href="https://www.tensorflow.org/datasets/catalog/overview#speech">Speech &amp; Speech Recognition Datasets (Tensorflow)</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html">ASR Datasets (NeMo)</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speech_classification/datasets.html">Speech Classification Datasets (NeMo)</a></li>
-<li><a href="https://github.com/lhotse-speech/lhotse">Lhotse Speech</a> and <a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html#lhotse-dataloading">its use with NeMo</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speaker_recognition/datasets.html">Speaker Recognition Datasets (NeMo)</a></li>
-<li><a href="https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/datasets.html#public-tts-datasets">Public TTS Datasets (NeMo)</a></li>
-<li><a href="https://github.com/AI4Bharat/vistaar">Indic ASR Dataset</a></li>
-<li><a href="https://github.com/AI4Bharat/Indic-TTS">Indic Dataset for TTS</a></li>
-</ol></dd>
-<dt>Code</dt><dd><ol class="org-ol">
-<li><a href="https://github.com/NVIDIA/OpenSeq2Seq">OpenSeq2Seq</a></li>
-<li><a href="https://github.com/AI4Bharat/Indic-TTS">AI4Bharat</a></li>
-<li><a href="https://github.com/NVIDIA/NeMo/tree/stable/tutorials/">NeMo Tutorials</a></li>
-</ol></dd>
-</dl>
+<div id="outline-container-org265f4ad" class="outline-2">
+<h2 id="org265f4ad">Backpropagation</h2>
+<div class="outline-text-2" id="text-org265f4ad">
+<p>
+\(\mathcal{A} (X,Y)\) is grows exponentially in the
+length of sequence, <i>i.e.</i> \(\mathcal{O}(m^T)\)
+</p>
+
+<p>
+But similar to the HMM, a recursive definition enables
+us to compute the loss efficiently in
+\(\mathcal{O}(m^{2}T)\).
+</p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-24 Sat 05:36</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-27 Tue 09:34</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
