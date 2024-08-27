@@ -54,7 +54,8 @@
 
 - author :: Graves, A., Fernández, S., Gomez, F., &
   Schmidhuber, J.
-- url :: [[https://dl.acm.org/doi/10.1145/1143844.1143891][[ACM]​]], [[https://www.cs.toronto.edu/~graves/icml_2006.pdf][[PDF from toronto.edu]​]], [[https://mediatum.ub.tum.de/doc/1292048/document.pdf][[PDF from tum.de]​]]
+- url :: [[https://dl.acm.org/doi/10.1145/1143844.1143891][[ACM]​]], [[https://www.cs.toronto.edu/~graves/icml_2006.pdf][[PDF from toronto.edu]​]], [[https://mediatum.ub.tum.de/doc/1292048/document.pdf][[PDF from
+  tum.de]​]], [[https://pytorch.org/docs/stable/generated/torch.nn.CTCLoss.html][[Pytorch]​]] [[https://www.tensorflow.org/api_docs/python/tf/nn/ctc_loss][[Tensorflow]​]] [[https://github.com/maetshju/flux-ctc-grad][[Julia]​]]
 - date :: 2006
 - booktitle :: Proceedings of the 23rd International
   Conference on Machine Learning
@@ -78,7 +79,7 @@ at each time step. --- Wikipedia
 
 See also: https://distill.pub/2017/ctc/
 
-* The Problem
+* Key Observation
 An input waveform for the word =HELLO= may vary in the
 following ways,
 + A quick and slow speaker may stretch it at varying
@@ -104,7 +105,27 @@ $\{H,E,L,O,\epsilon\}$.
 This problem grows polynomially in alphabet size and
 exponentially in sequence size.
 
-** Formally
+* The Problem
+Minimise transcription mistakes from speech to text or
+handwriting to text, where the natural measure is a
+/label error rate/ $\mathrm{LER}$ of a temporal
+classifier $h$, defined as follows.
+
+\begin{align}
+  \notag
+  \mathrm{LER}(h,\mathbb{S}^{\prime})
+  &= \underset {\large(\mathbf{x},\mathbf{z}) \sim
+    \mathbb{S}^{\prime}} {\Large\mathbb{E}}
+    \left[\frac{\mathrm{ED}(h(\mathbf{x}),
+    \mathbf{z})}{|\mathbf{z}|} \right]
+\end{align}
+
+where,
++ $\mathbb{S}^{\prime}\subset \mathcal{D}_{\mathcal{X}
+  \times \mathcal{Z}}$ is the test sample;
++ $\mathrm{ED}$ is the edit distance.
+
+* Key Contribution
 
 \begin{align}
   \notag
@@ -125,7 +146,7 @@ where,
   also the network output; and
 + $\mathcal{A} (X,Y)$ be such an alignment space;
 
-* Implementation Details
+** Implementation Details
 
 *Inputs:* $X\in\mathbb{R}^{(\cdot)\times n}$ is a
 spectrogram-like audio input, like MFCC, providing $n$
@@ -142,7 +163,7 @@ output sequence augmented by blanks, /e.g./ =-HEL-LO-=
 or =HEL-LO= for =HELLO=, as a sequence of indices; or
 seldom tokens dependent upon implementation detail.
 
-* Backpropagation
+** Backpropagation with Forward-Backward Algorithm
 
 $\mathcal{A} (X,Y)$ is grows exponentially in the
 length of sequence, /i.e./ $\mathcal{O}(m^T)$
@@ -150,3 +171,7 @@ length of sequence, /i.e./ $\mathcal{O}(m^T)$
 But similar to the HMM, a recursive definition enables
 us to compute the loss efficiently in
 $\mathcal{O}(m^{2}T)$.
+
+* In Frameworks
+
+[[https://pytorch.org/docs/stable/generated/torch.nn.CTCLoss.html][[Pytorch]​]] [[https://www.tensorflow.org/api_docs/python/tf/nn/ctc_loss][[Tensorflow]​]]

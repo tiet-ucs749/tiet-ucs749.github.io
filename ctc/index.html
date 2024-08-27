@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-27 Tue 09:34 -->
+<!-- 2024-08-27 Tue 12:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Connectionist temporal classification:</title>
@@ -440,15 +440,16 @@ ol.alpha { list-style-type: lower-alpha; }
 <dl class="org-dl">
 <dt>author</dt><dd>Graves, A., Fernández, S., Gomez, F., &amp;
 Schmidhuber, J.</dd>
-<dt>url</dt><dd><a href="https://dl.acm.org/doi/10.1145/1143844.1143891">[ACM]​</a>, <a href="https://www.cs.toronto.edu/~graves/icml_2006.pdf">[PDF from toronto.edu]​</a>, <a href="https://mediatum.ub.tum.de/doc/1292048/document.pdf">[PDF from tum.de]​</a></dd>
+<dt>url</dt><dd><a href="https://dl.acm.org/doi/10.1145/1143844.1143891">[ACM]​</a>, <a href="https://www.cs.toronto.edu/~graves/icml_2006.pdf">[PDF from toronto.edu]​</a>, <a href="https://mediatum.ub.tum.de/doc/1292048/document.pdf">[PDF from
+tum.de]​</a>, <a href="https://pytorch.org/docs/stable/generated/torch.nn.CTCLoss.html">[Pytorch]​</a> <a href="https://www.tensorflow.org/api_docs/python/tf/nn/ctc_loss">[Tensorflow]​</a> <a href="https://github.com/maetshju/flux-ctc-grad">[Julia]​</a></dd>
 <dt>date</dt><dd>2006</dd>
 <dt>booktitle</dt><dd>Proceedings of the 23rd International
 Conference on Machine Learning</dd>
 </dl>
 
-<div id="outline-container-orgdb7f639" class="outline-2">
-<h2 id="orgdb7f639">Summary</h2>
-<div class="outline-text-2" id="text-orgdb7f639">
+<div id="outline-container-org9c4618f" class="outline-2">
+<h2 id="org9c4618f">Summary</h2>
+<div class="outline-text-2" id="text-org9c4618f">
 <ul class="org-ul">
 <li>type of neural network output and associated scoring
 function (for RNN’s);</li>
@@ -475,9 +476,9 @@ See also: <a href="https://distill.pub/2017/ctc/">https://distill.pub/2017/ctc/<
 </div>
 </div>
 
-<div id="outline-container-orgd600856" class="outline-2">
-<h2 id="orgd600856">The Problem</h2>
-<div class="outline-text-2" id="text-orgd600856">
+<div id="outline-container-orgafa639b" class="outline-2">
+<h2 id="orgafa639b">Key Observation</h2>
+<div class="outline-text-2" id="text-orgafa639b">
 <p>
 An input waveform for the word <code>HELLO</code> may vary in the
 following ways,
@@ -513,10 +514,41 @@ This problem grows polynomially in alphabet size and
 exponentially in sequence size.
 </p>
 </div>
+</div>
 
-<div id="outline-container-orgf17df10" class="outline-3">
-<h3 id="orgf17df10">Formally</h3>
-<div class="outline-text-3" id="text-orgf17df10">
+<div id="outline-container-orga118f49" class="outline-2">
+<h2 id="orga118f49">The Problem</h2>
+<div class="outline-text-2" id="text-orga118f49">
+<p>
+Minimise transcription mistakes from speech to text or
+handwriting to text, where the natural measure is a
+<i>label error rate</i> \(\mathrm{LER}\) of a temporal
+classifier \(h\), defined as follows.
+</p>
+
+\begin{align}
+  \notag
+  \mathrm{LER}(h,\mathbb{S}^{\prime})
+  &= \underset {\large(\mathbf{x},\mathbf{z}) \sim
+    \mathbb{S}^{\prime}} {\Large\mathbb{E}}
+    \left[\frac{\mathrm{ED}(h(\mathbf{x}),
+    \mathbf{z})}{|\mathbf{z}|} \right]
+\end{align}
+
+<p>
+where,
+</p>
+<ul class="org-ul">
+<li>\(\mathbb{S}^{\prime}\subset \mathcal{D}_{\mathcal{X}
+  \times \mathcal{Z}}\) is the test sample;</li>
+<li>\(\mathrm{ED}\) is the edit distance.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1fad30b" class="outline-2">
+<h2 id="org1fad30b">Key Contribution</h2>
+<div class="outline-text-2" id="text-org1fad30b">
 \begin{align}
   \notag
   Y_*
@@ -540,12 +572,10 @@ also the network output; and</li>
 <li>\(\mathcal{A} (X,Y)\) be such an alignment space;</li>
 </ul>
 </div>
-</div>
-</div>
 
-<div id="outline-container-org61ea0f0" class="outline-2">
-<h2 id="org61ea0f0">Implementation Details</h2>
-<div class="outline-text-2" id="text-org61ea0f0">
+<div id="outline-container-org9b80db1" class="outline-3">
+<h3 id="org9b80db1">Implementation Details</h3>
+<div class="outline-text-3" id="text-org9b80db1">
 <p>
 <b>Inputs:</b> \(X\in\mathbb{R}^{(\cdot)\times n}\) is a
 spectrogram-like audio input, like MFCC, providing \(n\)
@@ -569,9 +599,9 @@ seldom tokens dependent upon implementation detail.
 </div>
 </div>
 
-<div id="outline-container-org265f4ad" class="outline-2">
-<h2 id="org265f4ad">Backpropagation</h2>
-<div class="outline-text-2" id="text-org265f4ad">
+<div id="outline-container-org4dcd621" class="outline-3">
+<h3 id="org4dcd621">Backpropagation with Forward-Backward Algorithm</h3>
+<div class="outline-text-3" id="text-org4dcd621">
 <p>
 \(\mathcal{A} (X,Y)\) is grows exponentially in the
 length of sequence, <i>i.e.</i> \(\mathcal{O}(m^T)\)
@@ -585,8 +615,18 @@ us to compute the loss efficiently in
 </div>
 </div>
 </div>
+
+<div id="outline-container-org0964a97" class="outline-2">
+<h2 id="org0964a97">In Frameworks</h2>
+<div class="outline-text-2" id="text-org0964a97">
+<p>
+<a href="https://pytorch.org/docs/stable/generated/torch.nn.CTCLoss.html">[Pytorch]​</a> <a href="https://www.tensorflow.org/api_docs/python/tf/nn/ctc_loss">[Tensorflow]​</a>
+</p>
+</div>
+</div>
+</div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-27 Tue 09:34</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-27 Tue 12:19</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
