@@ -61,6 +61,43 @@
 
 #+toc: headlines 2
 
+* Exercises
+:PROPERTIES:
+:CUSTOM_ID: sec:exercises
+:END:
+
+1. If the following equation describes the jasper
+   model,
+
+   \begin{align}
+     \notag
+     \theta_*
+     &= \arg\min_{\theta} \underset {(X,Y) \sim
+       \mathcal{D}_{\mathcal{X}\times\mathcal{Y}}}
+       {\mathbb{E}} \left[ \Delta(Y,
+       \mathcal{F}(X;\theta)) \right]
+   \end{align}
+
+   Define $X, Y, \mathcal{F}, \theta, \theta_*$.
+
+2. Formally define $\mathrm{MSE} (\mathbf{y},
+   \widetilde{\mathbf{y}})$ as mean-squared error
+   measure between target and prediction vectors.
+
+3. What are the conditions under which $\mathrm{MSE}
+   (\mathbf{y}, \widetilde{\mathbf{y}}) \equiv \Delta_E
+   (\mathbf{y}, \widetilde{\mathbf{y}}) \equiv
+   \|\mathbf{y} - \widetilde{\mathbf{y}}\|_F^2$?
+
+4. How is a CTC Loss different from MSE Loss as a
+   training objective?
+
+5. In order to learn a model for sequence-to-sequence
+   mapping like speech to text, recommend whether to
+   use Softmax-Cross-Entropy Classification Loss or
+   Connectionist Temporal Classification Loss.  Also
+   justify your recommendation.
+
 * Prior Art
 :PROPERTIES:
 :CUSTOM_ID: sec:prior-art
