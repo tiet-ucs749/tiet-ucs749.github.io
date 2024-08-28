@@ -80,9 +80,10 @@
 :CUSTOM_ID: sec:ideas-and-strategy
 :END:
 + [[../time-delay-networks/][Time-delay Networks (TDNN)]] [[https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf][[PDF]​]]
-+ [[https://dl.acm.org/doi/abs/10.1145/1143844.1143891][Connectionist Temporal Classification (CTC) ICML ’06]]
++ [[../ctc/][Connectionist Temporal Classification (CTC) ICML ’06]]
+  [[https://dl.acm.org/doi/abs/10.1145/1143844.1143891][[ACM]​]]
 + [[https://arxiv.org/abs/1609.03193][Wav2Letter (ICLR '17)]]
-+ [[https://arxiv.org/abs/1712.09444][Gated Convnets (for ASR)]]
++ [[#sec:gated-activation-unit][Gated Convnets (for ASR)]] [[https://arxiv.org/abs/1712.09444][[arXiv]​]]
 
 ** Technology
 :PROPERTIES:
@@ -109,6 +110,64 @@
   non-convergence;
 + NovoGrad Solver (like Adam);
 + WER improvement on LibriSpeech test-clean.
+ 
+** Jasper Model
+:PROPERTIES:
+:CUSTOM_ID: sec:jasper-model
+:END:
+
+All figures and tables repeated here from the paper
+[LLGL+19].
+
+Model search across
++ 3 types of normalisation :: [[*Batch Norm][Batch Norm]], [[*Weight Norm][Weight Norm]],
+  [[*Layer Norm][Layer Norm]];
++ 3 types of activations :: [[*Rectifier Activation][ReLU, clipped ReLU, Leaky
+  ReLU]];
++ 2 types of Gates :: [[*Gated Linear Unit][Gated Linear Units]], [[*Gated
+  Activation Unit][Gated Activation Units]];
++ Architecture :: [[#sec:jasper-b-times-r-architecture][$B\times R$ parameterisation]], [[#sec:jasper-dense-residual-architecture][Dense
+  Residual]].
+
+
+
+*** Jasper $B\times R$ Architecture
+:PROPERTIES:
+:CUSTOM_ID: sec:jasper-b-times-r-architecture
+:END:
+
+#+DOWNLOADED: screenshot @ 2024-08-28 07:44:17
+#+caption: Jasper $B\times R$ model: $B$: number of blocks; $R$: number of sub-blocks.
+[[file:org-download-images/Contribution/2024-08-28_07-44-17_screenshot.png]]
+
+
+#+caption: Jasper $10\times 5$
+|----+----+-------+----------+------------+---------|
+| #B | #S | B     |        K |   #C (out) | Dropout |
+|----+----+-------+----------+------------+---------|
+|  1 |  1 | Conv1 | 11 (s=2) |        256 |     0.2 |
+|----+----+-------+----------+------------+---------|
+|  2 |  5 | B1    |       11 |        256 |     0.2 |
+|  2 |  5 | B2    |       13 |        384 |     0.2 |
+|  2 |  5 | B3    |       17 |        512 |     0.2 |
+|  2 |  5 | B4    |       21 |        640 |     0.3 |
+|  2 |  5 | B5    |       25 |        768 |     0.3 |
+|----+----+-------+----------+------------+---------|
+|  1 |  1 | Conv2 | 29 (D=2) |        896 |     0.4 |
+|  1 |  1 | Conv3 |        1 |       1024 |     0.4 |
+|  1 |  1 | Conv4 |        1 | #graphemes |       0 |
+|----+----+-------+----------+------------+---------|
+
+
+*** Jasper Dense Residual Architecture
+:PROPERTIES:
+:CUSTOM_ID: sec:jasper-dense-residual-architecture
+:END:
+
+#+DOWNLOADED: screenshot @ 2024-08-28 07:46:36
+#+caption: Jasper Dense Residual Model
+[[file:org-download-images/Contribution/2024-08-28_07-46-36_screenshot.png]]
+
 
 * Appendix
 :PROPERTIES:
@@ -183,7 +242,7 @@ an exponential parameterisation for the scale,
 \end{align}
 where, $s$ is a log-scale learnable scalar parameter.
 
-For more intuition, please see $\S 2.1$ and $\S 2.2$ of
+For more details, please see $\S 2.1$ and $\S 2.2$ of
 the [[http://arxiv.org/abs/1602.07868][weight norm paper]].
 
 ** Layer Norm
@@ -354,7 +413,7 @@ follows:
     \notag
     \mathrm{cReLU}(x;a) &= \max(0,\min(a,x))
   \end{align}
-  /e.g./ [[https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#relu6][ReLU6 in Pytorch]]
+  /e.g./ ReLU6 in [[https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#relu6][[Pytorch]​]], [[https://keras.io/api/layers/activations/#relu6-function][[Keras]​]]
 
 + Parametric and Leaky ReLU :: 
   \begin{align}
@@ -561,3 +620,47 @@ operation, this may equally well be interpreted as a
 hyperbolic tangent gate and sigmoid activation.
 
 *See also:* [[https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html][Conditional PixelCNN Paper [NeurIPS '16]​]]
+
+** Word Error Rate
+:PROPERTIES:
+:CUSTOM_ID: sec:word-error-rate
+:END:
+
+Word Error Rate is inspired by “word recognition”
+accuracy measure in /cognitive psychology/, which is
+“the ability of a reader to recognize written words
+correctly and virtually effortlessly.”
+
+The experiments generally test the ability to recognise
+“isolated words,” without additional contextual
+information.  (/Trivia/: testing whose ability, the
+reader’s or the model’s?)
+
+WER is a special type of normalised edit distance;
+computed as the normalised number operations required
+to transform reference /(target)/ to hypothesis
+/(prediction)/.  The set of operations consist of
+substitution, deletion and insertion.
+
+Formally, if $Y$ is the reference set and $Y^{\prime}$
+is the hypothesis,
+
+\begin{align}
+  \notag
+  \mathrm{WER}(Y\to Y^\prime)
+  &= \frac {|Y^\prime \setminus Y| + \left[
+    |Y|-|Y^\prime| \right]_+} {|Y|}
+\end{align}
+
+where $\setminus$ is the set difference operator.
+
+Intuitively, we resolve for two cases, /i.e./ either
+$Y^{\prime}$ is larger than $Y$ or otherwise.  In case
+of former, $Y^\prime \setminus Y$ would include the set
+of substitutions as well as insertions.  In case of
+latter, $Y^\prime \setminus Y$ would include the set of
+substitutions only; hence, the additional term of
+difference in size is added to account for the number
+of deletions.
+
+The denominator is a normalisation factor.

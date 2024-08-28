@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-21 Wed 03:41 -->
+<!-- 2024-08-28 Wed 10:33 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Jasper</title>
@@ -459,7 +459,11 @@ R., Kuchaiev, O., Cohen, J. M., Nguyen, H., …</dd>
 <li><a href="#sec:technology">Technology</a></li>
 </ul>
 </li>
-<li><a href="#sec:contribution">Contribution</a></li>
+<li><a href="#sec:contribution">Contribution</a>
+<ul>
+<li><a href="#sec:jasper-model">Jasper Model</a></li>
+</ul>
+</li>
 <li><a href="#sec:appendix">Appendix</a>
 <ul>
 <li><a href="#sec:covariate-shift">Covariate Shift</a></li>
@@ -472,6 +476,7 @@ R., Kuchaiev, O., Cohen, J. M., Nguyen, H., …</dd>
 <li><a href="#sec:gating-history">Gating History</a></li>
 <li><a href="#sec:gated-linear-unit">Gated Linear Unit</a></li>
 <li><a href="#sec:gated-activation-unit">Gated Activation Unit</a></li>
+<li><a href="#sec:word-error-rate">Word Error Rate</a></li>
 </ul>
 </li>
 </ul>
@@ -500,9 +505,10 @@ R., Kuchaiev, O., Cohen, J. M., Nguyen, H., …</dd>
 <div class="outline-text-3" id="text-sec:ideas-and-strategy">
 <ul class="org-ul">
 <li><a href="../time-delay-networks/">Time-delay Networks (TDNN)</a> <a href="https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf">[PDF]​</a></li>
-<li><a href="https://dl.acm.org/doi/abs/10.1145/1143844.1143891">Connectionist Temporal Classification (CTC) ICML ’06</a></li>
+<li><a href="../ctc/">Connectionist Temporal Classification (CTC) ICML ’06</a>
+<a href="https://dl.acm.org/doi/abs/10.1145/1143844.1143891">[ACM]​</a></li>
 <li><a href="https://arxiv.org/abs/1609.03193">Wav2Letter (ICLR '17)</a></li>
-<li><a href="https://arxiv.org/abs/1712.09444">Gated Convnets (for ASR)</a></li>
+<li><a href="#sec:gated-activation-unit">Gated Convnets (for ASR)</a> <a href="https://arxiv.org/abs/1712.09444">[arXiv]​</a></li>
 </ul>
 </div>
 </div>
@@ -541,7 +547,171 @@ non-convergence;</li>
 <li>WER improvement on LibriSpeech test-clean.</li>
 </ul>
 </div>
+
+<div id="outline-container-sec:jasper-model" class="outline-3">
+<h3 id="sec:jasper-model">Jasper Model</h3>
+<div class="outline-text-3" id="text-sec:jasper-model">
+<p>
+All figures and tables repeated here from the paper
+[LLGL+19].
+</p>
+
+<p>
+Model search across
+</p>
+<dl class="org-dl">
+<dt>3 types of normalisation</dt><dd><a href="#sec:batch-norm">Batch Norm</a>, <a href="#sec:weight-norm">Weight Norm</a>,
+<a href="#sec:layer-norm">Layer Norm</a>;</dd>
+<dt>3 types of activations</dt><dd><a href="#sec:rectifier-activation">ReLU, clipped ReLU, Leaky
+ReLU</a>;</dd>
+<dt>2 types of Gates</dt><dd><a href="#sec:gated-linear-unit">Gated Linear Units</a>, <a href="#sec:gated-activation-unit">Gated Activation Units</a>;</dd>
+<dt>Architecture</dt><dd><a href="#sec:jasper-b-times-r-architecture">\(B\times R\) parameterisation</a>, <a href="#sec:jasper-dense-residual-architecture">Dense
+Residual</a>.</dd>
+</dl>
 </div>
+
+
+
+<div id="outline-container-sec:jasper-b-times-r-architecture" class="outline-4">
+<h4 id="sec:jasper-b-times-r-architecture">Jasper \(B\times R\) Architecture</h4>
+<div class="outline-text-4" id="text-sec:jasper-b-times-r-architecture">
+
+<div id="org9d2d68a" class="figure">
+<p><img src="org-download-images/Contribution/2024-08-28_07-44-17_screenshot.png" alt="2024-08-28_07-44-17_screenshot.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Jasper \(B\times R\) model: \(B\): number of blocks; \(R\): number of sub-blocks.</p>
+</div>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Jasper \(10\times 5\)</caption>
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">#B</th>
+<th scope="col" class="org-right">#S</th>
+<th scope="col" class="org-left">B</th>
+<th scope="col" class="org-right">K</th>
+<th scope="col" class="org-right">#C (out)</th>
+<th scope="col" class="org-right">Dropout</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-left">Conv1</td>
+<td class="org-right">11 (s=2)</td>
+<td class="org-right">256</td>
+<td class="org-right">0.2</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">5</td>
+<td class="org-left">B1</td>
+<td class="org-right">11</td>
+<td class="org-right">256</td>
+<td class="org-right">0.2</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">5</td>
+<td class="org-left">B2</td>
+<td class="org-right">13</td>
+<td class="org-right">384</td>
+<td class="org-right">0.2</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">5</td>
+<td class="org-left">B3</td>
+<td class="org-right">17</td>
+<td class="org-right">512</td>
+<td class="org-right">0.2</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">5</td>
+<td class="org-left">B4</td>
+<td class="org-right">21</td>
+<td class="org-right">640</td>
+<td class="org-right">0.3</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">5</td>
+<td class="org-left">B5</td>
+<td class="org-right">25</td>
+<td class="org-right">768</td>
+<td class="org-right">0.3</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-left">Conv2</td>
+<td class="org-right">29 (D=2)</td>
+<td class="org-right">896</td>
+<td class="org-right">0.4</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-left">Conv3</td>
+<td class="org-right">1</td>
+<td class="org-right">1024</td>
+<td class="org-right">0.4</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-left">Conv4</td>
+<td class="org-right">1</td>
+<td class="org-right">#graphemes</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-sec:jasper-dense-residual-architecture" class="outline-4">
+<h4 id="sec:jasper-dense-residual-architecture">Jasper Dense Residual Architecture</h4>
+<div class="outline-text-4" id="text-sec:jasper-dense-residual-architecture">
+
+<div id="orgb8cad8f" class="figure">
+<p><img src="org-download-images/Contribution/2024-08-28_07-46-36_screenshot.png" alt="2024-08-28_07-46-36_screenshot.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Jasper Dense Residual Model</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 
 <div id="outline-container-sec:appendix" class="outline-2">
 <h2 id="sec:appendix">Appendix</h2>
@@ -569,10 +739,10 @@ highly correlated way. <br />
 <h3 id="sec:batch-norm">Batch Norm</h3>
 <div class="outline-text-3" id="text-sec:batch-norm">
 
-<div id="org7cbaf0e" class="figure">
+<div id="org1ffe830" class="figure">
 <p><img src="org-download-images/Appendix/2024-08-20_00-59-14_screenshot.png" alt="2024-08-20_00-59-14_screenshot.png" style="width:23rem" />
 </p>
-<p><span class="figure-number">Figure 1: </span>Courtesy: <a href="https://arxiv.org/abs/1502.03167">Batch Norm Paper</a></p>
+<p><span class="figure-number">Figure 3: </span>Courtesy: <a href="https://arxiv.org/abs/1502.03167">Batch Norm Paper</a></p>
 </div>
 </div>
 </div>
@@ -629,7 +799,7 @@ where, \(s\) is a log-scale learnable scalar parameter.
 </p>
 
 <p>
-For more intuition, please see \(\S 2.1\) and \(\S 2.2\) of
+For more details, please see \(\S 2.1\) and \(\S 2.2\) of
 the <a href="http://arxiv.org/abs/1602.07868">weight norm paper</a>.
 </p>
 </div>
@@ -708,10 +878,10 @@ follows:
 
 
 
-<div id="org255c145" class="figure">
+<div id="org2684e46" class="figure">
 <p><img src="org-download-images/Appendix/2024-08-20_03-20-24_screenshot.png" alt="2024-08-20_03-20-24_screenshot.png" />
 </p>
-<p><span class="figure-number">Figure 2: </span>Courtesy: <a href="http://arxiv.org/abs/1607.06450">Layer Norm Paper</a></p>
+<p><span class="figure-number">Figure 4: </span>Courtesy: <a href="http://arxiv.org/abs/1607.06450">Layer Norm Paper</a></p>
 </div>
 </div>
 </div>
@@ -730,10 +900,10 @@ follows:
 \end{align}
 
 
-<div id="org125ac30" class="figure">
+<div id="org8ececf2" class="figure">
 <p><img src="image/Error_Function.svg" alt="Error_Function.svg" class="org-svg" style="width:25em" />
 </p>
-<p><span class="figure-number">Figure 3: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Error_function#/media/File:Error_Function.svg">Wikipedia</a></p>
+<p><span class="figure-number">Figure 5: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Error_function#/media/File:Error_Function.svg">Wikipedia</a></p>
 </div>
 </div>
 </div>
@@ -750,10 +920,10 @@ follows:
 \end{align}
 
 
-<div id="org34fc302" class="figure">
+<div id="orgc37cbde" class="figure">
 <p><img src="image/Logistic-curve.svg" alt="Logistic-curve.svg" class="org-svg" style="width:25em" />
 </p>
-<p><span class="figure-number">Figure 4: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Logistic-curve.svg">Wikipedia</a></p>
+<p><span class="figure-number">Figure 6: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Logistic-curve.svg">Wikipedia</a></p>
 </div>
 </div>
 </div>
@@ -762,10 +932,10 @@ follows:
 <h4 id="sec:other-sigmoidal-functions">Other Sigmoidal Functions</h4>
 <div class="outline-text-4" id="text-sec:other-sigmoidal-functions">
 
-<div id="org76f81ec" class="figure">
+<div id="orgb21521b" class="figure">
 <p><img src="image/sigmoid-comparison.svg" alt="sigmoid-comparison.svg" class="org-svg" />
 </p>
-<p><span class="figure-number">Figure 5: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Gjl-t(x).svg">Wikipedia</a></p>
+<p><span class="figure-number">Figure 7: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Gjl-t(x).svg">Wikipedia</a></p>
 </div>
 
 <dl class="org-dl">
@@ -810,10 +980,10 @@ follows:
 <h3 id="sec:rectifier-activation">Rectifier Activation</h3>
 <div class="outline-text-3" id="text-sec:rectifier-activation">
 
-<div id="orgf7a11a1" class="figure">
+<div id="org426aa0b" class="figure">
 <p><img src="image/rectifier.svg" alt="rectifier.svg" class="org-svg" style="width:15em" />
 </p>
-<p><span class="figure-number">Figure 6: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#/media/File:ReLU_and_GELU.svg">Wikipedia</a></p>
+<p><span class="figure-number">Figure 8: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#/media/File:ReLU_and_GELU.svg">Wikipedia</a></p>
 </div>
 
 <dl class="org-dl">
@@ -831,7 +1001,7 @@ follows:
   \mathrm{cReLU}(x;a) &= \max(0,\min(a,x))
 \end{align}
 <p>
-<i>e.g.</i> <a href="https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#relu6">ReLU6 in Pytorch</a>
+<i>e.g.</i> ReLU6 in <a href="https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#relu6">[Pytorch]​</a>, <a href="https://keras.io/api/layers/activations/#relu6-function">[Keras]​</a>
 </p></dd>
 
 <dt>Parametric and Leaky ReLU</dt><dd>\begin{align}
@@ -1080,10 +1250,68 @@ hyperbolic tangent gate and sigmoid activation.
 </p>
 </div>
 </div>
+
+<div id="outline-container-sec:word-error-rate" class="outline-3">
+<h3 id="sec:word-error-rate">Word Error Rate</h3>
+<div class="outline-text-3" id="text-sec:word-error-rate">
+<p>
+Word Error Rate is inspired by “word recognition”
+accuracy measure in <i>cognitive psychology</i>, which is
+“the ability of a reader to recognize written words
+correctly and virtually effortlessly.”
+</p>
+
+<p>
+The experiments generally test the ability to recognise
+“isolated words,” without additional contextual
+information.  (<i>Trivia</i>: testing whose ability, the
+reader’s or the model’s?)
+</p>
+
+<p>
+WER is a special type of normalised edit distance;
+computed as the normalised number operations required
+to transform reference <i>(target)</i> to hypothesis
+<i>(prediction)</i>.  The set of operations consist of
+substitution, deletion and insertion.
+</p>
+
+<p>
+Formally, if \(Y\) is the reference set and \(Y^{\prime}\)
+is the hypothesis,
+</p>
+
+\begin{align}
+  \notag
+  \mathrm{WER}(Y\to Y^\prime)
+  &= \frac {|Y^\prime \setminus Y| + \left[
+    |Y|-|Y^\prime| \right]_+} {|Y|}
+\end{align}
+
+<p>
+where \(\setminus\) is the set difference operator.
+</p>
+
+<p>
+Intuitively, we resolve for two cases, <i>i.e.</i> either
+\(Y^{\prime}\) is larger than \(Y\) or otherwise.  In case
+of former, \(Y^\prime \setminus Y\) would include the set
+of substitutions as well as insertions.  In case of
+latter, \(Y^\prime \setminus Y\) would include the set of
+substitutions only; hence, the additional term of
+difference in size is added to account for the number
+of deletions.
+</p>
+
+<p>
+The denominator is a normalisation factor.
+</p>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-21 Wed 03:41</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-28 Wed 10:33</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
