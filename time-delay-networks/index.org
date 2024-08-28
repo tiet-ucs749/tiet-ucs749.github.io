@@ -117,10 +117,10 @@ Let
 | $\mathbf{x}\in\mathbb{X}\subseteq\mathbb{R}^{C\times T}$    | be input vector; $C=16$ being number of channels; and $T$ being temporal resolution.                                                                                                                         |
 | $\Phi(\;\cdot;\theta):\mathbb{X}\to\mathbb{R}^{K\times T'}$ | be 1-D convolutional neural network, with its output being a $T'$ long sequence of $K$ dimensional vector, representing word probabilities; $K$ being the vocabulary size and $\theta$ being network params. |
 | $\boldsymbol{1}_{k}:\mathbb{Z}_{\geqslant0}\to\mathbb{R}^{k}$ | be whole number to one-hot vector converter                                                                                                                                                                  |
-| $\mathrm{avg}$                                              | be the average pooling operator.                                                                                                                                                                             |
 | $\parallel\,\cdot\,\parallel_{p,\mathrm{row}}$              | be an operator that computes $L_{p}$ norm for each row vector in the tensor, defined here for mathematical convenience.                                                                                      |
 | $\mathbf{x}^{\otimes n}$                                    | be element-wise exponentiation operation, defined here for mathematical convenience.                                                                                                                         |
 | $\Delta_{E}$                                                | be Euclidean distance between two vectors.                                                                                                                                                                   |
+# | $\mathrm{avg}$                                              | be the average pooling operator.                                                                                                                                                                             |
 
 \begin{align}
   \notag \theta_*
@@ -128,12 +128,25 @@ Let
     \sim\text{data}} {\mathbb{E}} \left[ \Delta(y,
     f(\mathbf{x};\theta)) \right] \\
   \notag f(\mathbf{x};\theta)
-  &= \mathrm{avg} \circ \left\| \Phi(\mathbf{x};
+  &= \left\| \Phi(\mathbf{x};
     \theta) \right\|_{2,\mathrm{row}}^2 \\
   \notag \Delta(y, \widetilde{\mathbf{y}})
   &= \Delta_E \left(\boldsymbol{1}_K(y),
     \widetilde{\mathbf{y}} \right)
 \end{align}
+
+# \begin{align}
+#   \notag \theta_*
+#   &= \arg \min_{\theta} \underset {y,\mathbf{x}
+#     \sim\text{data}} {\mathbb{E}} \left[ \Delta(y,
+#     f(\mathbf{x};\theta)) \right] \\
+#   \notag f(\mathbf{x};\theta)
+#   &= \mathrm{avg} \circ \left\| \Phi(\mathbf{x};
+#     \theta) \right\|_{2,\mathrm{row}}^2 \\
+#   \notag \Delta(y, \widetilde{\mathbf{y}})
+#   &= \Delta_E \left(\boldsymbol{1}_K(y),
+#     \widetilde{\mathbf{y}} \right)
+# \end{align}
 
 
 

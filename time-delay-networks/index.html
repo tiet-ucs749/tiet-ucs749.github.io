@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-21 Wed 12:05 -->
+<!-- 2024-08-28 Wed 09:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>A time-delay neural network architecture for isolated word recognition</title>
@@ -558,11 +558,6 @@ Let
 </tr>
 
 <tr>
-<td class="org-left">\(\mathrm{avg}\)</td>
-<td class="org-left">be the average pooling operator.</td>
-</tr>
-
-<tr>
 <td class="org-left">\(\parallel\,\cdot\,\parallel_{p,\mathrm{row}}\)</td>
 <td class="org-left">be an operator that computes \(L_{p}\) norm for each row vector in the tensor, defined here for mathematical convenience.</td>
 </tr>
@@ -585,7 +580,7 @@ Let
     \sim\text{data}} {\mathbb{E}} \left[ \Delta(y,
     f(\mathbf{x};\theta)) \right] \\
   \notag f(\mathbf{x};\theta)
-  &= \mathrm{avg} \circ \left\| \Phi(\mathbf{x};
+  &= \left\| \Phi(\mathbf{x};
     \theta) \right\|_{2,\mathrm{row}}^2 \\
   \notag \Delta(y, \widetilde{\mathbf{y}})
   &= \Delta_E \left(\boldsymbol{1}_K(y),
@@ -692,7 +687,7 @@ the acoustic signal, and all of the machines include
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-21 Wed 12:05</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-28 Wed 09:23</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
