@@ -135,6 +135,8 @@ Let
     \widetilde{\mathbf{y}} \right)
 \end{align}
 
+Update 2024-08-28[fn:1].
+
 # \begin{align}
 #   \notag \theta_*
 #   &= \arg \min_{\theta} \underset {y,\mathbf{x}
@@ -239,3 +241,13 @@ include *self-loops* to model steady-state portions of
 the acoustic signal, and all of the machines include
 _null transitions_ to model short durations.
 #+end_quote
+
+* Footnotes
+
+[fn:1] /(Update 2024-08-28)/ Remove redundant average
+pooling operator, (earlier $f(\mathbf{x};\theta) =
+\mathrm{avg} \circ \left\| \Phi(\mathbf{x}; \theta)
+\right\|_{2,\mathrm{row}}^2$).  The Frobenius norm at
+row level, effectively defines the sum-squares pooling,
+as in the TDNN paper.  Thus the vague average pooling
+operator is eliminated.
