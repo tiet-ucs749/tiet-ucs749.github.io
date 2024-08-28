@@ -4253,3 +4253,15 @@ span.underline {
 tbody, tr, td {
   vertical-align: inherit
 }
+
+/* Footnotes */
+#text-footnotes { 
+  font-size: smaller
+}
+.footdef {
+  margin: 1em auto
+}
+.footpara {
+  display: inline;
+  font-style: italic;
+}
