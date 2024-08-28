@@ -108,8 +108,9 @@
 :CUSTOM_ID: sec:datasets
 :END:
 + [[https://doi.org/10.1109/ICASSP.2015.7178964][LibriSpeech (ICASSP ’15)]]
-+ WSJ
-+ 2000hr Fisher+Switchboard (F+S)
++ WSJ: [[https://doi.org/10.35111/ewkm-cg47][LDC93S6A (WSJ0)]], [[https://doi.org/10.35111/q7sb-vv12][LDC94S13A (WSJ1)]]
++ 2000hr Fisher+Switchboard (F+S): [[https://doi.org/10.35111/da4a-se30][LDC2004S13]],
+  [[https://doi.org/10.35111/dz78-gx84][LDC2005S13]], [[https://doi.org/10.35111/sw3h-rw02][LDC97S62]]
 
 
 ** Ideas and Strategy

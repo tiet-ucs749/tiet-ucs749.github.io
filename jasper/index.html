@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-28 Wed 12:19 -->
+<!-- 2024-08-28 Wed 12:29 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Jasper</title>
@@ -537,8 +537,9 @@ justify your recommendation.</li>
 <div class="outline-text-3" id="text-sec:datasets">
 <ul class="org-ul">
 <li><a href="https://doi.org/10.1109/ICASSP.2015.7178964">LibriSpeech (ICASSP ’15)</a></li>
-<li>WSJ</li>
-<li>2000hr Fisher+Switchboard (F+S)</li>
+<li>WSJ: <a href="https://doi.org/10.35111/ewkm-cg47">LDC93S6A (WSJ0)</a>, <a href="https://doi.org/10.35111/q7sb-vv12">LDC94S13A (WSJ1)</a></li>
+<li>2000hr Fisher+Switchboard (F+S): <a href="https://doi.org/10.35111/da4a-se30">LDC2004S13</a>,
+<a href="https://doi.org/10.35111/dz78-gx84">LDC2005S13</a>, <a href="https://doi.org/10.35111/sw3h-rw02">LDC97S62</a></li>
 </ul>
 </div>
 </div>
@@ -620,7 +621,7 @@ Residual</a>.</dd>
 <h4 id="sec:jasper-b-times-r-architecture">Jasper \(B\times R\) Architecture</h4>
 <div class="outline-text-4" id="text-sec:jasper-b-times-r-architecture">
 
-<div id="org1ffb51b" class="figure">
+<div id="org3a2b725" class="figure">
 <p><img src="org-download-images/Contribution/2024-08-28_07-44-17_screenshot.png" alt="2024-08-28_07-44-17_screenshot.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Jasper \(B\times R\) model: \(B\): number of blocks; \(R\): number of sub-blocks.</p>
@@ -746,7 +747,7 @@ Residual</a>.</dd>
 <h4 id="sec:jasper-dense-residual-architecture">Jasper Dense Residual Architecture</h4>
 <div class="outline-text-4" id="text-sec:jasper-dense-residual-architecture">
 
-<div id="org83ad17e" class="figure">
+<div id="orgb2a4b9c" class="figure">
 <p><img src="org-download-images/Contribution/2024-08-28_07-46-36_screenshot.png" alt="2024-08-28_07-46-36_screenshot.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Jasper Dense Residual Model</p>
@@ -783,7 +784,7 @@ highly correlated way. <br />
 <h3 id="sec:batch-norm">Batch Norm</h3>
 <div class="outline-text-3" id="text-sec:batch-norm">
 
-<div id="org188a70a" class="figure">
+<div id="org78a4a6a" class="figure">
 <p><img src="org-download-images/Appendix/2024-08-20_00-59-14_screenshot.png" alt="2024-08-20_00-59-14_screenshot.png" style="width:23rem" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Courtesy: <a href="https://arxiv.org/abs/1502.03167">Batch Norm Paper</a></p>
@@ -922,7 +923,7 @@ follows:
 
 
 
-<div id="orgac8c459" class="figure">
+<div id="orgd0a3512" class="figure">
 <p><img src="org-download-images/Appendix/2024-08-20_03-20-24_screenshot.png" alt="2024-08-20_03-20-24_screenshot.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>Courtesy: <a href="http://arxiv.org/abs/1607.06450">Layer Norm Paper</a></p>
@@ -944,7 +945,7 @@ follows:
 \end{align}
 
 
-<div id="org51ec6f6" class="figure">
+<div id="orga9afee2" class="figure">
 <p><img src="image/Error_Function.svg" alt="Error_Function.svg" class="org-svg" style="width:25em" />
 </p>
 <p><span class="figure-number">Figure 5: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Error_function#/media/File:Error_Function.svg">Wikipedia</a></p>
@@ -964,7 +965,7 @@ follows:
 \end{align}
 
 
-<div id="orgff8a303" class="figure">
+<div id="org2ffc2d9" class="figure">
 <p><img src="image/Logistic-curve.svg" alt="Logistic-curve.svg" class="org-svg" style="width:25em" />
 </p>
 <p><span class="figure-number">Figure 6: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Logistic-curve.svg">Wikipedia</a></p>
@@ -976,7 +977,7 @@ follows:
 <h4 id="sec:other-sigmoidal-functions">Other Sigmoidal Functions</h4>
 <div class="outline-text-4" id="text-sec:other-sigmoidal-functions">
 
-<div id="orgf153a60" class="figure">
+<div id="orgbf4f61c" class="figure">
 <p><img src="image/sigmoid-comparison.svg" alt="sigmoid-comparison.svg" class="org-svg" />
 </p>
 <p><span class="figure-number">Figure 7: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Gjl-t(x).svg">Wikipedia</a></p>
@@ -1024,7 +1025,7 @@ follows:
 <h3 id="sec:rectifier-activation">Rectifier Activation</h3>
 <div class="outline-text-3" id="text-sec:rectifier-activation">
 
-<div id="org0dc84b2" class="figure">
+<div id="orgd9dcc9b" class="figure">
 <p><img src="image/rectifier.svg" alt="rectifier.svg" class="org-svg" style="width:15em" />
 </p>
 <p><span class="figure-number">Figure 8: </span>Image Courtesy: <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)#/media/File:ReLU_and_GELU.svg">Wikipedia</a></p>
@@ -1355,7 +1356,7 @@ The denominator is a normalisation factor.
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Updated <strong>2024-08-28 Wed 12:19</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Updated <strong>2024-08-28 Wed 12:29</strong></p><p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
