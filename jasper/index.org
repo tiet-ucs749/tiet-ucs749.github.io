@@ -61,9 +61,9 @@
 
 #+toc: headlines 2
 
-* Exercises
+* Exercise
 :PROPERTIES:
-:CUSTOM_ID: sec:exercises
+:CUSTOM_ID: sec:exercise
 :END:
 
 1. If the following equation describes the jasper
