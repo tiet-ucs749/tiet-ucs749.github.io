@@ -137,7 +137,7 @@
   + [[https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition][QuartzNet]],
   + [[https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non][Citrinet]]
 + Speech Command Recognition :: [[https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1][MatchboxNet]]
-  ([[https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py][Implementation]])
+  ([[https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py][Implementation]]) ([[https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/Speech_Commands.ipynb][Colab]])
 
 ** Synthesis (Text-to-Speech; TTS)
 :PROPERTIES:
