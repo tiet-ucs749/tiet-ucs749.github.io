@@ -1,0 +1,102 @@
+# -*- org-image-actual-width: (64 128 256 512); openwith-associations: (("\.pdf\'" "evince" (file))); -*-
+#+OPTIONS: num:nil html-postamble:t html-style:nil toc:nil
+#+title: About Quiz
+#+DATE: [2024-09-07 Sat]
+#+AUTHOR: Raghav B. Venkataramaiyer
+# #+AUTHOR: B.V. Raghav, Subham Kumar, Vinay P. Namboodiri
+#+EMAIL: bv.raghav@thapar.edu
+# #+EMAIL: bvraghav@iitk.ac.in, subhamkr@iitk.ac.in, vinaypn@iitk.ac.in
+#+LANGUAGE: en
+
+#+HTML_HEAD: <meta name="keywords" content="speech processing">
+
+#+HTML_HEAD: <meta name="description" content="Initial notes for 
+#+HTML_HEAD:   Course UCS749 Speech Synthesis and Processing">
+
+#+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1">
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/css/dhiw.css" />
+#+HTML_HEAD: <link rel="shortcut icon" type="image/png"
+#+HTML_HEAD:   href="https://www.gravatar.com/avatar/034c3feded7a09f8a5c481a2bd35d676.png?s=16" />
+
+#+HTML_HEAD: <style>
+#+HTML_HEAD: .iframe-container {
+#+HTML_HEAD:   overflow: hidden;
+#+HTML_HEAD:   /* Calculated from the aspect ratio of the content (in case of 16:9 it is 9/16= 0.5625) */
+#+HTML_HEAD:   padding-top: 56.25%;
+#+HTML_HEAD:   position: relative;
+#+HTML_HEAD:   margin-bottom: 1em;
+#+HTML_HEAD: }
+#+HTML_HEAD:  
+#+HTML_HEAD: .iframe-container iframe {
+#+HTML_HEAD:    border: 0;
+#+HTML_HEAD:    height: 100%;
+#+HTML_HEAD:    left: 0;
+#+HTML_HEAD:    position: absolute;
+#+HTML_HEAD:    top: 0;
+#+HTML_HEAD:    width: 100%;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+
+#+HTML_HEAD: <style type="text/css">
+#+HTML_HEAD:  ol.alpha { list-style-type: lower-alpha; }
+#+HTML_HEAD: </style>
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+MACRO: cnc {{{sc(cnc)}}}
+
+* Quiz Registration
+
+Due to a system update in progress, there are multiple
+sources of truth about the group tagging.  In order to
+avoid confusion, the candidates are required to
+register for your quiz as per respective groups.
+
+Click here to register for quiz using your Name, Email
+(=@thapar.edu=), Roll No. and Group.
+
+* Sample Quiz Question
+
+Given the dimensionality =d= of inputs, a sequence =H=
+of channel size for each hidden layer, and number of
+classes =C=, define a function to
++ Take as argument a vector of raw inputs =x=;
++ Define a neural network classifier with =d= input
+  channels, =len(H)= hidden layers, each subsequent
+  layer bearing =[h1,h2,...]= channels finally
+  resulting in =C= logits corresponding to each class;
++ Activate each intermediate layer with $\tanh$
+  activation; and
++ Return the logits.
+
+The function shall be tested for consistency,
+correctness and efficiency as applicable.
+
+Use PyTorch/Tensorflow for implementation.  Use of
+internet resources is dicouraged in the interest of
+time, though not prohibited.
+
+* Before Attempting your Quiz
+
+** Init your Colab Sheet
+1. Open [[https://colab.google.com/][Google Colab]] using =@thapar.edu= account.
+2. Create a “New Notebook in Drive.”
+3. Rename it =<ROLLNO>-<NAME>.ipynb=, and remove any
+   whitespace within /e.g./ =102938478-BvRaghav.ipynb=
+4. Prepend a new “text” block with content as follows: \\
+   #+begin_example
+     Name:  
+     Email: @thapar.edu  
+     Roll No:  
+     Group:  
+   #+end_example
+   *PS:* Each line ends with a double space (meaning
+   line-break in markdown.)
+5. Fill in candidate details.
+6. Add another “text” block.  Create heading =##
+   Question=.
+
+** Setup a Git Repo
+
+
