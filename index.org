@@ -76,12 +76,12 @@
 
 |            | Date            |  MM |
 |------------+-----------------+-----|
-| MST        | TBA             |  25 |
-| EST        | TBA             |  35 |
+| MST        | TBA             |  30 |
+| EST        | TBA             |  40 |
 | Quiz 1     | 12-Sep 05:30pm  |   5 |
 | Quiz 2     | 21-Nov 05:30pm  |   5 |
 | Lab Eval 1 | 9-Sep–13-Sep    |  10 |
-| Lab Eval 2 | 18-Nov–22-Nov   |  20 |
+| Lab Eval 2 | 18-Nov–22-Nov   |  10 |
 |------------+-----------------+-----|
 |            |                 | 100 |
 #+TBLFM: @8$3=vsum(@I..II)
