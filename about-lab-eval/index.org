@@ -116,10 +116,10 @@ relieve yourself of the burden during the event.
      option while saving.
    + *PS:* The authorisation may be revoked anytime
      after the eval.
-5. The last step should automatically be redirected to
-   the latest version of this notebook, henceforth
-   referred to as /NB/, on your GitHub Repo.  Click on
-   badge /“Open in Colab.”/
+5. The last step should automatically redirect to the
+   latest version of this notebook, henceforth referred
+   to as /NB/, on your GitHub Repo.  Click on badge
+   /“Open in Colab.”/
    + If the badge does not show up, copy URL from the
      browser’s URL-bar, and [[https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb#scrollTo=Loading_Private_Notebooks][load your private notebook]].
 6. Edit your response in /NB/.
