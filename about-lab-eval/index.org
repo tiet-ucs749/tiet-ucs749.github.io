@@ -73,9 +73,9 @@ Remember:
 :END:
 
 
-Due to a system update in progress, the candidates are
-required to [[https://docs.google.com/forms/d/e/1FAIpQLSc-H8QJBi-mwXsj7So3xqWmSC4aS-6eMI90ZNZXeEup6Wj1Rg/viewform?usp=sf_link][register for Lab Eval]] using your Name,
-Email (=@thapar.edu=), Roll No. and Group.
+[[Https://docs.google.com/forms/d/e/1FAIpQLSc-H8QJBi-mwXsj7So3xqWmSC4aS-6eMI90ZNZXeEup6Wj1Rg/viewform?usp=sf_link][Register for Lab Eval]] using your Name, Email
+(=@thapar.edu=), Roll No., Group and Viva-voce time
+preference.
 
 * Procedure
 :PROPERTIES:
