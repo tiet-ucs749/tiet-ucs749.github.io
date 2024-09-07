@@ -87,6 +87,12 @@
 #+TBLFM: @8$3=vsum(@I..II)
 
 
+* About Lab Eval
+All exercise(s) shall be solved in (Colab) python
+notebook(s), committed to Github using @thapar.edu
+account.  Only a Github Repo link and commit id shall
+be submit using the Google Form. Any attachments are
+*not* allowed.  [[./about-lab-eval/][[Read more…]​]]
 * Schedule of topics
 :PROPERTIES:
 :CUSTOM_ID: schedule-of-topics

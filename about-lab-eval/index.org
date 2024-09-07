@@ -1,6 +1,7 @@
 # -*- org-image-actual-width: (64 128 256 512); openwith-associations: (("\.pdf\'" "evince" (file))); -*-
 #+OPTIONS: num:nil html-postamble:t html-style:nil toc:nil
-#+title: About Lab Eval
+#+title: About Lab Eval 
+#+subtitle: conversational ai: speech processing and synthesis
 #+DATE: [2024-09-07 Sat]
 #+AUTHOR: Raghav B. Venkataramaiyer
 # #+AUTHOR: B.V. Raghav, Subham Kumar, Vinay P. Namboodiri
@@ -46,17 +47,107 @@
 
 #+MACRO: cnc {{{sc(cnc)}}}
 
+A candidate’s competence in practical programming
+skills on the subject shall be evaluated on the given
+date.  The procedure is simple,
++ [[#sec:setup-a-git-repo][Create a git repo]];
++ [[#sec:init-your-notebook][Init Colab Notebook]];
++ [[#sec:problem-solution][Solve the given problem]]; and
++ Commit back to repo;
++ Submit the Repo URL and Commit ID to [[https://docs.google.com/forms/d/e/1FAIpQLSc2aAG33E0rQgs3OsrpyjyREwy9OKK_WnKqmBLvD7pzM4sOvg/viewform?usp=sf_link][the Form]].
++ The eval is a timed exercise.  Mind your time
+  accordingly.
++ *PS:* The form allows edits.
+
+Remember:
+1. All exercise(s) shall be solved in (Colab) python
+   notebook(s), committed to Github using =@thapar.edu=
+   account.
+2. Only a Github Repo link and commit id shall be
+   submit using [[https://docs.google.com/forms/d/e/1FAIpQLSc2aAG33E0rQgs3OsrpyjyREwy9OKK_WnKqmBLvD7pzM4sOvg/viewform?usp=sf_link][the Google Form]].  Any attachments are
+   *not* allowed.
+
 * Lab Eval Registration
+:PROPERTIES:
+:CUSTOM_ID: sec:lab-eval-registration
+:END:
 
-Due to a system update in progress, there are multiple
-sources of truth about the group tagging.  In order to
-avoid confusion, the candidates are required to
-register for Lab Eval as per respective groups.
 
-Click here to register for Lab Eval using your Name, Email
-(=@thapar.edu=), Roll No. and Group.
+Due to a system update in progress, the candidates are
+required to [[https://docs.google.com/forms/d/e/1FAIpQLSc-H8QJBi-mwXsj7So3xqWmSC4aS-6eMI90ZNZXeEup6Wj1Rg/viewform?usp=sf_link][register for Lab Eval]] using your Name,
+Email (=@thapar.edu=), Roll No. and Group.
+
+* Procedure
+:PROPERTIES:
+:CUSTOM_ID: sec:procedure
+:END:
+
+Practice using Colab with Github, as follows, so as to
+relieve yourself of the burden during the event.
+
+
+** Setup a Git Repo
+:PROPERTIES:
+:CUSTOM_ID: sec:setup-a-git-repo
+:END:
+
+1. Login to [[https://github.com/login][Github]], using =@thapar.edu= account.
+2. Create a new repo named =<ROLLNO>-SESS_LE1=, /e.g./
+   =102938478-SESS_LE1=; so that the link
+   =https://github.com/<USER>/<ROLLNO>-SESS_LE1= is a
+   valid Github Repo.  The repo may be private to avoid 
+3. Grant read access to your instructor(s), namely
+   =bv.raghav@thapar.edu=.
+
+** Init your notebook
+:PROPERTIES:
+:CUSTOM_ID: sec:init-your-notebook
+:END:
+
+1. Open [[https://colab.research.google.com/github/tiet-ucs749/tiet-ucs749.github.io/blob/main/about-lab-eval/102xxxxxx_BvRaghav.ipynb][this colab]].
+2. Login using =@thapar.edu= account.
+3. Rename the file as =<ROLLNO>-<NAME>.ipynb=, and
+   remove any whitespace within /e.g./
+   =102938478-BvRaghav.ipynb=
+4. Commit it to the root folder of your repository,
+   using /“Save a copy in GitHub.”/ [[https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb#scrollTo=Saving_Notebooks_To_GitHub_or_Drive][[Read more…]​]]
+   + The app will ask for authorisation.
+   + Remember to check the /“Include a link to Colab”/
+     option while saving.
+   + *PS:* The authorisation may be revoked anytime
+     after the eval.
+5. The last step should automatically be redirected to
+   the latest version of this notebook, henceforth
+   referred to as /NB/, on your GitHub Repo.  Click on
+   badge /“Open in Colab.”/
+   + If the badge does not show up, copy URL from the
+     browser’s URL-bar, and [[https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb#scrollTo=Loading_Private_Notebooks][load your private notebook]].
+6. Edit your response in /NB/.
+7. To commit again, /“Save a copy in GitHub”/ from
+   within /NB/.
+
+** Problem/Solution
+:PROPERTIES:
+:CUSTOM_ID: sec:problem-solution
+:END:
+
+On the day of eval, the candidate will be assigned a
+question (/e.g./ the sample question further in the
+document).
+
+1. Copy-paste the question verbatim into the =##
+   Question= text block of the /NB/.  *PS:* Keep the
+   heading intact.
+2. Write the code.
+3. Commit using /“Save a copy in GitHub”/ from within
+   /NB/.
+4. Submit your response as your Github Link and Git
+   Commit into this [[https://docs.google.com/forms/d/e/1FAIpQLSc2aAG33E0rQgs3OsrpyjyREwy9OKK_WnKqmBLvD7pzM4sOvg/viewform?usp=sf_link][Response Form]].
 
 * Sample Lab Eval Question
+:PROPERTIES:
+:CUSTOM_ID: sec:sample-lab-eval-question
+:END:
 
 Given the dimensionality =d= of inputs, a sequence =H=
 of channel size for each hidden layer, and number of
@@ -73,33 +164,10 @@ classes =C=, define a function to
 The function shall be tested for consistency,
 correctness and efficiency as applicable.
 
+In all cases the input will be in batches, where
+batch-size is controlled by the end-user.
+
 Use PyTorch/Tensorflow for implementation.  Use of
 internet resources is dicouraged in the interest of
 time, though not prohibited.
 
-* Apriori
-
-# ** Init your Colab Sheet
-# 1. Open [[https://colab.google.com/][Google Colab]] using =@thapar.edu= account.
-# 2. Create a “New Notebook in Drive.”
-# 3. Rename it =<ROLLNO>-<NAME>.ipynb=, and remove any
-#    whitespace within /e.g./ =102938478-BvRaghav.ipynb=
-# 4. Prepend a new “text” block with content as follows: \\
-#    #+begin_example
-#      Name:  
-#      Email: @thapar.edu  
-#      Roll No:  
-#      Group:  
-#    #+end_example
-#    *PS:* Each line ends with a double space (meaning
-#    line-break in markdown.)
-# 5. Fill in candidate details.
-# 6. Add another “text” block.  Create heading =##
-#    Question=.
-
-** Setup a Git Repo
-
-1. Login to [[https://github.com/login][Github]], using =@thapar.edu= account.
-2. Create a new repo named
-   =<ROLLNO>-SESS_LE1=, /e.g./ =102938478-SESS_LE1=.
-3. 
