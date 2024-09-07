@@ -1,6 +1,6 @@
 # -*- org-image-actual-width: (64 128 256 512); openwith-associations: (("\.pdf\'" "evince" (file))); -*-
 #+OPTIONS: num:nil html-postamble:t html-style:nil toc:nil
-#+title: About Quiz
+#+title: About Lab Eval
 #+DATE: [2024-09-07 Sat]
 #+AUTHOR: Raghav B. Venkataramaiyer
 # #+AUTHOR: B.V. Raghav, Subham Kumar, Vinay P. Namboodiri
@@ -46,17 +46,17 @@
 
 #+MACRO: cnc {{{sc(cnc)}}}
 
-* Quiz Registration
+* Lab Eval Registration
 
 Due to a system update in progress, there are multiple
 sources of truth about the group tagging.  In order to
 avoid confusion, the candidates are required to
-register for your quiz as per respective groups.
+register for Lab Eval as per respective groups.
 
-Click here to register for quiz using your Name, Email
+Click here to register for Lab Eval using your Name, Email
 (=@thapar.edu=), Roll No. and Group.
 
-* Sample Quiz Question
+* Sample Lab Eval Question
 
 Given the dimensionality =d= of inputs, a sequence =H=
 of channel size for each hidden layer, and number of
@@ -77,26 +77,29 @@ Use PyTorch/Tensorflow for implementation.  Use of
 internet resources is dicouraged in the interest of
 time, though not prohibited.
 
-* Before Attempting your Quiz
+* Apriori
 
-** Init your Colab Sheet
-1. Open [[https://colab.google.com/][Google Colab]] using =@thapar.edu= account.
-2. Create a “New Notebook in Drive.”
-3. Rename it =<ROLLNO>-<NAME>.ipynb=, and remove any
-   whitespace within /e.g./ =102938478-BvRaghav.ipynb=
-4. Prepend a new “text” block with content as follows: \\
-   #+begin_example
-     Name:  
-     Email: @thapar.edu  
-     Roll No:  
-     Group:  
-   #+end_example
-   *PS:* Each line ends with a double space (meaning
-   line-break in markdown.)
-5. Fill in candidate details.
-6. Add another “text” block.  Create heading =##
-   Question=.
+# ** Init your Colab Sheet
+# 1. Open [[https://colab.google.com/][Google Colab]] using =@thapar.edu= account.
+# 2. Create a “New Notebook in Drive.”
+# 3. Rename it =<ROLLNO>-<NAME>.ipynb=, and remove any
+#    whitespace within /e.g./ =102938478-BvRaghav.ipynb=
+# 4. Prepend a new “text” block with content as follows: \\
+#    #+begin_example
+#      Name:  
+#      Email: @thapar.edu  
+#      Roll No:  
+#      Group:  
+#    #+end_example
+#    *PS:* Each line ends with a double space (meaning
+#    line-break in markdown.)
+# 5. Fill in candidate details.
+# 6. Add another “text” block.  Create heading =##
+#    Question=.
 
 ** Setup a Git Repo
 
-
+1. Login to [[https://github.com/login][Github]], using =@thapar.edu= account.
+2. Create a new repo named
+   =<ROLLNO>-SESS_LE1=, /e.g./ =102938478-SESS_LE1=.
+3. 
