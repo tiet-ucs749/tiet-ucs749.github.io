@@ -136,8 +136,9 @@
   + [[./jasper/][Jasper]],
   + [[https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition][QuartzNet]],
   + [[https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non][Citrinet]]
-+ Speech Command Recognition :: [[https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1][MatchboxNet]]
-  ([[https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py][Implementation]]) ([[https://colab.research.google.com/github/tiet-ucs749/tiet-ucs749.github.io/blob/main/matchboxnet/Speech_Commands.ipynb][Colab]])
++ Speech Command Recognition :: MatchboxNet: [[https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1][[PDF]​]]
+  [[https://colab.research.google.com/github/tiet-ucs749/tiet-ucs749.github.io/blob/main/matchboxnet/Speech_Commands.ipynb][[Colab]​]] (Implementation: [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py][here]] and [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/xception.py#L252-L266][here]] [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/xception.py#L252-L266][uses AvgPool
+  after 4 blocks]])
 
 ** Synthesis (Text-to-Speech; TTS)
 :PROPERTIES:

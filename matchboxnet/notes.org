@@ -1,0 +1,22 @@
+* Keyword Spotting Implementation
+** Google Research
+
+=google-research/kws_streaming/models/xception.py=
+
+| Param             | Default |
+|-------------------+---------|
+| cnn1_kernel_sizes |       5 |
+| cnn1_filters      |      32 |
+| stride1           |       2 |
+| stride2           |       2 |
+| stride3           |       2 |
+| stride4           |       2 |
+| cnn2_kernel_sizes |       5 |
+| cnn2_filters      |      32 |
+| cnn3_kernel_sizes |       5 |
+| cnn3_filters      |      32 |
+| cnn4_kernel_sizes |       5 |
+| cnn4_filters      |      32 |
+| dropout           |     0.0 |
+| bn_scale          |       1 |
+| units2            |      64 |
