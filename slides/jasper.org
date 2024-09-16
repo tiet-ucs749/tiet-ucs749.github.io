@@ -1,0 +1,1153 @@
+#+startup: beamer
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+options: H:3 author:nil toc:nil
+#+title: jasper
+#+SUBTITLE: ucs749: speech processing and synthesis
+#+DATE: [2024-08-19 Mon]
+#+AUTHOR: Raghav B. Venkataramaiyer
+#+EMAIL: bv.raghav@thapar.edu
+#+LANGUAGE: en
+
+#+include: preamble.org
+
+#+latex_header: \usepackage{tabularx}
+#+beamer_header: \setbeamercovered{transparent}
+
+#+MACRO: cnc {{{sc(cnc)}}}
+
+* metadata
+
+*** metadata
+- tags :: Interspeech 2019
+- keywords :: Computer Science - Computation and
+  Language, Computer Science - Machine Learning,
+  Computer Science - Sound, Electrical Engineering and
+  Systems Science - Audio and Speech Processing
+- author :: Li, J., Lavrukhin, V., Ginsburg, B., Leary,
+  R., Kuchaiev, O., Cohen, J. M., Nguyen, H., […]
+- url :: [[http://arxiv.org/abs/1904.03288][[arXiv]​]], [[https://paperswithcode.com/paper/jasper-an-end-to-end-convolutional-neural#code][[Papers With Code]​]]
+
+* prior art
+:PROPERTIES:
+:CUSTOM_ID: sec:prior-art
+:END:
+
+*** datasets
+:PROPERTIES:
+:CUSTOM_ID: sec:datasets
+:END:
++ [[https://doi.org/10.1109/ICASSP.2015.7178964][LibriSpeech (ICASSP ’15)]]
++ WSJ: [[https://doi.org/10.35111/ewkm-cg47][LDC93S6A (WSJ0)]], [[https://doi.org/10.35111/q7sb-vv12][LDC94S13A (WSJ1)]]
++ 2000hr Fisher+Switchboard (F+S): [[https://doi.org/10.35111/da4a-se30][LDC2004S13]],
+  [[https://doi.org/10.35111/dz78-gx84][LDC2005S13]], [[https://doi.org/10.35111/sw3h-rw02][LDC97S62]]
+
+
+*** ideas and strategy
+:PROPERTIES:
+:CUSTOM_ID: sec:ideas-and-strategy
+:END:
++ [[../time-delay-networks/][Time-delay Networks (TDNN)]] [[https://www.cs.toronto.edu/~hinton/absps/langTDNN.pdf][[PDF]]]
++ [[../ctc/][Connectionist Temporal Classification (CTC) ICML ’06]]
+  [[https://dl.acm.org/doi/abs/10.1145/1143844.1143891][[ACM]]]
++ [[https://arxiv.org/abs/1609.03193][Wav2Letter (ICLR '17)]]
++ [[#sec:gated-activation-unit][Gated Convnets (for ASR)]] [[https://arxiv.org/abs/1712.09444][[arXiv]]]
+
+*** technology
+:PROPERTIES:
+:CUSTOM_ID: sec:technology
+:END:
++ Normalisation ::
+  + [[#sec:batch-norm][Batch Norm]]; See also:[[https://arxiv.org/abs/1502.03167][[arXiv];]]
+  + [[#sec:weight-norm][Weight Norm]]; See also: [[http://arxiv.org/abs/1602.07868][[arXiv];]]
+  + [[#sec:layer-norm][Layer Norm]]; See also: [[http://arxiv.org/abs/1607.06450][[arXiv];]]
++ Activation ::
+  + [[*Rectifier Activation][ReLU]]
+  + [[*Rectifier Activation][Clipped ReLU]]
+  + [[*Rectifier Activation][Leaky ReLU]]
++ Gated Units ::
+  + [[#sec:gated-linear-unit][Gated Linear Units]]
+  + [[#sec:gated-activation-unit][Gated Activation Units]]
+
+* Contribution
+*** Contribution
+:properties:
+:CUSTOM_ID: sec:contribution
+:END:
++ Jasper Model; and Dense Residual Topology;
++ Evidence-based insights on convergence and
+  non-convergence;
++ NovoGrad Solver (like Adam);
++ WER improvement on LibriSpeech test-clean.
+ 
+*** jasper model
+:PROPERTIES:
+:CUSTOM_ID: sec:jasper-model
+:END:
+
+All figures and tables repeated here from the paper
+[LLGL+19].
+
+Model search across
++ 3 types of normalisation :: [[#sec:batch-norm][Batch Norm]], [[#sec:weight-norm][Weight Norm]],
+  [[#sec:layer-norm][Layer Norm]];
++ 3 types of activations :: [[*Rectifier Activation][ReLU, clipped ReLU, Leaky
+  ReLU]];
++ 2 types of Gates :: [[#sec:gated-linear-unit][Gated Linear Units]], [[#sec:gated-activation-unit][Gated
+  Activation Units]];
++ Architecture :: [[#sec:jasper-b-times-r-architecture][$B\times R$ parameterisation]], [[#sec:jasper-dense-residual-architecture][Dense
+  Residual]].
+
+
+
+*** jasper $B\times R$ architecture
+:PROPERTIES:
+:CUSTOM_ID: sec:jasper-b-times-r-architecture
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.4
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-08-28 07:44:17
+#+caption: Jasper $B\times R$ model: $B$: number of blocks; $R$: number of sub-blocks.
+[[file:org-download-images/Contribution/2024-08-28_07-44-17_screenshot.png]]
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.6
+:END:
+
+#+caption: Jasper $10\times 5$
+|----+----+-------+----------+------------+---------|
+| #B | #S | B     |        K |   #C (out) | Dropout |
+|----+----+-------+----------+------------+---------|
+|  1 |  1 | Conv1 | 11 (s=2) |        256 |     0.2 |
+|----+----+-------+----------+------------+---------|
+|  2 |  5 | B1    |       11 |        256 |     0.2 |
+|  2 |  5 | B2    |       13 |        384 |     0.2 |
+|  2 |  5 | B3    |       17 |        512 |     0.2 |
+|  2 |  5 | B4    |       21 |        640 |     0.3 |
+|  2 |  5 | B5    |       25 |        768 |     0.3 |
+|----+----+-------+----------+------------+---------|
+|  1 |  1 | Conv2 | 29 (D=2) |        896 |     0.4 |
+|  1 |  1 | Conv3 |        1 |       1024 |     0.4 |
+|  1 |  1 | Conv4 |        1 | #graphemes |       0 |
+|----+----+-------+----------+------------+---------|
+
+
+*** fundamental conv block
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.2
+:END:
+
+#+DOWNLOADED: screenshot @ 2024-09-16 22:58:22
+[[file:org-download-images/Contribution/2024-09-16_22-58-22_screenshot.png]]
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.8
+:END:
+
+The fundamental conv block with \\
+Conv $\mapsto$ Batch Norm $\mapsto$ ReLU $\mapsto$
+Dropout \\
+progression
+
+*** jasper block
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.25
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-09-16 23:01:42
+[[file:org-download-images/Contribution/2024-09-16_23-01-42_screenshot.png]]
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.6
+:END:
+
+The fundamental Conv Block (aka Sub-Block) is repeated
+$R$ times, with a residual connection from inputs to
+the final block as in figure, to create a Jasper Block.
+
+*** $B\times R$ again
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+#+DOWNLOADED: screenshot @ 2024-08-28 07:44:17
+file:org-download-images/Contribution/2024-08-28_07-44-17_screenshot.png
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.55
+:END:
+
+The Jasper Block is repeated $B$ times to create the
+$B\times R$ architecture.
+
+*** jasper dense residual architecture
+:PROPERTIES:
+:CUSTOM_ID: sec:jasper-dense-residual-architecture
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-08-28 07:46:36
+#+caption: Jasper Dense Residual Model
+[[file:org-download-images/Contribution/2024-08-28_07-46-36_screenshot.png]]
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.55
+:END:
+
++ The dense residual architecture builds on top of
+  jasper residual architecture; and
++ provides skip connections to the final block from
+  each of the previous blocks.
++ /I.e./ within a block, the final sub-block receives a
+  skip-connection from each of the previous sub-blocks; and
++ on the whole, the final block receives skip
+  connections from each of the previous blocks.
+
+
+* details
+:PROPERTIES:
+:CUSTOM_ID: sec:appendix
+:END:
+
+** Normalisation
+
+*** covariate shift
+:PROPERTIES:
+:CUSTOM_ID: sec:covariate-shift
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+#+begin_quote
+One of the challenges of deep learning is that the
+gradients with respect to the weights in one layer are
+highly dependent on the outputs of the neurons in the
+previous layer especially if these outputs change in a
+highly correlated way. \\
+--- [[http://arxiv.org/abs/1607.06450][Layer Normalisation Paper]]
+#+end_quote
+
+*** batch norm
+:PROPERTIES:
+:CUSTOM_ID: sec:batch-norm
+:END:
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.5
+:END:
+
+#+name: fig:batch-norm
+#+caption: Courtesy: [[https://arxiv.org/abs/1502.03167][Batch Norm Paper]]
+[[file:org-download-images/details/2024-09-16_23-14-37_screenshot.png]]
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.5
+:END:
+
+#+DOWNLOADED: screenshot @ 2024-09-16 23:15:12
+[[file:org-download-images/details/2024-09-16_23-15-12_screenshot.png]]
+
+*** weight norm
+:PROPERTIES:
+:CUSTOM_ID: sec:weight-norm
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.7
+:END:
+
+Each neuron on an artificial neural network may be
+represented as,
+
+\begin{align}
+\notag
+y &= \phi(\mathbf{w}\cdot\mathbf{x}+b)
+\end{align}
+
+where, \\
+$\mathbf{x}$ is $k$ dimensional vector of input
+features, \\
+$\mathbf{w}$ is $k$ dimensional vector of learnable
+weights, \\
+$b$ is a (learnable) scalar bias term, and \\
+$\phi$ denotes element-wise non-linearity.
+
+*** weight norm
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+The *key idea* in weight normalisation is to
+re-parameterise the weight vector, as
+\begin{align}
+  \notag
+  \mathbf{w} &= \frac{g}{\|\mathbf{v}\|} \mathbf{v}
+\end{align}
+so that, \\
+$\mathbf{v}$ is $k$ dimensional vector of learnable
+weights, \\
+$g$ is a learnable scalar parameter, and 
+$\|\mathbf{w}\|=g$, independent of $\mathbf{v}$.
+*** weight norm
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+Instead of working with $g$ directly, we may also use
+an exponential parameterisation for the scale,
+\begin{align}
+  \notag
+  g &= e^s
+\end{align}
+where, $s$ is a log-scale learnable scalar parameter.
+
+For more details, please see $\S 2.1$ and $\S 2.2$ of
+the [[http://arxiv.org/abs/1602.07868][weight norm paper]].
+
+*** layer norm
+:PROPERTIES:
+:CUSTOM_ID: sec:layer-norm
+:END:
+Summarising Batch Norm
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.7
+:END:
+
+The $l^{\text{th}}$ layer in a feed forward neural
+network with inputs $\mathbf{h}^l$ and weight matrix
+$W^{l}$ and non-linear activation $f$, may be written
+as,
+\begin{align}
+  \notag
+  a_i^l &= {\mathbf{w}_{:,i}^l}^\top\mathbf{h}^l
+          \qquad h_i^{l+1} = f(a_i^l+b_i^l) 
+\end{align}
+
+A Batch Norm may be summarised as,
+\begin{align}
+  \notag
+  h_i^{l+1} = f(\hat{a}_i^l+b_i^l)
+  &\qquad
+    \hat{a}_i^l = \frac{g_i^l}{\sigma_i^l} (a_i^l -
+    \mu_i^l) \\
+  \notag
+  \mu_i^l = \underset{\mathbf{x}\sim P(\mathbf{x})}
+  {\mathbb{E}} \left[a_i^l\right]
+  &\qquad
+    \sigma_i^l = \sqrt{\underset{\mathbf{x}\sim
+    P(\mathbf{x})} {\mathbb{E}} \left[\left(a_i^l -
+    \mu_i^l\right)^2\right]}
+\end{align}
+
+*** layer norm
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+A Batch Norm may be summarised as,
+\begin{align}
+  \notag
+  h_i^{l+1} &= f(\hat{a}_i^l+b_i^l) \\
+  \notag
+  \hat{a}_i^l &= \frac{g_i^l}{\sigma_i^l} (a_i^l -
+  \mu_i^l) \\
+  \notag
+  \mu_i^l &= \underset{\mathbf{x}\sim P(\mathbf{x})}
+  {\mathbb{E}} \left[a_i^l\right] \\
+  \notag
+  \sigma_i^l &= \sqrt{\underset{\mathbf{x}\sim
+  P(\mathbf{x})} {\mathbb{E}} \left[\left(a_i^l -
+  \mu_i^l\right)^2\right]}
+\end{align}
+
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.55
+:END:
+
+The authors say,
++ It is typically impractical to [exactly] compute the
+  expectations [in the adjoining eqn's]; since
++ it would require forward passes through the whole
+  training dataset with the current set of weights;
++ Instead, $\mu$ and $\sigma$ are estimated using the
+  empirical samples from the current mini-batch.
+
+*** layer norm
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+In certain cases, the covariate shift is was observed
+to be more profound at layer level by the authors.  The
+authors say,
+
+#+begin_quote
+[\ldots] Notice that changes in the output of one layer
+will tend to cause highly correlated changes in the
+summed inputs to the next layer, especially with ReLU
+units whose outputs can change by a lot.
+#+end_quote
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.55
+:END:
+
+#+begin_quote
+We, thus, compute the layer normalization statistics
+over *all the hidden units* in the same layer as
+follows:
+#+end_quote
+
+\begin{align}
+  \notag
+  \mu_i^l = \mu^l
+  &= \frac1H\sum_{i=1}^{H}a_i^l \\
+  \notag
+  \sigma_i^l = \sigma^l
+  &= \sqrt{ \frac1H \sum_{i=1}^H \left( a_i^l - \mu^l
+    \right)}
+\end{align}
+
+/i.e./ $\mu^{l}$ and $\sigma^{l}$ are same for all
+neurons in the same layer.
+
+*** comparing normalisation mechanisms
+#+DOWNLOADED: screenshot @ 2024-08-20 03:20:24
+#+caption: Courtesy: [[http://arxiv.org/abs/1607.06450][Layer Norm Paper]]
+[[file:org-download-images/Appendix/2024-08-20_03-20-24_screenshot.png]]
+
+** Sigmoid Activation
+:PROPERTIES:
+:CUSTOM_ID: sec:sigmoid-activation
+:END:
+
+*** error function
+:PROPERTIES:
+:CUSTOM_ID: sec:error-function
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.65
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-09-16 22:48:51
+#+caption: Image Courtesy: [[https://commons.wikimedia.org/wiki/File:Error_Function.svg][Wikipedia]]
+[[file:org-download-images/details/2024-09-16_22-48-51_screenshot.png]]
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.35
+:END:
+
+\begin{align}
+  \notag
+  \mathrm{erf}\;z &= \frac2{\sqrt\pi} \int_0^z e^{-t^2}
+                   \mathrm{d}t 
+\end{align}
+
+
+*** sigmoid (logistic Function)
+:PROPERTIES:
+:CUSTOM_ID: sec:sigmoid-logistic-function
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.65
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-09-16 22:50:24
+#+caption: Image Courtesy: [[https://commons.wikimedia.org/wiki/File:Logistic-curve.svg][Wikipedia]]
+[[file:org-download-images/details/2024-09-16_22-50-24_screenshot.png]]
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.35
+:END:
+\begin{align}
+  \notag
+  \sigma(x)
+  &= \frac1{1+e^{-x} } \\
+  \notag
+  &= \frac{e^x}{1+e^x} \\
+  \notag
+  &= 1 - \sigma(-x)
+\end{align}
+
+
+
+*** other sigmoidal Functions
+:PROPERTIES:
+:CUSTOM_ID: sec:other-sigmoidal-functions
+:END:
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.65
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-09-16 22:51:13
+#+caption: Image Courtesy: [[https://commons.wikimedia.org/wiki/File:Gjl-t(x).svg][Wikipedia]]
+[[file:org-download-images/details/2024-09-16_22-51-13_screenshot.png]]
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.35
+:END:
+
+#+attr_beamer: :overlay <only@+>
++ Hyperbolic Tangent
+  \begin{align}
+    \notag
+    \mathrm{tanh}\;x
+    &= \frac {e^x - e^{-x}}{e^x + e^{-x}}
+  \end{align}
++ Arc Tangent
+  \begin{align*}
+    y &= \mathrm{arctan}\;x \\
+    \iff x &= \tan y; \\
+    y &\in \left[-\frac\pi2,\frac\pi2\right]
+  \end{align*}
++ Gudermannian Function
+  \begin{align*}
+    \notag
+    \mathrm{gd}(x)
+    &=\int_0^x \frac{\mathrm{d}t}{\mathrm{cosh}\;t} \\
+    &= 2\;\mathrm{arctan}\left(\mathrm{tanh}\left(\frac
+      x2 \right) \right)
+  \end{align*}
++ Algebraic Functions
+  \begin{align}
+    \notag
+    f(x) &= \frac{x}{\left(1+|x|^k\right)^{1/k}} \\
+    \notag
+    &= \frac{x}{\left(1+|x|\right)}; \qquad k=1 \\
+    \notag
+    &= \frac{x}{\sqrt{1+x^2}}; \qquad k=2
+  \end{align}
+
+
+** Rectifier Activation
+*** rectifier
+:PROPERTIES:
+:CUSTOM_ID: sec:rectifier-activation
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-09-16 22:52:05
+#+caption: Image Courtesy: [[https://commons.wikimedia.org/wiki/File:ReLU_and_GELU.svg][Wikipedia]]
+[[file:org-download-images/details/2024-09-16_22-52-05_screenshot.png]]
+
+***** 
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.55
+:END:
+
+#+attr_beamer: :overlay <only@+>
++ ReLU (Rectified Linear Unit)
+  \begin{align*}
+    \notag
+    \mathrm{ReLU}(x)
+    &= x^+ \\
+    &= \max(0,x) \\
+    &= \frac{x+|x|}2 \\
+    &= \begin{cases}
+      x;&\text{if } x>0, \\
+      0;&\text{otherwise.}
+    \end{cases}
+  \end{align*}
++ Clipped ReLU
+  \begin{align}
+    \notag
+    \mathrm{cReLU}(x;a) &= \max(0,\min(a,x))
+  \end{align}
+  /e.g./ ReLU6 in [[https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#relu6][[Pytorch]​]], [[https://keras.io/api/layers/activations/#relu6-function][[Keras]​]]
++ Parametric and Leaky ReLU
+  \begin{align}
+    \notag
+    \mathrm{PReLU}(x; a)
+    &= \begin{cases}
+      x;&\text{if } x>0, \\
+      ax;&\text{otherwise.}
+    \end{cases} \\
+    \notag
+    \mathrm{LeakyReLU}(x)
+    &= \mathrm{PReLU}(x, 0.01)
+  \end{align}
++ GELU (Gaussian-error linear unit)
+  \begin{align}
+    \notag
+    GELU(x) &= x\cdot\Phi(x) \\
+    \notag
+    \frac\partial{\partial x} GELU(x)
+    &= x\cdot\Phi'(x) + \Phi(x)
+  \end{align}
+  where $\Phi(x) = Pr(X\leqslant x)$ is the cumulative
+  Gaussian distribution.
+
+** Gating
+*** vanishing/exploding gradient problem
+:PROPERTIES:
+:CUSTOM_ID: sec:vanishing-exploding-gradient-problem
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.7
+:END:
+
+#+begin_quote
+[[https://doi.org/10.1109/9780470544037.ch14][Hochreiter's work]] formally identified a major reason:
+Typical deep NNs suffer from the now famous problem of
+vanishing or exploding gradients. With standard
+activation functions (Sec. 1), cumulative
+backpropagated error signals (Sec. 5.5.1) either shrink
+rapidly, or grow out of bounds. In fact, they decay
+*exponentially* in the number of layers or CAP depth
+(Sec. 3), or they explode. This is also known as the
+long time lag problem.
+#+end_quote
+*See also:* [[https://arxiv.org/abs/1404.7828][Deep Learning by Jurgen Schmidhuber]]
+
+*** gating history
+:PROPERTIES:
+:CUSTOM_ID: sec:gating-history
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.7
+:END:
+
+
++ Gating was introduced in the [[https://ieeexplore.ieee.org/abstract/document/6795963][LSTM paper]] in '97, in
+  order to address vanishing/exploding gradient
+  problem.
++ Simply put, gating mechanism is element-wise
+  multiplication of input vector with a gate-activation
+  vector.
+*** gating history
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.7
+:END:
++ The gate, in turn, is activated by looking at the
+  input vector itself.  For example, a basic gate would
+  be formulated as,
+
+\begin{align}
+  \notag
+  \mathbf{y} &= \mathbf{g} \otimes \mathbf{x} \\
+  \notag
+  \mathbf{g} &= \sigma_{\otimes}(W\mathbf{x} +
+               \mathbf{b}) 
+\end{align}
+where, \\
+$\sigma_{\otimes}(\mathbf{x})$ is the element-wise
+sigmoid activation of input vector $\mathbf{x}$; and \\
+$\otimes$ represents element-wise multiplication.
+
+*** gating history
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.7
+:END:
+
+For a more involved use-case, let an RNN be defined for
+$T$ time steps, with
++ Given inputs as
+  $\{\mathbf{z}_1,\ldots,\mathbf{z}_T\}$;
++ Cell States, $\{\mathbf{c}_1,\ldots,\mathbf{c}_T\}$;
++ Hidden States,
+  $\{\mathbf{h}_1,\ldots,\mathbf{h}_T\}$;
++ Given initial states as
+  $\mathbf{c}_{0},\mathbf{h}_{0}$;
++ Neural Network
+  $\Phi(\mathbf{z},\mathbf{c},\mathbf{h})$ to compute
+  pre gate activation;
+*** gating history (lstm)
+
+$\forall t\in\{1,\ldots,T\}$,
+\begin{align}
+  \notag
+  \mathbf{x}
+  &\gets \Phi(\mathbf{z}_t, \mathbf{c}_{t-1},
+    \mathbf{h}_{t-1}) \\
+  \notag
+  \mathbf{i}
+  &\gets
+    \sigma_{\otimes}(W_i\mathbf{x}+U_i\mathbf{h}_{t-1}
+    + \mathbf{b}_i) \\
+  \notag
+  \mathbf{f}
+  &\gets \sigma_{\otimes} (W_f\mathbf{x} +
+    U_f\mathbf{h}_{t-1} + \mathbf{b}_f) \\  
+  \notag
+  \mathbf{o}
+  &\gets \sigma_{\otimes} (W_o\mathbf{x} +
+    U_o\mathbf{h}_{t-1} + \mathbf{b}_o) \\ 
+  \notag
+  \mathbf{g}
+  &\gets \tanh_{\otimes} (W_g\mathbf{x} +
+    U_g\mathbf{h}_{t-1} + \mathbf{b}_g) \\  
+  \notag
+  \mathbf{c}_t
+  &\gets \mathbf{f}\otimes\mathbf{c}_{t-1} +
+    \mathbf{i}\otimes\mathbf{g} \\
+  \notag
+  \mathbf{h}_t
+  &\gets \mathbf{o}\otimes\tanh_{\otimes} \mathbf{c}_t
+\end{align}
+*** gating history (gru)
+
+$\forall t\in\{1,\ldots,T\}$,
+\begin{align}
+  \notag
+  \mathbf{x}
+  &\gets \Phi(\mathbf{z}_t, \mathbf{c}_{t-1},
+    \mathbf{h}_{t-1}) \\
+  \notag
+  \mathbf{r}
+  &\gets
+    \sigma_{\otimes}(W_r\mathbf{x}+U_r\mathbf{h}_{t-1}
+    + \mathbf{b}_r) \\
+  \notag
+  \tilde{\mathbf{h}}
+  &\gets
+    \tanh_{\otimes}(W_h\mathbf{x} +
+    U_h(\mathbf{r}\otimes\mathbf{h}_{t-1}) +
+    \mathbf{b}_h) \\
+  \notag
+  \mathbf{c}_t
+  &\gets
+    \sigma_{\otimes}(W_c\mathbf{x}+U_c\mathbf{h}_{t-1}
+    + \mathbf{b}_c) \\
+  \notag
+  \mathbf{h}_t
+  &\gets \mathbf{c}_t\otimes \mathbf{h}_{t-1} +
+    (1-\mathbf{c}_t) \otimes \tilde{\mathbf{h}}
+\end{align}
+*** gating history (read more)
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+*See also:*
++ [[https://medium.com/@eugenesh4work/gating-mechanisms-in-neural-networks-dc83a0bdb8c3][[Medium] Gating Mechanisms (Blog by Eugene
+  Shevchenko)]];
++ [[https://arxiv.org/abs/2007.14823][[arXiv] Jacobian Spectrum of Gates (Fig.1; Theory of
+  Gating)]]
+
+*** gated linear unit
+:PROPERTIES:
+:CUSTOM_ID: sec:gated-linear-unit
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+In the context of speech processing, \\
+let
+
+\begin{align*}
+\tilde{X}&=W*X; \\
+\tilde{X}&\in\mathbb{R}^{n\times(\cdot)}, \\
+W&\in\mathbb{R}^{n\times m\times k}, \\
+X&\in\mathbb{R}^{m\times(\cdot)}
+\end{align*}
+
+represent a 1-D convolution operation with kernel size
+$k$, input filters $m$ and output filters $n$.
+
+*** gated linear unit
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+A gated linear unit (GLU) wraps a convolution layer
+with a linear activation and sigmoid gate as follows,
+
+\begin{align}
+  \notag
+  h_l(X) &= (W*X+B) \otimes \sigma_{\otimes} (V*X+C)
+\end{align}
+
+Since the element-wise multiplication is a symmetric
+operation, this may as well be interpreted as a linear
+gate over a sigmoid activation.
+
+*** gated linear unit
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+With hardware acceleration, this operation may be
+implemented with single parallelised convolution
+operations with double filter size, namely
+$W\in\mathbb{R}^{2n\times m\times k}$, and bias
+$B\in\mathbb{R}^{2n\times(\cdot)}$, as follows,
+
+\begin{align}
+  \notag
+  \tilde{X} &= W*X+B \\
+  \notag
+  h_l(X) &= \tilde{X}_{:n} \otimes \sigma_{\otimes}
+           (\tilde{X}_{n:})
+\end{align}
+
+*See also:* [[https://arxiv.org/abs/1612.08083][Gated Conv-Net Paper [arXiv]​]]
+
+*** gated activation unit
+:PROPERTIES:
+:CUSTOM_ID: sec:gated-activation-unit
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.7
+:END:
+
+
+A gated activation unit (GLU) wraps a convolution layer
+with a hyperbolic tangent activation and sigmoid gate
+as follows,
+
+\begin{align}
+  \notag
+  \tilde{X} &= W*X+B \\
+  \notag
+  h_l(X) &= \tanh_{\otimes} (\tilde{X}_{:n}) \otimes
+           \sigma_{\otimes} (\tilde{X}_{n:}) 
+\end{align}
+
+Since the element-wise multiplication is a symmetric
+operation, this may equally well be interpreted as a
+hyperbolic tangent gate and sigmoid activation.
+
+*See also:* [[https://proceedings.neurips.cc/paper_files/paper/2016/hash/b1301141feffabac455e1f90a7de2054-Abstract.html][Conditional PixelCNN Paper [NeurIPS '16]​]]
+
+** Word Error Rate
+*** word error rate
+:PROPERTIES:
+:CUSTOM_ID: sec:word-error-rate
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.7
+:END:
+
+
+#+attr_beamer: :overlay <only@+>
++ Word Error Rate is inspired by “word recognition”
+  accuracy measure in /cognitive psychology/, which is
+  “the ability of a reader to recognize written words
+  correctly and virtually effortlessly.”
++ The experiments generally test the ability to
+  recognise “isolated words,” without additional
+  contextual information.  (/Trivia/: testing whose
+  ability, the reader’s or the model’s?)
++ WER is a special type of normalised edit distance;
+  computed as
+  #+attr_beamer: :overlay <.->
+  + the normalised number operations
+  + required to transform reference /(target)/ to
+    hypothesis /(prediction)/.
+  + The set of operations consist of substitution,
+    deletion and insertion.
+*** word error rate
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+Formally, if $Y$ is the reference set and
+  $Y^{\prime}$ is the hypothesis,
+  \begin{align}
+    \notag
+    \mathrm{WER}(Y\to Y^\prime)
+    &= \frac {|Y^\prime \setminus Y| + \left[
+      |Y|-|Y^\prime| \right]_+} {|Y|}
+  \end{align}
+  where $\setminus$ is the set difference operator.
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.55
+:END:
+
++ Intuitively, we resolve for two cases, /i.e./ either
+  $Y^{\prime}$ is larger than $Y$ or otherwise.
++ In case of former, $Y^\prime \setminus Y$ would
+  include the set of substitutions as well as
+  insertions.
++ In case of latter, $Y^\prime \setminus Y$ would
+  include the set of substitutions only; hence, the
+  additional term of difference in size is added to
+  account for the number of deletions.
++ The denominator is a normalisation factor.
+* exercise
+*** exercise
+:PROPERTIES:
+:CUSTOM_ID: sec:exercise
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+#+attr_beamer: :overlay <only@+>
+1. If the following equation describes the jasper
+   model,
+
+   \begin{align}
+     \notag
+     \theta_*
+     &= \arg\min_{\theta} \underset {(X,Y) \sim
+       \mathcal{D}_{\mathcal{X}\times\mathcal{Y}}}
+       {\mathbb{E}} \left[ \Delta(Y,
+       \mathcal{F}(X;\theta)) \right]
+   \end{align}
+
+   Define $X, Y, \mathcal{F}, \theta, \theta_*$.
+1. Formally define $\mathrm{MSE} (\mathbf{y},
+   \widetilde{\mathbf{y}})$ as mean-squared error
+   measure between target and prediction vectors.
+3. What are the conditions under which $\mathrm{MSE}
+   (\mathbf{y}, \widetilde{\mathbf{y}}) \equiv \Delta_E
+   (\mathbf{y}, \widetilde{\mathbf{y}}) \equiv
+   \|\mathbf{y} - \widetilde{\mathbf{y}}\|_F^2$?
+4. How is a CTC Loss different from MSE Loss as a
+   training objective?
+5. In order to learn a model for sequence-to-sequence
+   mapping like speech to text, recommend whether to
+   use Softmax-Cross-Entropy Classification Loss or
+   Connectionist Temporal Classification Loss.  Also
+   justify your recommendation.
+

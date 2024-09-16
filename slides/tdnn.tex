@@ -1,0 +1,332 @@
+% Created 2024-09-16 Mon 22:09
+% Intended LaTeX compiler: pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,svgnames}]{beamer}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{libertine}
+\usepackage[normalem]{ulem}
+\usepackage{varwidth}
+\usepackage[Export]{adjustbox}
+%\usepackage{enumitem}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{tabularx}
+\graphicspath{ {./images/} {./org-download-images/} }
+\usepackage[date=year,%
+backend=biber,%
+style=alphabetic,%
+maxnames=5,%
+minnames=3,%
+maxalphanames=4,%
+minalphanames=3,%
+backref=true,%
+doi=false,%
+isbn=false,%
+url=false,%
+eprint=false]{biblatex}
+\DefineBibliographyStrings{english}{%
+backrefpage  = {\lowercase{s}ee p.}, % for single page number
+backrefpages = {\lowercase{s}ee pp.} % for multiple page numbers
+}
+\addbibresource{/home/bvraghav/bibliography.bib}
+%% Math typesetting
+%% --------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{bbold}
+% Operators with limit-style sub and superscript
+\DeclareMathOperator*{\E}{\mathbb{E}}
+\hypersetup{%
+colorlinks=true,%
+allcolors=magenta,%
+%linkbordercolor = {white},%
+%<your other options...>,
+}
+\usetheme{boxes}
+\usecolortheme{crane}
+\usefonttheme{serif}
+\useinnertheme{rectangles}
+\useoutertheme{}
+\date{\textit{[2024-08-21 Wed]}}
+\title{time-delay neural networks}
+\subtitle{ucs749: speech processing and synthesis}
+\author{%
+%\noindent{} \\[2em]
+\normalsize Raghav B. Venkataramaiyer
+}
+\institute{%
+CSED TIET Patiala India.
+}
+\date{\scriptsize \today}
+\setbeamercolor{alerted text}{fg=red!80!black}
+%% Setup outline at begin section
+%% -------------------------------------------------------
+\AtBeginSection[]               % Section
+{
+\begin{frame}{outline}
+\tableofcontents[currentsection,hideallsubsections]
+\end{frame}
+}
+\AtBeginSubsection[]            % SubSection
+{
+\begin{frame}{outline}
+\tableofcontents[currentsection,currentsubsection,subsectionstyle=show/shaded/hide]
+\end{frame}
+}
+\setbeamerfont{structure}{shape=\scshape,family=\sffamily}
+\setbeamertemplate{section page}
+{
+\begin{centering}
+\begin{beamercolorbox}[sep=12pt,center]{part title}
+\usebeamerfont{section title}\insertsection\par
+\end{beamercolorbox}
+\end{centering}
+}
+
+\setbeamercovered{transparent}
+\hypersetup{
+ pdfauthor={Raghav B. Venkataramaiyer},
+ pdftitle={time-delay neural networks},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.4 (Org mode 9.6.24)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\begin{frame}{Outline}
+\tableofcontents
+\end{frame}
+
+
+\section{summary}
+\label{sec:org8d5a40f}
+\begin{frame}[label={sec:summary}]{summary}
+\begin{columns}
+\begin{column}{.7\columnwidth}
+In the authors' own words, in the context of
+``difficult'' word recognition, this literature documents
+the success of,
+
+\begin{quote}
+a network that extracted features by repeatedly
+convolving a set of narrow weight patterns with the
+contents of a sliding window into the input.
+\end{quote}
+
+This is a widely referenced early work that lays
+foundation for 1-D convolution based approaches in the
+recent advances, like \href{../jasper/}{Jasper} and its derivatives.
+
+\alert{See also}: \hyperlink{sec:dataset}{Dataset} to understand the problem better.
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{motivation}
+\label{sec:orga829b3a}
+
+\begin{frame}[label={sec:motivation}]{motivation}
+\begin{columns}
+\begin{column}{.45\columnwidth}
+\begin{quote}
+[\ldots] the Viterbi-aligned speech fragments contained
+enough alignment errors to motivate a shift-invariant
+[model]
+\end{quote}
+
+Ref: \hyperlink{sec:viterbi-alignment}{Viterbi Alignment}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{key idea}
+\label{sec:org1802fba}
+\begin{frame}[label={sec:key-idea}]{key idea}
+\begin{columns}
+\begin{column}{.7\columnwidth}
+\begin{itemize}
+\item Neural networks are universal approximators;
+\item Convolution controls model size; and
+\item Pooling leads to positional invariance.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{method}
+\label{sec:orgcae4c93}
+\begin{frame}[label={sec:method}]{let}
+\begin{center}
+\begin{tabularx}{\linewidth}{rX}
+\(\text{data}\) & be a set of \((y,\mathbf{x})\) pairs; \(\mathbf{x}\) being the input vector, and \(y\in\mathbb{Z}_{\geqslant0}\) being the labels.\\[0pt]
+\(\mathbf{x}\in\mathbb{X}\subseteq\mathbb{R}^{C\times T}\) & be input vector; \(C=16\) being number of channels; and \(T\) being temporal resolution.\\[0pt]
+\(\Phi(\;\cdot;\theta):\mathbb{X}\to\mathbb{R}^{K\times T'}\) & be 1-D convolutional neural network, with its output being a \(T'\) long sequence of \(K\) dimensional vector, representing word probabilities; \(K\) being the vocabulary size and \(\theta\) being network params.\\[0pt]
+\(\boldsymbol{1}_{k}:\mathbb{Z}_{\geqslant0}\to\mathbb{R}^{k}\) & be whole number to one-hot vector converter\\[0pt]
+\(\parallel\,\cdot\,\parallel_{p,\mathrm{row}}\) & be an operator that computes \(L_{p}\) norm for each row vector in the tensor, defined here for mathematical convenience.\\[0pt]
+\(\mathbf{x}^{\otimes n}\) & be element-wise exponentiation operation, defined here for mathematical convenience.\\[0pt]
+\(\Delta_{E}\) & be Euclidean distance between two vectors.\\[0pt]
+\end{tabularx}
+\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:org4100825}]{model}
+\begin{columns}
+\begin{column}{.5\columnwidth}
+TDNN model for speech command classification may be
+summarised mathematically as a learnt function \(f\) with
+optimal parameters \(\theta_*\), so that label is
+predicted as,
+\begin{align*}
+\widetilde{y} = \arg\max f(\mathbf{x};\theta_*)
+\end{align*}
+\end{column}
+
+\begin{column}{.5\columnwidth}
+Where, 
+\begin{align}
+  \notag \theta_*
+  &= \arg \min_{\theta} \underset {y,\mathbf{x}
+    \sim\text{data}} {\mathbb{E}} \left[ \Delta(y,
+    f(\mathbf{x};\theta)) \right] \\
+  \notag f(\mathbf{x};\theta)
+  &= \left\| \Phi(\mathbf{x};
+    \theta) \right\|_{2,\mathrm{row}}^2 \\
+  \notag \Delta(y, \widetilde{\mathbf{y}})
+  &= \Delta_E \left(\boldsymbol{1}_K(y),
+    \widetilde{\mathbf{y}} \right)
+\end{align}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{dataset}
+\label{sec:org3c26869}
+\begin{frame}[label={sec:dataset}]{dataset}
+\begin{columns}
+\begin{column}{0.5\columnwidth}
+400 samples
+
+\begin{quote}
+the four \alert{words}, ``bee, dee, ee,'' and ``vee'' [B, D, E,
+and V] were used; earlier IBM research had shown that
+these four words were the most confusable members of
+the E-set of the alphabet.
+\end{quote}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{appendix}
+\label{sec:appendix}
+\subsection{Feature Extraction}
+\label{sec:orged96315}
+
+\begin{frame}[label={sec:feature-extraction}]{feature extraction}
+\begin{columns}
+\begin{column}{.5\columnwidth}
+Initial spectrogram feature
+\begin{itemize}
+\item was extracted from \(150\) ms waveform
+\item containing log energy values and
+\item bearing shape \(128\times48\); \(128\) frequencies \(\times48\) frames each lasting \(3\) ms.
+\end{itemize}
+\end{column}
+
+
+\begin{column}{.5\columnwidth}
+In an experiment with input feature size, it was
+observed, however that
+\begin{itemize}
+\item \(16\times12\) input-based; \(16\) frequency bands on
+linear scale \(\times12\) frames each lasting \(12\) ms
+\item 2-layer hidden model
+\end{itemize}
+exhibited the best performance; 
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[label={sec:orgd279a3d}]{feature extraction}
+\begin{columns}
+\begin{column}{.7\columnwidth}
+\begin{quote}
+[\ldots] the program converted our 150 ms waveform samples
+into spectrograms containing 128 log energies ranging
+up to 8 kHz, and 49 time frames of 3 ms each.  The
+first frame of each spectrogram was then discarded so
+that there would be 48 time steps (a highly
+factorizable number), and the DC bias com- ponent of
+each frame was set to zero.  Because each of the 48
+time frames represented 3 ms, the final duration of the
+spectrograms was 144 ms.
+\end{quote}
+(Adapted from the paper)
+\end{column}
+\end{columns}
+\end{frame}
+
+\subsection{Viterbi Alignment}
+\label{sec:orga3a6701}
+\begin{frame}[label={sec:viterbi-alignment}]{viterbi alignment}
+\begin{columns}
+\begin{column}{.5\columnwidth}
+\begin{itemize}
+\item In a prior art at IBM, a hidden Markov model (HMM)
+was used to model the distribution of labels and
+spoken word.
+\item The Viterbi search listed the most likely sequence of
+\emph{labels}, corresponding to each frame of utterance in
+a spoken word; where the word identity was known.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[label={sec:org6af742b}]{viterbi alignment}
+\begin{columns}
+\begin{column}{.5\columnwidth}
+In such an experiment by the IBM (the authors say)
+
+\begin{quote}
+These labels were used to extract a 150 ms salient
+section of each utterance which included 100 ms before
+the first frame that was labelled ``E'' (this region
+should contain the consonant), plus 50 ms of the vowel.
+\end{quote}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[label={sec:org5072daf}]{hmm model details (fyi)}
+\begin{columns}
+\begin{column}{.7\columnwidth}
+Details of the HMM Model in the experiment by IBM
+\begin{quote}
+[\ldots] the words \alert{B}, \alert{D}, and \alert{V} are modelled by a
+concatenation of the state machines for \uline{noise},
+\uline{voiced consonant onset}, \uline{\{B,D,V\}}, \uline{E}, \uline{E
+trail-off}, and \uline{noise}. The word \alert{E} is modelled by a
+concatenation of the state machines for \uline{noise}, \uline{E
+onset}, \uline{E}, \uline{E trail-off}, and \uline{noise}. The state
+machines contain 3 main states with associated
+transitions to model the \uline{beginning}, \uline{middle}, and
+\uline{end} of each phone. The consonant and vowel machines
+include \alert{self-loops} to model steady-state portions of
+the acoustic signal, and all of the machines include
+\uline{null transitions} to model short durations.
+\end{quote}
+\end{column}
+\end{columns}
+\end{frame}
+\end{document}

@@ -1,0 +1,246 @@
+#+startup: beamer
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+options: H:3 author:nil
+#+title: connectionist temporal classification
+#+SUBTITLE: ucs749: speech processing and synthesis
+#+DATE: [2024-08-21 Wed]
+#+AUTHOR: Raghav B. Venkataramaiyer
+#+EMAIL: bv.raghav@thapar.edu
+#+LANGUAGE: en
+
+#+include: preamble.org
+
+#+latex_header: \usepackage{tabularx}
+#+beamer_header: \setbeamercovered{transparent}
+
+#+MACRO: cnc {{{sc(cnc)}}}
+
+* summary
+
+*** summary
+
+- author :: Graves, A., Fernández, S., Gomez, F., &
+  Schmidhuber, J.
+- url :: [[https://dl.acm.org/doi/10.1145/1143844.1143891][[ACM]​]], [[https://www.cs.toronto.edu/~graves/icml_2006.pdf][[PDF from toronto.edu]​]], [[https://mediatum.ub.tum.de/doc/1292048/document.pdf][[PDF from
+  tum.de]​]], [[https://pytorch.org/docs/stable/generated/torch.nn.CTCLoss.html][[Pytorch]​]] [[https://www.tensorflow.org/api_docs/python/tf/nn/ctc_loss][[Tensorflow]​]] [[https://github.com/maetshju/flux-ctc-grad][[Julia]​]]
+- date :: 2006
+- booktitle :: Proceedings of the 23rd International
+  Conference on Machine Learning
+
+*** summary
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+
++ type of neural network output and associated scoring
+  function (for RNN’s);
++ to tackle sequence problems where the timing is
+  variable;
++ CTC refers to the outputs and scoring, and is
+  independent of the underlying neural network
+  structure.
+*** summary
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+#+begin_quote
+For example, in speech audio there can be multiple time
+slices which correspond to a single phoneme. Since we
+don't know the alignment of the observed sequence with
+the target labels we predict a probability distribution
+at each time step. --- Wikipedia
+#+end_quote
+
+See also: https://distill.pub/2017/ctc/
+
+* key observation
+*** key observation
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+An input waveform for the word =HELLO= may vary in the
+following ways,
++ A quick and slow speaker may stretch it at varying
+  lengths, /e.g./ =HELLLOO= vs =HEELLLOOOO=; and the
+  same may be extend to syllable stresses and
+  intonations when speaking in further detail;
++ The start points and blanks may vary, /e.g./
+  =---HEE-LLOO-= vs =-HELLLOO-=
+
+We call this as an *alignment* problem, where given an
+alphabet, say $\{H,E,L,O\}$, and a sequence
+$[x_1,\ldots,x_T]$, find the correspondence.
+
+*** key observation
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
++ Inherent to this formulation, there’s no way to
+  distinguish between =HELO= vs =HELLO=.
++ This problem is like *mode collapse*.
++ To this end, the author introduces a special
+  character called CTC blank $\epsilon$, that
+  suppresses mode collapse.
++ /E.g./ =LLLL= $\to$ =L= in post-processing, but
+  =LL-LL= $\to$ =LL=.
++ Hence, the alphabet now becomes
+  $\{H,E,L,O,\epsilon\}$.
++ This problem grows polynomially in alphabet size and
+  exponentially in sequence size.
+
+* the problem
+
+*** the problem
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+Minimise transcription mistakes from speech to text or
+handwriting to text, where the natural measure is a
+/label error rate/ $\mathrm{LER}$ of a temporal
+classifier $h$, defined as follows.
+
+\begin{align}
+  \notag
+  \mathrm{LER}(h,\mathbb{S}^{\prime})
+  &= \underset {\large(\mathbf{x},\mathbf{z}) \sim
+    \mathbb{S}^{\prime}} {\Large\mathbb{E}}
+    \left[\frac{\mathrm{ED}(h(\mathbf{x}),
+    \mathbf{z})}{|\mathbf{z}|} \right]
+\end{align}
+
+where,
++ $\mathbb{S}^{\prime}\subset \mathcal{D}_{\mathcal{X}
+  \times \mathcal{Z}}$ is the test sample;
++ $\mathrm{ED}$ is the edit distance.
+
+* key contribution
+*** key contribution
+
+The problem may be seen as,
+
+\begin{align}
+  \notag
+  Y_*
+  &= \arg\max_YP(Y|X) \\
+  \notag
+  P(Y|X)
+  &= \sum_{A \in \mathcal{A} (X,Y)} \prod_{t=1}^T
+    P_t(\mathbf{a}_t|X) 
+\end{align}
+where,
++ $X\equiv[\mathbf{x}_1,\ldots,\mathbf{x}_n]$ be the
+  input sequence;
++ $Y\equiv[\mathbf{y}_1,\ldots,\mathbf{y}_m]$ be the
+  output sequence;
++ $A\equiv[\mathbf{a}_1,\ldots,\mathbf{a}_T]$ be an
+  alignment between $\mathbf{x}$ and $\mathbf{y}$ ---
+  also the network output; and
++ $\mathcal{A} (X,Y)$ be such an alignment space;
+
+*** key contribution (contd\ldots)
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+
++ Inputs :: $X\in\mathbb{R}^{(\cdot)\times n}$ is a
+  spectrogram-like audio input, like MFCC, providing
+  $n$ time step sequence of input.
++ Network Output :: (or RNN output) is the alignment
+  $A\in\mathbb{R}^{|L'|\times T}$. Here $L'\equiv
+  L\cup{\epsilon}$ is the alphabet augmented with CTC
+  blank.
++ Alphabet :: $Y\in\mathbb{R}^{m}$ (also known as
+  $Y_{\text{mask}}$ in some implementations) is the
+  output sequence augmented by blanks, /e.g./
+  =-HEL-LO-= or =HEL-LO= for =HELLO=, as a sequence of
+  indices; or seldom tokens dependent upon
+  implementation detail.
+
+*** back-propagation with forward-backward algorithm
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+
+$\mathcal{A} (X,Y)$ is grows exponentially in the
+length of sequence, /i.e./ $\mathcal{O}(m^T)$
+
+But similar to the HMM, a recursive definition enables
+us to compute the loss efficiently in
+$\mathcal{O}(m^{2}T)$.
+
+* implementation
+*** in frameworks
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+[[https://pytorch.org/docs/stable/generated/torch.nn.CTCLoss.html][[Pytorch]​]]
+
+[[https://www.tensorflow.org/api_docs/python/tf/nn/ctc_loss][[Tensorflow]​]]

@@ -1,0 +1,380 @@
+#+startup: beamer
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+options: H:3 author:nil
+#+TITLE: Overview
+#+SUBTITLE: ucs749: speech processing and synthesis
+#+DATE: [2024-07-15 Mon]
+#+AUTHOR: Raghav B. Venkataramaiyer
+#+EMAIL: bv.raghav@thapar.edu
+#+LANGUAGE: en
+
+#+include: preamble.org
+
+#+beamer_header: \setbeamercovered{transparent}
+
+#+MACRO: cnc {{{sc(cnc)}}}
+
+* about
+*** course weightage
+
+| L | T | P | Cr |
+|---+---+---+----|
+| 2 | 0 | 2 |  3 |
+
+*** syllabus
+
+[[file:ucs749-syllabus.pdf][Link to Syllabus [PDF]​]]
+
+*** academic calendar
+
+#+caption: Academic Calendar
+[[file:image/2024-07-15_22-56-44_screenshot.png]]
+
+*** num lectures
+
+|              | W |  L | P   |
+|--------------+---+----+-----|
+| Prior to MST | 8 | 16 | 7/8 |
+| MST -- Diwali    | 3 |  6 | 2/3 |
+| Diwali -- EST     | 4 |  8 | 4   |
+
+* evaluation
+
+*** evaluation schedule
+:PROPERTIES:
+:CUSTOM_ID: evaluation-schedule
+:END:
+
+|            | Date             |  MM |
+|------------+------------------+-----|
+| MST        | TBA              |  30 |
+| EST        | TBA              |  40 |
+| Quiz 1     | +12-Sep 05:30pm+ |   5 |
+| Quiz 2     | 21-Nov 05:30pm   |   5 |
+| Lab Eval 1 | +9-Sep 13-Sep+   |  10 |
+| Lab Eval 2 | 18-Nov -- 22-Nov |  10 |
+|------------+------------------+-----|
+|            |                  | 100 |
+#+TBLFM: @8$3=vsum(@I..II)
+
+*** about lab eval
+:PROPERTIES:
+:CUSTOM_ID: sec:about-lab-eval
+:END:
+
+All exercise(s) shall be solved in (Colab) python
+notebook(s), committed to Github using @thapar.edu
+account.  Only a Github Repo link and commit id shall
+be submit using the Google Form. Any attachments are
+*not* allowed.  [[./about-lab-eval/][[Read more...]​]]
+
+* topics
+:PROPERTIES:
+:CUSTOM_ID: schedule-of-topics
+:END:
+
+** Background
+*** pre-requisites
+1. [[https://www.3blue1brown.com/topics/linear-algebra][Linear Algebra]]: Vector Spaces/ Linear Maps/
+   Singularity/ Matrix Decomposition/ Null
+   Space/ Span/ Markov Chains;
+2. Probability and Statistics: Central Limit
+   Theorem/ Conditionals & Marginals/ Bayes
+   Theorem/ Markov Assumption/ Stochastic
+   Process
+3. Information Theory: Cross Entropy
+4. Neural Network: Perceptron Model/ Hidden
+   Layers/ Convolution/ Activation/ Pooling/
+   Atrous/ Padding/ Backpropagationჲ
+5. Optimisation: Stochastic Gradient Descent/
+   Momentum/ Dropout/ RMSProp/ Adam
+6. Deep Learning: Sequential Model/ Residual Model/
+   Adversarial Model/ Attention Model/ Encoder-Decoder
+   Model
+
+*** introduction
+:PROPERTIES:
+:CUSTOM_ID: schedule-introduction
+:END:
+1. NLP: Lexeme/ Grapheme
+2. Speech: Phoneme
+3. Statistical Models: Noise/ Pattern/
+   Characterisation
+4. Language Model: N-Grams/ TFIDF/ Word2Vec/ BERT
+5. Speech Models: Wav2Vec/ HuBERT
+
+** Recognition
+
+*** automated speech recognition
+:PROPERTIES:
+:CUSTOM_ID: schedule-recognition
+:END:
++ Hidden Markov Model :: [[https://web.stanford.edu/~jurafsky/slp3/A.pdf][PDF (Concise)]], More literature
+  from [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]], [[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]]; [[https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition][Rabiner’s Tutorial]].
++ Time Delay DNN (TDNN) :: 
+  + [[./time-delay-networks/][Time-delay Networks (TDNN)]],
+  + [[./ctc/][Connectionist Temporal Classification (CTC)]],
+  + [[./jasper/][Jasper]],
+  + [[https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition][QuartzNet]],
+  + [[https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non][Citrinet]]
++ Speech Command Recognition :: MatchboxNet: [[https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1][[PwC]​]]
+  [[https://colab.research.google.com/github/tiet-ucs749/tiet-ucs749.github.io/blob/main/matchboxnet/Speech_Commands.ipynb][[Colab]​]] (Implementation: [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py][here]] and [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/xception.py][here]] uses [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/xception.py#L252-L266][AvgPool
+  after blocks]])
+
+** Synthesis
+*** synthesis (text-to-speech; tts)
+:PROPERTIES:
+:CUSTOM_ID: schedule-synthesis
+:END:
++ Spectrogram Generators :: [[https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet][Tacotron2]], [[https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech][GlowTTS]]
++ Audio Generators :: [[https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for][WaveGlow]], [[https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders][SqueezeWave]]
+
+* practicals
+:PROPERTIES:
+:CUSTOM_ID: schedule-of-practicals
+:END:
+
+*** lab 1: getting familiar with speech processing
+:PROPERTIES:
+:CUSTOM_ID: lab-1
+:END:
+1. Getting familiar with the pipeline of Speech
+   Recognition: \\
+   [[https://pytorch.org/audio/stable/tutorials/speech_recognition_pipeline_tutorial.html][Speech Recognition with Wav2Vec2]] (Pytorch)
+2. Perform a simple command classification task with
+   a sequential model:
+   + (Tensorflow) [[https://www.tensorflow.org/tutorials/audio/simple_audio][Simple Audio Recognition :Recognising
+     keywords]]; or if you prefer
+   + (Pytorch) [[https://pytorch.org/tutorials/intermediate/speech_command_classification_with_torchaudio_tutorial.html][Speech Command Classification with M5]].
+
+*** lab 2: hidden markov model
+:PROPERTIES:
+:CUSTOM_ID: lab-2
+:END:
+
+Using MFCCs as features from this example: \\
+[[https://colab.research.google.com/drive/1pkopM-0bSoxH1WDwq94bFSBxXpkHrjI3?usp=sharing][MFCC Example [Colab]​]] by [[https://github.com/bvraghav][Raghav B. Venkataramaiyer]];\\
+along with the following dataset: \\
+[[https://github.com/Jakobovski/free-spoken-digit-dataset][Free Spoken Digit Dataset (10 digits x 6 speakers x 50
+repeats) [Github]​]]; \\
+and using hmmlearn as in this tutorial to fit the
+model \\
+[[https://hmmlearn.readthedocs.io/en/latest/tutorial.html][HMM Learn [ReadTheDocs]​]]
+
+1. Compute the probability of occurrence of a given
+   sequence, say $\{3,2,5,4,0\}$. (Encode the Forward
+   Algorithm)
+2. Predict the most likely sequence, given an audio
+   sequence. (Encode the Viterbi algorithm)
+
+*** lab 2: hidden markov model (contd…)
+
++ Theory :: [[https://web.stanford.edu/~jurafsky/slp3/A.pdf][PDF (Concise)]], More literature from [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]],
+  [[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]]; [[https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition][Rabiner's Tutorial]].
++ More Datasets :: [[https://code.google.com/archive/p/hmm-speech-recognition/downloads][hmm-speech-recognition [Google Code]​]]
++ More Feature Descriptors :: [[https://en.wikipedia.org/wiki/Cepstral_mean_and_variance_normalization][CMVN]], [[http://people.csail.mit.edu/sshum/talks/ivector_tutorial_interspeech_27Aug2011.pdf][i-vectors]]
++ See Also :: 
+  + [[https://colab.research.google.com/github/bambschool/BAMB2023/blob/main/6-latent_variable_models/hidden-markov-models.ipynb][HMM Tutorial [Colab]​]] by [[https://github.com/bambschool/BAMB2023][BAMB School 2023]]
+  + [[https://colab.research.google.com/github/facebookresearch/beanmachine/blob/main/tutorials/Hidden_Markov_model.ipynb#scrollTo=vwxlljQwXOxg][Bean-Machine based Tutorial [Colab]​]]
+  + [[https://medium.com/@natsunoyuki/hidden-markov-models-with-python-c026f778dfa7][HMM Predicting Gold Prices [Medium]​]]
+  + [[https://colab.research.google.com/github/kastnerkyle/kastnerkyle.github.io/blob/master/posts/single-speaker-word-recognition-with-hidden-markov-models/single-speaker-word-recognition-with-hidden-markov-models.ipynb][Single Speaker Word Recognition with HMM [Colab]​]]
+  + [[https://colab.research.google.com/drive/1aFgzrUv3udM_gNJNUoLaHIm78QHtxdIz?usp=sharing][ASR using HMM from scratch [Colab]​]]
+
+*** lab 3: asr in english
+:PROPERTIES:
+:CUSTOM_ID: lab-3
+:END:
+
+[[https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/ASR_with_NeMo.ipynb][ASR with NeMo (Colab)]]
+
+Additional references:
++ [[https://nvidia.github.io/apex/amp.html#opt-levels][=amp_level="O1"= : the argument used in
+  =PytorchLightning.Trainer= instance]];
++ But [[https://github.com/Lightning-AI/pytorch-lightning/pull/16039][Apex deprecated out of PL]] v2.0;
+
+For Starters : \\
+[[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/starthere/intro.html#quick-start-guide][NeMo Installation and Getting Started Guide with
+Citrinet ASR Evaluation]]
+
+*** lab 4: asr in indic language
+:PROPERTIES:
+:CUSTOM_ID: lab-4
+:END:
+Use the method from Lab 3, but use [[https://github.com/AI4Bharat/vistaar][Indic Dataset]].
+
+*** lab 5: speech commands
+:PROPERTIES:
+:CUSTOM_ID: lab-5
+:END:
+[[https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/asr/Speech_Commands.ipynb][Speech Command Recognition with MatchboxNet]]
+
+*** lab 6: tts with tacotron 2
+:PROPERTIES:
+:CUSTOM_ID: lab-6
+:END:
+[[https://colab.research.google.com/github/NVIDIA/NeMo/blob/stable/tutorials/tts/Tacotron2_Training.ipynb][Training with Tacotron 2]]
+
+*** lab 7: tts in indic language
+:PROPERTIES:
+:CUSTOM_ID: lab-7
+:END:
+Use the method from Lab 6, but along with [[https://github.com/AI4Bharat/Indic-TTS][Indic Dataset
+for TTS]].
+
+* resources
+:PROPERTIES:
+:CUSTOM_ID: resources
+:END:
+
+*** speech 
+1. [[https://github.com/wenet-e2e/speech-synthesis-paper][Directory Listing of SoTA]]
+2. [[https://github.com/zzw922cn/awesome-speech-recognition-speech-synthesis-papers][Another Directory Listing of SoTA]]
+3. [[https://arxiv.org/abs/1904.03288][Jasper (2019)]]
+4. [[https://arxiv.org/abs/1910.10261][QuartzNet (2019)]]
+5. [[https://arxiv.org/abs/2104.01721][Citrinet (2021)]]
+6. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/intro.html][NVidia NeMo Framework]]
+7. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/intro.html][Speech Synthesis Model Zoo (NeMo)]]
+8. [[https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53][Mel Spectrogram]]
+
+*** linear algebra
+1. [[https://www.3blue1brown.com/topics/linear-algebra][3B1B]]
+2. [[https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/][Gilbert Strang]]
+
+*** probability and statistics
+1. Bertsekas & Tsitsiklis: [[https://ocw.mit.edu/courses/res-6-012-introduction-to-probability-spring-2018/][Introduction To
+   Probability]]; [[https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/][Probabilistic Systems Analysis And
+   Applied Probability]]
+2. [[https://www.3blue1brown.com/topics/probability][3B1B]]
+
+*** neural network concepts
+1. [[https://www.coursera.org/specializations/deep-learning][Andrew Ng on Coursera]]
+2. [[https://www.youtube.com/playlist?list=PLkt2uSq6rBVctENoVBg1TpCC7OQi31AlC][Andrej Karpathy on Youtube]]; also on [[https://cs231n.stanford.edu/2016/][Stanford]]
+
+*** information theory & learning
+1. [[https://www.inference.org.uk/itila/][David McKay]]
+
+*** datasets 
+1. [[https://pytorch.org/audio/stable/datasets.html][Torch Audio (Pytorch)]]
+2. [[https://www.tensorflow.org/datasets/catalog/overview#speech][Speech & Speech Recognition Datasets (Tensorflow)]]
+3. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html][ASR Datasets (NeMo)]]
+4. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speech_classification/datasets.html][Speech Classification Datasets (NeMo)]]
+5. [[https://github.com/lhotse-speech/lhotse][Lhotse Speech]] and [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/datasets.html#lhotse-dataloading][its use with NeMo]]
+6. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/asr/speaker_recognition/datasets.html][Speaker Recognition Datasets (NeMo)]]
+7. [[https://docs.nvidia.com/nemo-framework/user-guide/latest/nemotoolkit/tts/datasets.html#public-tts-datasets][Public TTS Datasets (NeMo)]]
+8. [[https://github.com/AI4Bharat/vistaar][Indic ASR Dataset]]
+9. [[https://github.com/AI4Bharat/Indic-TTS][Indic Dataset for TTS]]
+
+*** code
+1. [[https://github.com/NVIDIA/OpenSeq2Seq][OpenSeq2Seq]]
+2. [[https://github.com/AI4Bharat/Indic-TTS][AI4Bharat]]
+3. [[https://github.com/NVIDIA/NeMo/tree/stable/tutorials/][NeMo Tutorials]]
+
+# * References
+# bibliography:~/.bibliography.bib
+
+* introduction
+:PROPERTIES:
+:CUSTOM_ID: schedule-introduction
+:END:
+
+** Parallels b/w NLP and Speech
+*** nlp
++ Natural Language Processing :: Lexeme/ Grapheme
++ Language Models ::
+  + Statistical Models :: N-Grams/ TFIDF
+  + Recently :: Word2Vec/ BERT etc.
+*** speech
++ Speech Processing :: Phoneme
++ Speech Models :: 
+  + Statistical Models :: Noise/ Pattern/
+    Characterisation; Spectrograms
+  + Recently :: Wav2Vec/ HuBERT
+** Speech Input Processing
+*** waveform
+
+
+#+DOWNLOADED: screenshot @ 2024-09-16 20:39:00
+#+attr_latex: :width 0.6\linewidth
+#+caption: Image Courtesy: [[https://cdn.vectorstock.com/i/1000v/62/96/speech-recognition-sound-wave-form-signal-diagram-vector-10626296.jpg][[Stock Images on Web]​]]
+[[file:org-download-images/introduction/2024-09-16_20-39-00_screenshot.png]]
+*** spectral analysis
++ Waveform is a time series data.
++ Fourier Transform is a function that maps the
+  information in time domain to frequency domain.
++ Energy intensity histogram drawn against frequency
+  bands (or spectral bands), is called a spectrum.
++ Time domain information may be too dense to make
+  meaning of; hence frequency domain may be favoured.
++ Analysis in frequency domain is called spectral
+  analysis.
+*** spectrogram
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .45
+:END:
+
+#+DOWNLOADED: screenshot @ 2024-09-16 20:59:46
+#+caption: Image Courtesy: [[https://in.mathworks.com/help/dsp/ref/dsp.stft.html][MathWorks]]
+[[file:org-download-images/introduction/2024-09-16_20-59-46_screenshot.png]]
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .55
+:END:
+
+Spectrogram is a Short-Time Fourier Transform of the
+input waveform; or “short-term power spectrum” of
+sound.
+
+
+#+DOWNLOADED: screenshot @ 2024-09-16 21:04:10
+#+attr_latex: :width 0.75\linewidth
+#+caption: Spectrogram with 12 freq bands and 22 short-time windows.  Adapted from [[https://colab.research.google.com/drive/1pkopM-0bSoxH1WDwq94bFSBxXpkHrjI3][Lab 2: MFCC Example [Colab]​]].
+[[file:org-download-images/introduction/2024-09-16_21-04-10_screenshot.png]]
+*** mel scale
+
+Mel (named after the word melody) is a non standard
+perceptual scale of frequency, that is judged by
+listeners to be equidistant from one-another.
+
+#+DOWNLOADED: screenshot @ 2024-09-16 21:16:21
+#+attr_latex: :width 0.75\linewidth
+#+caption: Image Courtesy: [[https://en.wikipedia.org/wiki/File:Mel-Hz_plot.svg][[Wikimedia]​]]
+[[file:org-download-images/introduction/2024-09-16_21-16-21_screenshot.png]]
+*** mel scale
+
+Mathematically, one of the linear+log fit looks like:
+\begin{align*}
+  m(f) &= \begin{cases}
+    \frac{3f}{200}, &f<1000; \\
+    15+27\log_{6.4}\left( \frac{f}{1000} \right),
+                    &f\geqslant1000.
+  \end{cases}
+\end{align*}
+
+This was popularised by [[https://engineering.purdue.edu/~malcolm/interval/1998-010/][MATLAB Auditory Toolbox of
+Slaney]]
+*** mel cepstrum
+
+Recall, that Spectrogram is a ``short-term power
+spectrum.''
+
+Mel-frequency cepstrum (MFC) is
++ a short-term power spectrum,
++ based on linear cosine transform
++ of log-power-spectrum
++ on a non-linear mel scale of frequency.
+
+Mel-frequency cepstral coefficients (MFCCs) are
+coefficients that collectively make up an MFC.
+*** mfcc
+
+[[https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53][Read More [Medium]​]]

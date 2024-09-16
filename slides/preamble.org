@@ -1,0 +1,111 @@
+#+MACRO: wdt   @@latex:\hfill{\footnotesize@@ /$1/ @@latex:}@@
+
+# #+beamer_header: \titlegraphic{
+# #+beamer_header: \includegraphics[width=\textwidth]{profile-banner.png}
+# #+beamer_header: }
+
+#+beamer_header: \author{%
+#+beamer_header:   %\noindent{} \\[2em]
+#+beamer_header:   \normalsize Raghav B. Venkataramaiyer
+#+beamer_header: }
+
+#+beamer_header: \institute{%
+#+beamer_header:   CSED TIET Patiala India.
+#+beamer_header: }
+
+#+beamer_header: \date{\scriptsize \today}
+
+
+#+latex_header_extra: \graphicspath{ {./images/} {./org-download-images/} }
+
+
+#+latex_class: beamer
+#+latex_class_options: [aspectratio=169,xcolor={dvipsnames,svgnames}]
+#+columns: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+beamer_theme: boxes
+#+beamer_color_theme: crane
+#+beamer_font_theme: serif
+#+beamer_inner_theme: rectangles
+#+beamer_outer_theme:
+#+beamer_header: \setbeamercolor{alerted text}{fg=red!80!black}
+
+#+latex_header: \usepackage{libertine}
+#+latex_header: \usepackage[normalem]{ulem}
+#+latex_header: \usepackage{varwidth}
+#+latex_header: \usepackage[Export]{adjustbox}
+
+#+beamer_header: %% Setup outline at begin section
+#+beamer_header: %% -------------------------------------------------------
+#+beamer_header: \AtBeginSection[]               % Section
+#+beamer_header: {
+#+beamer_header:   \begin{frame}{outline}
+#+beamer_header:     \tableofcontents[currentsection,hideallsubsections]
+#+beamer_header:   \end{frame}
+#+beamer_header: }
+#+beamer_header: \AtBeginSubsection[]            % SubSection
+#+beamer_header: {
+#+beamer_header:     \begin{frame}{outline}
+#+beamer_header:         \tableofcontents[currentsection,currentsubsection,subsectionstyle=show/shaded/hide]
+#+beamer_header:     \end{frame}
+#+beamer_header: }
+
+#+beamer_header: \setbeamerfont{structure}{shape=\scshape,family=\sffamily}
+
+#+beamer_header: \setbeamertemplate{section page}
+#+beamer_header: {
+#+beamer_header:   \begin{centering}
+#+beamer_header:     \begin{beamercolorbox}[sep=12pt,center]{part title}
+#+beamer_header:       \usebeamerfont{section title}\insertsection\par
+#+beamer_header:     \end{beamercolorbox}
+#+beamer_header:   \end{centering}
+#+beamer_header: }
+#+beamer_header: 
+
+#+latex_header_extra: \usepackage[date=year,%
+#+latex_header_extra:   backend=biber,%
+#+latex_header_extra:   style=alphabetic,%
+#+latex_header_extra:   maxnames=5,%
+#+latex_header_extra:   minnames=3,%
+#+latex_header_extra:   maxalphanames=4,%
+#+latex_header_extra:   minalphanames=3,%
+#+latex_header_extra:   backref=true,%
+#+latex_header_extra:   doi=false,%
+#+latex_header_extra:   isbn=false,%
+#+latex_header_extra:   url=false,%
+#+latex_header_extra:   eprint=false]{biblatex}
+#+latex_header_extra: \DefineBibliographyStrings{english}{%
+#+latex_header_extra:   backrefpage  = {\lowercase{s}ee p.}, % for single page number
+#+latex_header_extra:   backrefpages = {\lowercase{s}ee pp.} % for multiple page numbers
+#+latex_header_extra: }
+#+latex_header_extra: \addbibresource{/home/bvraghav/bibliography.bib}
+
+
+#+latex_header_extra: %% Math typesetting
+#+latex_header_extra: %% --------------------------------
+#+latex_header_extra: \usepackage{amsmath}
+#+latex_header_extra: \usepackage{amssymb}
+#+latex_header_extra: \usepackage{amsfonts}
+#+latex_header_extra: \usepackage{bbold}
+
+#+latex_header_extra: % Operators with limit-style sub and superscript
+#+latex_header_extra: \DeclareMathOperator*{\E}{\mathbb{E}}
+
+
+# https://tex.stackexchange.com/a/50754
+# -----------------------------------------------------
+#+latex_header_extra: \hypersetup{%
+#+latex_header_extra:     colorlinks=true,%
+#+latex_header_extra:     allcolors=magenta,%
+#+latex_header_extra:     %linkbordercolor = {white},%
+#+latex_header_extra:     %<your other options...>,
+#+latex_header_extra: }
+
+# Never use enumitem with beamer. Errors out with “TeX
+# capacity exceeded”
+# -----------------------------------------------------
+#+latex_header: %\usepackage{enumitem}
+
+
+# Algorithm
+# -----------------------------------------------------
+#+latex_header: \usepackage[linesnumbered,ruled,vlined]{algorithm2e}

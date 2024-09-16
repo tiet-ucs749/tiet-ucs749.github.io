@@ -1,0 +1,305 @@
+% Created 2024-09-16 Mon 22:35
+% Intended LaTeX compiler: pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,svgnames}]{beamer}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{libertine}
+\usepackage[normalem]{ulem}
+\usepackage{varwidth}
+\usepackage[Export]{adjustbox}
+%\usepackage{enumitem}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{tabularx}
+\graphicspath{ {./images/} {./org-download-images/} }
+\usepackage[date=year,%
+backend=biber,%
+style=alphabetic,%
+maxnames=5,%
+minnames=3,%
+maxalphanames=4,%
+minalphanames=3,%
+backref=true,%
+doi=false,%
+isbn=false,%
+url=false,%
+eprint=false]{biblatex}
+\DefineBibliographyStrings{english}{%
+backrefpage  = {\lowercase{s}ee p.}, % for single page number
+backrefpages = {\lowercase{s}ee pp.} % for multiple page numbers
+}
+\addbibresource{/home/bvraghav/bibliography.bib}
+%% Math typesetting
+%% --------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{bbold}
+% Operators with limit-style sub and superscript
+\DeclareMathOperator*{\E}{\mathbb{E}}
+\hypersetup{%
+colorlinks=true,%
+allcolors=magenta,%
+%linkbordercolor = {white},%
+%<your other options...>,
+}
+\usetheme{boxes}
+\usecolortheme{crane}
+\usefonttheme{serif}
+\useinnertheme{rectangles}
+\useoutertheme{}
+\date{\textit{[2024-08-21 Wed]}}
+\title{connectionist temporal classification}
+\subtitle{ucs749: speech processing and synthesis}
+\author{%
+%\noindent{} \\[2em]
+\normalsize Raghav B. Venkataramaiyer
+}
+\institute{%
+CSED TIET Patiala India.
+}
+\date{\scriptsize \today}
+\setbeamercolor{alerted text}{fg=red!80!black}
+%% Setup outline at begin section
+%% -------------------------------------------------------
+\AtBeginSection[]               % Section
+{
+\begin{frame}{outline}
+\tableofcontents[currentsection,hideallsubsections]
+\end{frame}
+}
+\AtBeginSubsection[]            % SubSection
+{
+\begin{frame}{outline}
+\tableofcontents[currentsection,currentsubsection,subsectionstyle=show/shaded/hide]
+\end{frame}
+}
+\setbeamerfont{structure}{shape=\scshape,family=\sffamily}
+\setbeamertemplate{section page}
+{
+\begin{centering}
+\begin{beamercolorbox}[sep=12pt,center]{part title}
+\usebeamerfont{section title}\insertsection\par
+\end{beamercolorbox}
+\end{centering}
+}
+
+\setbeamercovered{transparent}
+\hypersetup{
+ pdfauthor={Raghav B. Venkataramaiyer},
+ pdftitle={connectionist temporal classification},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.4 (Org mode 9.6.24)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\begin{frame}{Outline}
+\tableofcontents
+\end{frame}
+
+
+\section{summary}
+\label{sec:orgfb5af38}
+
+\begin{frame}[label={sec:orgc764a22}]{summary}
+\begin{description}
+\item[{author}] Graves, A., Fernández, S., Gomez, F., \&
+Schmidhuber, J.
+\item[{url}] \href{https://dl.acm.org/doi/10.1145/1143844.1143891}{[ACM]​}, \href{https://www.cs.toronto.edu/\~graves/icml\_2006.pdf}{[PDF from toronto.edu]​}, \href{https://mediatum.ub.tum.de/doc/1292048/document.pdf}{[PDF from
+tum.de]​}, \href{https://pytorch.org/docs/stable/generated/torch.nn.CTCLoss.html}{[Pytorch]​} \href{https://www.tensorflow.org/api\_docs/python/tf/nn/ctc\_loss}{[Tensorflow]​} \href{https://github.com/maetshju/flux-ctc-grad}{[Julia]​}
+\item[{date}] 2006
+\item[{booktitle}] Proceedings of the 23rd International
+Conference on Machine Learning
+\end{description}
+\end{frame}
+
+\begin{frame}[label={sec:org18f8691}]{summary}
+\begin{columns}
+\begin{column}{.7\columnwidth}
+\begin{itemize}
+\item type of neural network output and associated scoring
+function (for RNN’s);
+\item to tackle sequence problems where the timing is
+variable;
+\item CTC refers to the outputs and scoring, and is
+independent of the underlying neural network
+structure.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+\begin{frame}[label={sec:org7ce3356}]{summary}
+\begin{columns}
+\begin{column}{.7\columnwidth}
+\begin{quote}
+For example, in speech audio there can be multiple time
+slices which correspond to a single phoneme. Since we
+don't know the alignment of the observed sequence with
+the target labels we predict a probability distribution
+at each time step. --- Wikipedia
+\end{quote}
+
+See also: \url{https://distill.pub/2017/ctc/}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{key observation}
+\label{sec:org91d007b}
+\begin{frame}[label={sec:org6a5f1ed},fragile]{key observation}
+ \begin{columns}
+\begin{column}{.7\columnwidth}
+An input waveform for the word \texttt{HELLO} may vary in the
+following ways,
+\begin{itemize}
+\item A quick and slow speaker may stretch it at varying
+lengths, \emph{e.g.} \texttt{HELLLOO} vs \texttt{HEELLLOOOO}; and the
+same may be extend to syllable stresses and
+intonations when speaking in further detail;
+\item The start points and blanks may vary, \emph{e.g.}
+\texttt{-{}-{}-HEE-LLOO-} vs \texttt{-HELLLOO-}
+\end{itemize}
+
+We call this as an \alert{alignment} problem, where given an
+alphabet, say \(\{H,E,L,O\}\), and a sequence
+\([x_1,\ldots,x_T]\), find the correspondence.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[label={sec:org0b7b8bd},fragile]{key observation}
+ \begin{columns}
+\begin{column}{.7\columnwidth}
+\begin{itemize}
+\item Inherent to this formulation, there’s no way to
+distinguish between \texttt{HELO} vs \texttt{HELLO}.
+\item This problem is like \alert{mode collapse}.
+\item To this end, the author introduces a special
+character called CTC blank \(\epsilon\), that
+suppresses mode collapse.
+\item \emph{E.g.} \texttt{LLLL} \(\to\) \texttt{L} in post-processing, but
+\texttt{LL-LL} \(\to\) \texttt{LL}.
+\item Hence, the alphabet now becomes
+\(\{H,E,L,O,\epsilon\}\).
+\item This problem grows polynomially in alphabet size and
+exponentially in sequence size.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{the problem}
+\label{sec:org7330e3a}
+
+\begin{frame}[label={sec:org42648f1}]{the problem}
+\begin{columns}
+\begin{column}{.7\columnwidth}
+Minimise transcription mistakes from speech to text or
+handwriting to text, where the natural measure is a
+\emph{label error rate} \(\mathrm{LER}\) of a temporal
+classifier \(h\), defined as follows.
+
+\begin{align}
+  \notag
+  \mathrm{LER}(h,\mathbb{S}^{\prime})
+  &= \underset {\large(\mathbf{x},\mathbf{z}) \sim
+    \mathbb{S}^{\prime}} {\Large\mathbb{E}}
+    \left[\frac{\mathrm{ED}(h(\mathbf{x}),
+    \mathbf{z})}{|\mathbf{z}|} \right]
+\end{align}
+
+where,
+\begin{itemize}
+\item \(\mathbb{S}^{\prime}\subset \mathcal{D}_{\mathcal{X}
+  \times \mathcal{Z}}\) is the test sample;
+\item \(\mathrm{ED}\) is the edit distance.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{key contribution}
+\label{sec:org48f7ce8}
+\begin{frame}[label={sec:orgaea53af}]{key contribution}
+The problem may be seen as,
+
+\begin{align}
+  \notag
+  Y_*
+  &= \arg\max_YP(Y|X) \\
+  \notag
+  P(Y|X)
+  &= \sum_{A \in \mathcal{A} (X,Y)} \prod_{t=1}^T
+    P_t(\mathbf{a}_t|X) 
+\end{align}
+where,
+\begin{itemize}
+\item \(X\equiv[\mathbf{x}_1,\ldots,\mathbf{x}_n]\) be the
+input sequence;
+\item \(Y\equiv[\mathbf{y}_1,\ldots,\mathbf{y}_m]\) be the
+output sequence;
+\item \(A\equiv[\mathbf{a}_1,\ldots,\mathbf{a}_T]\) be an
+alignment between \(\mathbf{x}\) and \(\mathbf{y}\) ---
+also the network output; and
+\item \(\mathcal{A} (X,Y)\) be such an alignment space;
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label={sec:orgcc80858},fragile]{key contribution (contd\ldots)}
+ \begin{columns}
+\begin{column}{.7\columnwidth}
+\begin{description}
+\item[{Inputs}] \(X\in\mathbb{R}^{(\cdot)\times n}\) is a
+spectrogram-like audio input, like MFCC, providing
+\(n\) time step sequence of input.
+\item[{Network Output}] (or RNN output) is the alignment
+\(A\in\mathbb{R}^{|L'|\times T}\). Here \(L'\equiv
+  L\cup{\epsilon}\) is the alphabet augmented with CTC
+blank.
+\item[{Alphabet}] \(Y\in\mathbb{R}^{m}\) (also known as
+\(Y_{\text{mask}}\) in some implementations) is the
+output sequence augmented by blanks, \emph{e.g.}
+\texttt{-HEL-LO-} or \texttt{HEL-LO} for \texttt{HELLO}, as a sequence of
+indices; or seldom tokens dependent upon
+implementation detail.
+\end{description}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[label={sec:org87e237b}]{back-propagation with forward-backward algorithm}
+\begin{columns}
+\begin{column}{.7\columnwidth}
+\(\mathcal{A} (X,Y)\) is grows exponentially in the
+length of sequence, \emph{i.e.} \(\mathcal{O}(m^T)\)
+
+But similar to the HMM, a recursive definition enables
+us to compute the loss efficiently in
+\(\mathcal{O}(m^{2}T)\).
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{implementation}
+\label{sec:org91c67bf}
+\begin{frame}[label={sec:org4390f2a}]{in frameworks}
+\begin{columns}
+\begin{column}{0.45\columnwidth}
+\href{https://pytorch.org/docs/stable/generated/torch.nn.CTCLoss.html}{[Pytorch]​}
+
+\href{https://www.tensorflow.org/api\_docs/python/tf/nn/ctc\_loss}{[Tensorflow]​}
+\end{column}
+\end{columns}
+\end{frame}
+\end{document}

@@ -1,0 +1,326 @@
+#+startup: beamer
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+options: H:3 author:nil
+#+title: time-delay neural networks
+#+SUBTITLE: ucs749: speech processing and synthesis
+#+DATE: [2024-08-21 Wed]
+#+AUTHOR: Raghav B. Venkataramaiyer
+#+EMAIL: bv.raghav@thapar.edu
+#+LANGUAGE: en
+
+#+include: preamble.org
+
+#+latex_header: \usepackage{tabularx}
+#+beamer_header: \setbeamercovered{transparent}
+
+#+MACRO: cnc {{{sc(cnc)}}}
+
+* summary
+*** summary
+:PROPERTIES:
+:CUSTOM_ID: sec:summary
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+
+In the authors' own words, in the context of
+``difficult'' word recognition, this literature documents
+the success of,
+
+#+begin_quote
+a network that extracted features by repeatedly
+convolving a set of narrow weight patterns with the
+contents of a sliding window into the input.
+#+end_quote
+
+This is a widely referenced early work that lays
+foundation for 1-D convolution based approaches in the
+recent advances, like [[../jasper/][Jasper]] and its derivatives.
+
+*See also*: [[#sec:dataset][Dataset]] to understand the problem better.
+
+* motivation
+
+*** motivation
+:PROPERTIES:
+:CUSTOM_ID: sec:motivation
+:END:
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .45
+:END:
+#+begin_quote
+[\ldots] the Viterbi-aligned speech fragments contained
+enough alignment errors to motivate a shift-invariant
+[model]
+#+end_quote
+
+Ref: [[#sec:viterbi-alignment][Viterbi Alignment]]
+
+* key idea
+*** key idea
+:PROPERTIES:
+:CUSTOM_ID: sec:key-idea
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+
++ Neural networks are universal approximators;
++ Convolution controls model size; and
++ Pooling leads to positional invariance.
+
+* method
+*** let
+:PROPERTIES:
+:CUSTOM_ID: sec:method
+:END:
+
+#+attr_html: :style vertical-align:baseline
+#+attr_latex: :width \linewidth :spread t :environment tabularx :align rX
+| <15>                                                        | <35>                                                                                                                                                                                                         |
+| $\text{data}$                                               | be a set of $(y,\mathbf{x})$ pairs; $\mathbf{x}$ being the input vector, and $y\in\mathbb{Z}_{\geqslant0}$ being the labels.                                                                                 |
+| $\mathbf{x}\in\mathbb{X}\subseteq\mathbb{R}^{C\times T}$    | be input vector; $C=16$ being number of channels; and $T$ being temporal resolution.                                                                                                                         |
+| $\Phi(\;\cdot;\theta):\mathbb{X}\to\mathbb{R}^{K\times T'}$ | be 1-D convolutional neural network, with its output being a $T'$ long sequence of $K$ dimensional vector, representing word probabilities; $K$ being the vocabulary size and $\theta$ being network params. |
+| $\boldsymbol{1}_{k}:\mathbb{Z}_{\geqslant0}\to\mathbb{R}^{k}$ | be whole number to one-hot vector converter                                                                                                                                                                  |
+| $\parallel\,\cdot\,\parallel_{p,\mathrm{row}}$              | be an operator that computes $L_{p}$ norm for each row vector in the tensor, defined here for mathematical convenience.                                                                                      |
+| $\mathbf{x}^{\otimes n}$                                    | be element-wise exponentiation operation, defined here for mathematical convenience.                                                                                                                         |
+| $\Delta_{E}$                                                | be Euclidean distance between two vectors.                                                                                                                                                                   |
+# | $\mathrm{avg}$                                              | be the average pooling operator.                                                                                                                                                                             |
+
+*** model
+
+****                                                            :B_column:
+:PROPERTIES:
+:BEAMER_env: column
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+TDNN model for speech command classification may be
+summarised mathematically as a learnt function $f$ with
+optimal parameters $\theta_*$, so that label is
+predicted as,
+\begin{align*}
+\widetilde{y} = \arg\max f(\mathbf{x};\theta_*)
+\end{align*}
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+Where, 
+\begin{align}
+  \notag \theta_*
+  &= \arg \min_{\theta} \underset {y,\mathbf{x}
+    \sim\text{data}} {\mathbb{E}} \left[ \Delta(y,
+    f(\mathbf{x};\theta)) \right] \\
+  \notag f(\mathbf{x};\theta)
+  &= \left\| \Phi(\mathbf{x};
+    \theta) \right\|_{2,\mathrm{row}}^2 \\
+  \notag \Delta(y, \widetilde{\mathbf{y}})
+  &= \Delta_E \left(\boldsymbol{1}_K(y),
+    \widetilde{\mathbf{y}} \right)
+\end{align}
+
+* dataset
+*** dataset
+:PROPERTIES:
+:CUSTOM_ID: sec:dataset
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.5
+:END:
+
+
+400 samples
+
+#+begin_quote
+the four *words*, ``bee, dee, ee,'' and ``vee'' [B, D, E,
+and V] were used; earlier IBM research had shown that
+these four words were the most confusable members of
+the E-set of the alphabet.
+#+end_quote
+
+# * Results
+# :PROPERTIES:
+# :CUSTOM_ID: sec:results
+# :END:
+
+* appendix
+:PROPERTIES:
+:CUSTOM_ID: sec:appendix
+:END:
+** Feature Extraction
+
+*** feature extraction
+:PROPERTIES:
+:CUSTOM_ID: sec:feature-extraction
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+
+Initial spectrogram feature
++ was extracted from $150$ ms waveform
++ containing log energy values and
++ bearing shape $128\times48$; $128$ frequencies $\times48$ frames each lasting $3$ ms.
+
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+In an experiment with input feature size, it was
+observed, however that
++ $16\times12$ input-based; $16$ frequency bands on
+  linear scale $\times12$ frames each lasting $12$ ms
++ 2-layer hidden model
+exhibited the best performance; 
+
+*** feature extraction
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+
+#+begin_quote
+[\ldots] the program converted our 150 ms waveform samples
+into spectrograms containing 128 log energies ranging
+up to 8 kHz, and 49 time frames of 3 ms each.  The
+first frame of each spectrogram was then discarded so
+that there would be 48 time steps (a highly
+factorizable number), and the DC bias com- ponent of
+each frame was set to zero.  Because each of the 48
+time frames represented 3 ms, the final duration of the
+spectrograms was 144 ms.
+#+end_quote
+(Adapted from the paper)
+
+** Viterbi Alignment
+*** viterbi alignment
+:PROPERTIES:
+:CUSTOM_ID: sec:viterbi-alignment
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
++ In a prior art at IBM, a hidden Markov model (HMM)
+  was used to model the distribution of labels and
+  spoken word.
++ The Viterbi search listed the most likely sequence of
+  /labels/, corresponding to each frame of utterance in
+  a spoken word; where the word identity was known.
+
+*** viterbi alignment
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+In such an experiment by the IBM (the authors say)
+
+#+begin_quote
+These labels were used to extract a 150 ms salient
+section of each utterance which included 100 ms before
+the first frame that was labelled ``E'' (this region
+should contain the consonant), plus 50 ms of the vowel.
+#+end_quote
+
+*** hmm model details (fyi)
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .7
+:END:
+
+Details of the HMM Model in the experiment by IBM
+#+begin_quote
+[\ldots] the words *B*, *D*, and *V* are modelled by a
+concatenation of the state machines for _noise_,
+_voiced consonant onset_, _{B,D,V}_, _E_, _E
+trail-off_, and _noise_. The word *E* is modelled by a
+concatenation of the state machines for _noise_, _E
+onset_, _E_, _E trail-off_, and _noise_. The state
+machines contain 3 main states with associated
+transitions to model the _beginning_, _middle_, and
+_end_ of each phone. The consonant and vowel machines
+include *self-loops* to model steady-state portions of
+the acoustic signal, and all of the machines include
+_null transitions_ to model short durations.
+#+end_quote
+
