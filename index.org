@@ -141,24 +141,30 @@ be submit using the Google Form. Any attachments are
 :CUSTOM_ID: schedule-recognition
 :END:
 + Hidden Markov Model :: [[https://web.stanford.edu/~jurafsky/slp3/A.pdf][Notes [PDF]​]], \\
-  More literature from [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]], [[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]]; [[https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition][Rabiner’s
-  Tutorial]].
+  Further reading: [[https://scholar.google.com/scholar?q=A%20tutorial%20on%20hidden%20Markov%20models%20and%20selected%20applications%20in%20speech%20recognition][Rabiner’s Tutorial]]; [[https://www.google.com/search?hl=en&q=hidden%20markov%20model%20filetype%3Apdf][Google]],
+  [[https://duckduckgo.com/?q=hidden+markov+model+filetype%3Apdf&ia=web][Duck,Duck,Go]].
 + Time Delay DNN (TDNN) :: 
   + [[file:slides/tdnn.pdf][[Slides]​]] [[./time-delay-networks/][Time-delay Networks (TDNN)]],
   + [[file:slides/ctc.pdf][[Slides]​]] [[./ctc/][Connectionist Temporal Classification (CTC)]],
   + [[file:slides/jasper.pdf][[Slides]​]] [[./jasper/][Jasper]],
-  + [[https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition][QuartzNet]],
-  + [[https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non][Citrinet]]
-+ Speech Command Recognition :: MatchboxNet: [[https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1][[PwC]​]]
-  [[https://colab.research.google.com/github/tiet-ucs749/tiet-ucs749.github.io/blob/main/matchboxnet/Speech_Commands.ipynb][[Colab]​]] (Implementation: [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py][here]] and [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/xception.py][here]] uses [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/xception.py#L252-L266][AvgPool
+  + [[file:slides/jasper-derivatives.pdf][[Slides] QuartzNet]]; Further reading: [[https://paperswithcode.com/paper/quartznet-deep-automatic-speech-recognition][[Papers with Code]​]],
+  + [[file:slides/jasper-derivatives.pdf][[Slides] Citrinet]]; Further reading: [[https://paperswithcode.com/paper/citrinet-closing-the-gap-between-non][[Papers with code]​]].
++ Speech Command Recognition :: MatchboxNet: [[file:slides/jasper-derivatives.pdf][[Slides]​]];
+  Further reading: [[https://paperswithcode.com/paper/matchboxnet-1d-time-channel-separable-1][[Papers with code]​]]; Implementation:
+  [[https://colab.research.google.com/github/tiet-ucs749/tiet-ucs749.github.io/blob/main/matchboxnet/Speech_Commands.ipynb][[Colab]​]]; (Implementation: [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/ds_tc_resnet.py][here]] and [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/xception.py][here]] uses [[https://github.com/google-research/google-research/blob/master/kws_streaming/models/xception.py#L252-L266][AvgPool
   after blocks]])
 
 ** Synthesis (Text-to-Speech; TTS)
 :PROPERTIES:
 :CUSTOM_ID: schedule-synthesis
 :END:
-+ Spectrogram Generators :: [[https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet][Tacotron2]], [[https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech][GlowTTS]]
-+ Audio Generators :: [[https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for][WaveGlow]], [[https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders][SqueezeWave]]
++ Overview :: [[https://docs.google.com/presentation/d/1oyARQWM6T7WaJ9cKEdTDoC5xiqiufwy9m-AUvW7K1UU/edit?usp=sharing][[Google Slides]​]]
++ Spectrogram Generators :: Tacotron2: Further Reading
+  [[https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet][[Papers with code]​]], GlowTTS: Further Reading [[https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech][[Papers
+  with code]​]]
++ Audio Generators :: Wavenet: [[https://docs.google.com/presentation/d/11UHK4QGZfjIdoPXUN4hDEw6Z2U8p1Q4ujmrbiyFOIhQ/edit?usp=sharing][[Google Slides]​]];
+  WaveGlow: Further Reading [[https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for][[Papers with code]​]];
+  SqueezeWave: Further Reading [[https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders][[Papers with code]​]].
 
 * List of Slides/Notes
 :PROPERTIES:
@@ -169,6 +175,9 @@ be submit using the Google Form. Any attachments are
 3. [[file:slides/tdnn.pdf][TDNN [Slides]​]]
 4. [[file:slides/ctc.pdf][CTC [Slides]​]]
 5. [[file:slides/jasper.pdf][Jasper [Slides]​]]
+6. [[file:slides/jasper-derivatives.pdf][Jasper Derivatives [Slides]​]]
+7. [[https://docs.google.com/presentation/d/1oyARQWM6T7WaJ9cKEdTDoC5xiqiufwy9m-AUvW7K1UU/edit?usp=sharing][TTS Overview [Google Slides]​]]
+8. [[https://docs.google.com/presentation/d/11UHK4QGZfjIdoPXUN4hDEw6Z2U8p1Q4ujmrbiyFOIhQ/edit?usp=sharing][TTS Wavenet [Google Slides]​]]
 
 * Schedule of Practicals
 :PROPERTIES:
