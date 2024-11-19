@@ -1,0 +1,576 @@
+#+startup: beamer
+
+#+PROPERTY: header-args+ :exports both :eval never-export
+#+PROPERTY: header-args:python+ :results output replace verbatim
+
+#+options: H:3 author:nil toc:nil
+#+title: jasper derivatives
+#+SUBTITLE: ucs749: speech processing and synthesis
+#+DATE: [2024-08-19 Mon]
+#+AUTHOR: Raghav B. Venkataramaiyer
+#+EMAIL: bv.raghav@thapar.edu
+#+LANGUAGE: en
+
+#+include: preamble.org
+
+#+latex_header: \usepackage{tabularx}
+#+beamer_header: \setbeamercovered{transparent}
+
+#+MACRO: cnc {{{sc(cnc)}}}
+
+* metadata
+
+*** metadata
+- keywords :: Computer Science - Computation and
+  Language, Computer Science - Machine Learning,
+  Computer Science - Sound, Electrical Engineering and
+  Systems Science - Audio and Speech Processing
+- includes :: QuartzNet, CitriNet & MatchboxNet
+
+* prior art
+:PROPERTIES:
+:CUSTOM_ID: sec:prior-art
+:END:
+
+*** jasper
+:PROPERTIES:
+:CUSTOM_ID: sec:jasper-prior-art
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.4
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-08-28 07:44:17
+#+caption: Jasper $B\times R$ model: $B$: number of blocks; $R$: number of sub-blocks.
+[[file:org-download-images/Contribution/2024-08-28_07-44-17_screenshot.png]]
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-08-28 07:46:36
+#+caption: Jasper Dense Residual Model
+[[file:org-download-images/Contribution/2024-08-28_07-46-36_screenshot.png]]
+* quartznet
+*** quartznet
+solves the same problem as jasper
+
+*** quartznet architecture
+:PROPERTIES:
+:CUSTOM_ID: sec:quartznet-architecture
+:END:
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .4
+:END:
+#+DOWNLOADED: screenshot @ 2024-10-18 01:36:10
+#+caption: Quartznet Architecture
+[[file:org-download-images/quartznet/2024-10-18_01-36-10_screenshot.png]]
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .6
+:END:
+
++ Uses *separable* conv instead of conv.
++ 1D Conv (along time) $\to$ 1D Conv (along frequency)
+  $\to$ Batch Norm $\to$ ReLU \\
+  instead of
++ 1D Conv $\to$ Batch Norm $\to$ ReLU $\to$ Dropout.
+*** separable filters
+:PROPERTIES:
+:CUSTOM_ID: sec:separable-conv
+:END:
+#+begin_src gnuplot :exports none
+  set term pngcairo size 1024,1024
+  set output "/home/bvraghav/code/tiet-ucs749/tiet-ucs749.github.io/slides/image/sep-conv.png"
+
+
+  N(x,mu,ss)=(1/sqrt(2*pi*ss))*exp(-((x-mu)**2)/(2*ss))
+  mux=0
+  ssx=0.3
+  muy=0
+  ssy=0.15
+  fx(x)=N(x,mux,ssx)
+  fy(y)=N(y,muy,ssy)
+
+  set xrange [-1:1]
+  set yrange [-1:1]
+  set zrange [0:1]
+  set pm3d map
+  set samples 10
+  set isosamples 10
+  unset colorbox
+
+  # splot fx(x)*fy(y)
+
+  set macros
+  # Placement of the a,b,c,d labels in the graphs
+  POS = "at graph 0.92,0.9 font ',8'"
+  # x- and ytics for each row resp. column
+  NOXTICS = "unset xtics; unset xlabel"
+  XTICS = "set xtics; set xlabel 'x'"
+  NOYTICS = "unset ytics; unset ylabel"
+  YTICS = "set ytics; set ylabel 'y'"
+
+  # RANGES
+  RANGESxy = "set xrange [-0.05:0.05]; set yrange [-0.05:0.05]; set zrange [0:1]"
+  RANGESxY = "set xrange [-0.05:0.05]; set yrange [-1:1]; set zrange [0:1]"
+  RANGESXy = "set xrange [-1:1]; set yrange [-0.05:0.05]; set zrange [0:1]"
+  RANGESXY = "set xrange [-1:1]; set yrange [-1:1]; set zrange [0:1]"
+
+  # Margins for each row resp. column
+  TMARGIN = "set tmargin at screen 0.90; set bmargin at screen 0.10"
+  BMARGIN = "set tmargin at screen 0.55; set bmargin at screen 0.20"
+  LMARGIN = "set lmargin at screen 0.15; set rmargin at screen 0.55"
+  RMARGIN = "set lmargin at screen 0.55; set rmargin at screen 0.95"
+
+  ### Start multiplot (2x2 layout)
+  # set size 1,1
+  # set origin 0,0
+  # set multiplot layout 2,2 rowsfirst upwards spacing 0.01,0.01 margins 0,1,0,1
+  # set multiplot layout 2,2 rowsfirst spacing 0.01,0.01 margins 0,1,0,1
+  set multiplot layout 2,2 rowsfirst
+  # --- GRAPH a
+  # set label 1 'a' @POS
+  # set size 0.09,0.09
+  # set origin 0,0
+  # # @RANGESxy
+  # @NOXTICS; @NOYTICS;
+  # splot 0 t ''
+  set multiplot next
+  # --- GRAPH b
+  # set label 1 'b' @POS
+  # set size 0.89,0.09
+  # set origin 0,0
+  # set origin 0.11,0
+  set tmargin at screen 1; set bmargin at screen 0.91;
+  set lmargin at screen 0.11; set rmargin at screen 1;
+  @RANGESXy
+  @NOXTICS; @NOYTICS;
+  splot fx(x) t ''
+  # --- GRAPH c
+  # set label 1 'c' @POS
+  # set size 0.09,0.89
+  # set origin 0,0
+  # set origin 0,0.11
+  set tmargin at screen 0.89; set bmargin at screen 0;
+  set lmargin at screen 0; set rmargin at screen 0.09;
+  @RANGESxY
+  @NOXTICS; @NOYTICS;
+  splot fy(y) t ''
+  # --- GRAPH d
+  # set label 1 'd' @POS
+  # set size 0.89,0.89
+  # set origin 0,0
+  # set origin 0.11,0.11
+  set tmargin at screen 0.89; set bmargin at screen 0;
+  set lmargin at screen 0.11; set rmargin at screen 1;
+  @RANGESXY
+  @NOXTICS; @NOYTICS;
+  splot fx(x)*fy(y) t ''
+  unset multiplot
+  ### End multiplot
+#+end_src
+
+#+RESULTS:
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+file:/home/bvraghav/code/tiet-ucs749/tiet-ucs749.github.io/slides/image/sep-conv.png
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+$9\times 9$ separable Gaussian filter with constituents
+as
++ $\mathcal{N}(x;0,0.3)$ along the x-axis; and
++ $\mathcal{N}(y;0,0.15)$ along the y-axis;
+
+each resolved within limits $[-1,1]$ into 9 discrete
+units.
+
+*** separable filters
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+file:/home/bvraghav/code/tiet-ucs749/tiet-ucs749.github.io/slides/image/sep-conv-fx.png
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+\begin{align*}
+  F_{x} &= \frac{1}{\sqrt{2\pi\sigma^2_x}}
+          e^{-\frac{(x-\mu_x)^2}{2\sigma^2_x}}
+  \\
+  \mu_x &= 5 \qquad \sigma_x = \frac43
+\end{align*}
+
+*** separable filters
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+file:/home/bvraghav/code/tiet-ucs749/tiet-ucs749.github.io/slides/image/sep-conv-fy.png
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+\begin{align*}
+  G_{y} &= \frac{1}{\sqrt{2\pi\sigma^2_y}}
+          e^{-\frac{(y-\mu_y)^2}{2\sigma^2_y}}
+  \\
+  \mu_y &= 5 \qquad \sigma_y = \frac23
+\end{align*}
+
+
+
+*** separable filters
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+file:/home/bvraghav/code/tiet-ucs749/tiet-ucs749.github.io/slides/image/sep-conv.png
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+\begin{align*}
+  M_{xy} &= F_x \times G_y
+\end{align*}
+
+
+*** separable conv
+
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+file:/home/bvraghav/code/tiet-ucs749/tiet-ucs749.github.io/slides/image/sep-conv.png
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+If $F$ and $G$ constitute a separable filter M so that
+$M(x,y)=F(x)\times G(y)$, the following equivalence for
+convolution $\otimes$ over a given signal $X$, holds
+true,
+
+\begin{align*}
+  M \otimes X
+  &\equiv F \otimes G \otimes X
+  \\
+  &\equiv G \otimes F \otimes X
+\end{align*}
+
+
+*** learnable separable conv
+
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+
+file:/home/bvraghav/code/tiet-ucs749/tiet-ucs749.github.io/slides/image/sep-conv.png
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+If $M$ is a learnable 2D filter with size $k\times k$;
+the num params is $k^{2}$
+
+#+latex: {\vspace{0.3\baselineskip}}
+
+If $M$ is also separable into $F$ and $G$, then, for a
+given signal $X$,
+
+$M\otimes X \equiv F\otimes G\otimes X$,
+
+with $F$ and $G$ bearing $k$ params each.  Hence, num
+params becomes $2k$.
+
+*** separability in quartznet
+
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+In Jasper, for a given convolution layer,
+
++ Let inputs be
+  $\mathbf{x}\in\mathbb{R}^{C_{\text{in}}\times t}$;
++ Let outputs be
+  $\mathbf{y}\in\mathbb{R}^{C_{\text{out}}\times
+  t^{\prime}}$;
++ Let 1D conv filter be of size $k$;
++ num input time steps $=t$;
++ num input channels $=C_{\text{in}}$;
++ num output channels $=C_{\text{out}}$;
++ num params required for each channel of ouptut
+  $=k\times C_{\text{in}}$
++ num params required in total $=k\times
+  C_{\text{in}}\times C_{\text{out}}$
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .5
+:END:
+In Quartznet, the same op is implemented in 2 layers,
++ $F(\mathbf{x})\to\mathbf{y}^{\prime} :
+  \mathbf{y}^{\prime}\in\mathbb{R}^{C_{\text{in}}\times
+  t^{\prime}}$
++ $G(\mathbf{y}^{\prime}) \to \mathbf{y}$
++ $F$ convolves over the time axis, separately for each
+  frequency (input channel); hence num params
+  $=k\times C_{\text{in}}$
++ $G$ convolves over the frequency axis, with same
+  kernel for each time step; hence num params
+  $=C_{\text{in}}\times C_{\text{out}}$
++ Total num params $=k\times C_{\text{in}} +
+  C_{\text{in}}\times C_{\text{out}}$
+* citrinet
+*** citrinet
+solves the same problem as jasper
+*** citrinet architecture
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+#+latex: \only<+>{
+#+DOWNLOADED: screenshot @ 2024-11-19 09:32:01
+[[file:org-download-images/citrinet/2024-11-19_09-32-01_screenshot.png]]
+#+latex: }\only<+->{
+
+#+DOWNLOADED: screenshot @ 2024-11-19 09:37:34
+[[file:org-download-images/citrinet/2024-11-19_09-37-34_screenshot.png]]
+
+#+latex: }
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .55
+:END:
+
+Uses *squeeze and excitation* attention on top of
+/conv + bn/ and before non-linear activation.
+
+\begin{align*}
+  \mathrm{SE}\;(\mathbf{x})
+  &= \mathbf{x} \otimes F_{sc}\circ F_{ex}\circ F_{sq}
+    (\mathbf{x}) 
+\end{align*}
+
+where, $\otimes$ is the Hadamard product (element-wise
+product)
+
+*Conv* is Time–channel separable Conv as in Quartznet.
+
+*** squeeze and excitation
+\begin{align*}
+  \mathrm{SE}\;(\mathbf{x})
+  &= \mathbf{x} \otimes F_{sc}\circ F_{ex}\circ F_{sq}
+    (\mathbf{x}) 
+\end{align*}
+
+#+DOWNLOADED: screenshot @ 2024-11-19 09:55:43
+[[file:org-download-images/citrinet/2024-11-19_09-55-43_screenshot.png]]
+
+@@latex:\scriptsize@@ The image is from the original
+squeeze and excitation paper; and shows $\mathrm{SE}$
+in the context of 2D Conv.  But recall that in the
+context of speech recognition we have 1D Conv; and the
+same concept is extended trivially.
+
+*** squeeze and excitation
+
+#+DOWNLOADED: screenshot @ 2024-11-19 09:55:43
+[[file:org-download-images/citrinet/2024-11-19_09-55-43_screenshot.png]]
+
++ $F_{sq} (\mathbf{x}) = \bar{\mathbf{x}} = \frac1T\sum_t\mathbf{x}_t$ :: 
+  performs global average pooling; $\to 1\times C$
++ $F_{ex} (\mathbf{x}) = \mathrm{RELU}(W_1\mathbf{x} + \mathbf{b}_1)$ :: 
+  conv+RELU; $1\times C\to1\times c$; typically $c<C$;
++ $F_{sc} (\mathbf{x}) = \mathrm{sigmoid}(W_2\mathbf{x} + \mathbf{b}_2)$ ::
+  conv+sigmoid; $1\times c \to 1\times C$;
+
+*** results
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .4
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-11-19 10:44:03
+[[file:org-download-images/citrinet/2024-11-19_10-44-03_screenshot.png]]
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .6
+:END:
+
+Citrinet shows comparable performance with
+significantly lower number of params.
+
+* matchboxnet
+
+*** matchboxnet
+
++ Uses a similar architecture as jasper for keyword
+  spotting aka speech command recognition;
+
++ Designed for devices with low computational and
+  memory resources;
+
++ SoTA performance with significantly fewer params.
+
+Also,
+
++ Fixed length input (1 second long utterance).
+
+*** matchboxnet architecture
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+#+latex: \only<+>{
+
+#+DOWNLOADED: screenshot @ 2024-11-19 11:11:19
+[[file:org-download-images/matchboxnet/2024-11-19_11-11-19_screenshot.png]]
+
+#+latex: } \only<+>{
+
+#+DOWNLOADED: screenshot @ 2024-11-19 11:12:42
+[[file:org-download-images/matchboxnet/2024-11-19_11-12-42_screenshot.png]]
+#+latex: }
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: .55
+:END:
+
+#+DOWNLOADED: screenshot @ 2024-11-19 11:14:11
+[[file:org-download-images/matchboxnet/2024-11-19_11-14-11_screenshot.png]]
+
+*** results
+****                                                           :B_columns:
+:PROPERTIES:
+:BEAMER_env: columns
+:END:
+
+*****                                                    :B_column:BMCOL:
+:PROPERTIES:
+:BEAMER_env: column
+:BEAMER_col: 0.45
+:END:
+
+
+#+DOWNLOADED: screenshot @ 2024-11-19 11:19:19
+[[file:org-download-images/matchboxnet/2024-11-19_11-19-19_screenshot.png]]

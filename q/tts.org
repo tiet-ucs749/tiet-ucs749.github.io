@@ -1,0 +1,188 @@
+#+date: Nov 2024 
+
+#+latex_class: tiet-question-paper
+#+latex_class_options: [12pt]
+#+options: num:nil toc:nil author:nil email:nil 
+
+#+latex_header_extra: \hypersetup{%
+#+latex_header_extra:   colorlinks,%
+#+latex_header_extra:   breaklinks,%
+#+latex_header_extra:   urlcolor=[rgb]{0,0.35,0.65},%
+#+latex_header_extra:   linkcolor=[rgb]{0,0.35,0.65}%
+#+latex_header_extra: }
+
+#+latex_header_extra: \usepackage{libertinus}
+
+#+latex_header_extra: \instlogo{images/tiet-logo.pdf}
+#+latex_header_extra: \schoolordepartment{%
+#+latex_header_extra: Computer Science \& Engineering Department}
+#+latex_header_extra: \examname{Exercise (TTS) (2024-25 Odd)}
+#+latex_header_extra: \coursecode{UCS749}
+#+latex_header_extra: \coursename{Conversational AI: Speech Proc. […]}
+#+latex_header_extra: \timeduration{2 hours}
+#+latex_header_extra: \maxmarks{--}
+#+latex_header_extra: \faculty{RGB}
+
+#+latex: \thispagestyle{empty}
+#+latex: \maketitle
+
+\bvrskipline[-1.85]
+\bvrhrule
+
+1. If $P_\theta$ models a data $\mathcal{D}$ with an
+   intent of generating novel samples, $\mathbf{x}\sim
+   P_\theta$.  Is $P_\theta$ a posterior distribution?
+   Comment. \hfill [2 marks]
+
+\bvrskipline[0.25]
+#+attr_latex: :options [resume]
+1. If $X\equiv\{\mathbf{x}_1,\ldots,\mathbf{x}_T\}$ is
+   a temporal sequence and each time step is
+   independently and identically distributed,
+   1. Prove that $\log P(X) = \sum_{i=1}^T\log P(x_i)$;
+   2. If $X$ is a Bernoulli process, /i.e./ if each
+      $x_{i}$ is a coin toss, with hit rate $p$, the
+      log likelihood of $k$ hits is $k\log p +
+      (T-k)\log (1-p)$.
+
+
+
+#+DOWNLOADED: screenshot @ 2024-11-12 10:15:18
+[[file:org-download-images/2024-11-12_10-15-18_screenshot.png]]
+
+#+DOWNLOADED: screenshot @ 2024-11-12 10:18:39
+[[file:org-download-images/2024-11-12_10-18-39_screenshot.png]]
+
+
+\bvrskipline[0.25]
+#+attr_latex: :options [resume]
+1. If $X\equiv\{\mathbf{x}_1,\ldots,\mathbf{x}_T\}$ is
+   the temporal sequence of a Markov process, prove
+   that $\log P(X) = \sum_{i=1}^T \log P(x_i\mid x_{i-1})$.
+
+
+\newpage
+\bvrskipline[0.25]
+#+attr_latex: :options [resume]
+
+#+latex: {\huge
+
+# $X\equiv\{x_1,\ldots,x_T:x_i\in\mathbb{R}\}$ \\
+# At each time step $i$, the value of intensity $x_{i}$
+# is implicitly continuous.  Hence, $x_{i}\in\mathbb{R}$.
+
+# But it may as well be quantised into $N$ values, so
+# that, $x_{i}\in\mathbb{Z}_{[0,N]}$
+
+# $X\equiv\left\{ x_1,\ldots,x_T:x_i\in\mathbb{Z}_{[0,N]}
+#   \right\}$
+
+# The advantage of using discrete values, is that each
+# $x_{i}$ may now be modelled as a categorical
+# distribution. 
+
+Speech sample $X$ is a temporal sequence of intensities,
+
+\begin{align*}
+  X&\equiv\{x_1\ldots x_T\}
+\end{align*}
+
+Given speech samples $\mathcal{D}$ as evidence,
+estimate $P_{\theta}\approx \mathcal{D}$ so that $X\sim
+P_\theta$ is a valid speech sample.
+
+#+latex: }
+
+\newpage
+\bvrhrule
+
+** Unconditional Generation                                         :ignore:
+#+latex: {\huge
+
+Let $G_{\theta,\mathcal{N}} : \mathbb{X}^K \to
+\mathbb{X}$ represent the model.
+
+where,
++ $\mathbb{X}$ is the field of inputs.
+  + For a continuous model, $\mathbb{X}\equiv
+    \mathbb{R}$; whereas,
+  + For categorical model,
+    $\mathbb{X}\equiv\mathbb{R}_{[0,1]}^{256}$;
+  + It may also be a hybrid model, \\
+    /e.g./ $G_{\theta,\mathcal{N}} : \mathbb{R}^K \to
+    \mathbb{R}_{[0,1]}^{256}$. \\
+    Can you think how?
+
+Let $G_{\theta,\mathcal{N}} : \mathbb{X}^K \to
+\mathbb{X}$ represent the model.
+
+where,
++ $\mathcal{N}$ is a noise sampler,
+  + Generally, implemented as a normal distribution; or
+  + Implemented implicitly as dropouts.
+
+Let $G_{\theta,\mathcal{N}} : \mathbb{X}^K \to
+\mathbb{X}$ represent the model.
+
+where,
++ $\theta$ are parameters of the model; and
++ $\mathbf{x}_{t} = G_{\theta,\mathcal{N}}
+  \left( \begin{bmatrix} \mathbf{x}_{t-K} & \ldots &
+  \mathbf{x}_{t-1} \end{bmatrix} \right)$ models the
+  conditional distribution $P(x_t \mid x_{t-K}\ldots
+  x_{t-1})$
+
+\newpage
+
+In case of Conditional Generation,
+
+$\mathbf{x}_{t} = G_{\theta,\mathcal{N}}
+\left( \begin{bmatrix} \mathbf{x}_{t-K} & \ldots &
+\mathbf{x}_{t-1} \end{bmatrix}, \mathbf{h} \right)$ \\
+models the conditional distribution \\
+$P(x_t \mid x_{t-K}\ldots x_{t-1}, \mathbf{h})$
+
+$\mathbf{h}$ represents the global conditions, /e.g./
++ Text input;
++ Speaker;
++ Accent;
++ and so forth.
+
+\newpage
+
+Let \\
+$X\equiv\begin{bmatrix} \mathbf{x}_1 & \ldots &
+\mathbf{x}_T \end{bmatrix} \sim G_{\theta,\mathcal{N}}$
+be the output of the auto-regressive model, so that \\
+$\mathbf{x}_{t} = G_{\theta,\mathcal{N}}
+\left( \begin{bmatrix} \mathbf{x}_{t-K} & \ldots &
+\mathbf{x}_{t-1} \end{bmatrix} \right)$
+
+\bvrskipline[0.25]
+
+And, \\
+$Y\equiv\begin{bmatrix} \mathbf{y}_1 & \ldots &
+\mathbf{y}_T \end{bmatrix} \sim \mathcal{D}$ be a
+speech sample from dataset.  Recall that for each time
+step, the sound intensity is pre-processed so that the
+values are remapped, quantised, and converted to
+one-hot vectors, so that $\mathbf{y}_t\in\{0,1\}^{256};
+\|\mathbf{y}_t\|_{1}=1$ .
+ 
+\bvrskipline[0.25]
+
+The training objective is the cross entropy function,
+given as,
+\begin{align*}
+  \underset{G}{\text{minimise}}\quad
+  \underset{X\sim G, Y\sim\mathcal{D}}{\mathbb{E}}
+  \left[ \sum_{i,t} y_{i,t}\log x_{i,t} \right]
+\end{align*}
+
+
+#+latex: }
+
+\vfill
+\bvrhrule
+\bvrskipline[-0.85]
+\bvrhrule
