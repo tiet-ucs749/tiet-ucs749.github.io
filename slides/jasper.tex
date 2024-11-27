@@ -1,4 +1,4 @@
-% Created 2024-09-17 Tue 00:16
+% Created 2024-11-22 Fri 11:23
 % Intended LaTeX compiler: pdflatex
 \documentclass[aspectratio=169,xcolor={dvipsnames,svgnames}]{beamer}
 \usepackage[utf8x]{inputenc}
@@ -106,9 +106,9 @@ CSED TIET Patiala India.
 \maketitle
 
 \section{metadata}
-\label{sec:org9f628d1}
+\label{sec:org38583d8}
 
-\begin{frame}[label={sec:org0869d09}]{metadata}
+\begin{frame}[label={sec:orgc325e05}]{metadata}
 \begin{description}
 \item[{tags}] Interspeech 2019
 \item[{keywords}] Computer Science - Computation and
@@ -151,9 +151,9 @@ R., Kuchaiev, O., Cohen, J. M., Nguyen, H., […]
 \item \hyperlink{sec:layer-norm}{Layer Norm}; See also: \href{http://arxiv.org/abs/1607.06450}{[arXiv];}
 \end{itemize}
 \item[{Activation}] \begin{itemize}
-\item \hyperlink{sec:org271b691}{ReLU}
-\item \hyperlink{sec:org271b691}{Clipped ReLU}
-\item \hyperlink{sec:org271b691}{Leaky ReLU}
+\item \hyperlink{sec:orgf33426f}{ReLU}
+\item \hyperlink{sec:orgf33426f}{Clipped ReLU}
+\item \hyperlink{sec:orgf33426f}{Leaky ReLU}
 \end{itemize}
 \item[{Gated Units}] \begin{itemize}
 \item \hyperlink{sec:gated-linear-unit}{Gated Linear Units}
@@ -163,7 +163,7 @@ R., Kuchaiev, O., Cohen, J. M., Nguyen, H., […]
 \end{frame}
 
 \section{Contribution}
-\label{sec:org1ccaa5e}
+\label{sec:org7d6064a}
 \begin{frame}[label={sec:contribution}]{Contribution}
 \begin{itemize}
 \item Jasper Model; and Dense Residual Topology;
@@ -182,7 +182,7 @@ Model search across
 \begin{description}
 \item[{3 types of normalisation}] \hyperlink{sec:batch-norm}{Batch Norm}, \hyperlink{sec:weight-norm}{Weight Norm},
 \hyperlink{sec:layer-norm}{Layer Norm};
-\item[{3 types of activations}] \hyperlink{sec:org271b691}{ReLU, clipped ReLU, Leaky
+\item[{3 types of activations}] \hyperlink{sec:orgf33426f}{ReLU, clipped ReLU, Leaky
 ReLU};
 \item[{2 types of Gates}] \hyperlink{sec:gated-linear-unit}{Gated Linear Units}, \hyperlink{sec:gated-activation-unit}{Gated
 Activation Units};
@@ -230,7 +230,7 @@ Residual}.
 \end{frame}
 
 
-\begin{frame}[label={sec:org490a631}]{fundamental conv block}
+\begin{frame}[label={sec:org6c6d0bc}]{fundamental conv block}
 \begin{columns}
 \begin{column}{0.2\columnwidth}
 \begin{center}
@@ -247,7 +247,7 @@ progression
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgab1b1fd}]{jasper block}
+\begin{frame}[label={sec:orga5b98e6}]{jasper block}
 \begin{columns}
 \begin{column}{0.25\columnwidth}
 \begin{center}
@@ -262,7 +262,7 @@ the final block as in figure, to create a Jasper Block.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org53f4ffa}]{\(B\times R\) again}
+\begin{frame}[label={sec:orge99d87b}]{\(B\times R\) again}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 \begin{center}
@@ -306,7 +306,7 @@ connections from each of the previous blocks.
 \section{details}
 \label{sec:appendix}
 \subsection{Normalisation}
-\label{sec:org5875b4e}
+\label{sec:org70d8189}
 
 \begin{frame}[label={sec:covariate-shift}]{covariate shift}
 \begin{columns}
@@ -363,7 +363,7 @@ weights, \\[0pt]
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orge4b4365}]{weight norm}
+\begin{frame}[label={sec:org30dd335}]{weight norm}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 The \alert{key idea} in weight normalisation is to
@@ -380,7 +380,7 @@ weights, \\[0pt]
 \end{column}
 \end{columns}
 \end{frame}
-\begin{frame}[label={sec:orgc0b5da4}]{weight norm}
+\begin{frame}[label={sec:org8c73af7}]{weight norm}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 Instead of working with \(g\) directly, we may also use
@@ -430,7 +430,7 @@ A Batch Norm may be summarised as,
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org981a3a3}]{layer norm}
+\begin{frame}[label={sec:org38547fc}]{layer norm}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 A Batch Norm may be summarised as,
@@ -465,7 +465,7 @@ empirical samples from the current mini-batch.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org7d7fecd}]{layer norm}
+\begin{frame}[label={sec:org99a409e}]{layer norm}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 In certain cases, the covariate shift is was observed
@@ -493,7 +493,7 @@ follows:
   \notag
   \sigma_i^l = \sigma^l
   &= \sqrt{ \frac1H \sum_{i=1}^H \left( a_i^l - \mu^l
-    \right)}
+    \right)^{2}}
 \end{align}
 
 \emph{i.e.} \(\mu^{l}\) and \(\sigma^{l}\) are same for all
@@ -502,7 +502,7 @@ neurons in the same layer.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org1272206}]{comparing normalisation mechanisms}
+\begin{frame}[label={sec:org2d30b25}]{comparing normalisation mechanisms}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{org-download-images/Appendix/2024-08-20_03-20-24_screenshot.png}
@@ -607,7 +607,7 @@ neurons in the same layer.
 
 
 \subsection{Rectifier Activation}
-\label{sec:org271b691}
+\label{sec:orgf33426f}
 \begin{frame}[label={sec:rectifier-activation}]{rectifier}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
@@ -666,7 +666,7 @@ Gaussian distribution.
 \end{frame}
 
 \subsection{Gating}
-\label{sec:org90b68e2}
+\label{sec:orgdd39034}
 \begin{frame}[label={sec:vanishing-exploding-gradient-problem}]{vanishing/exploding gradient problem}
 \begin{columns}
 \begin{column}{0.7\columnwidth}
@@ -700,7 +700,7 @@ vector.
 \end{column}
 \end{columns}
 \end{frame}
-\begin{frame}[label={sec:orgc70ac22}]{gating history}
+\begin{frame}[label={sec:org46e0046}]{gating history}
 \begin{columns}
 \begin{column}{0.7\columnwidth}
 \begin{itemize}
@@ -724,7 +724,7 @@ sigmoid activation of input vector \(\mathbf{x}\); and \\[0pt]
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org6684e7d}]{gating history}
+\begin{frame}[label={sec:org9d696b5}]{gating history}
 \begin{columns}
 \begin{column}{0.7\columnwidth}
 For a more involved use-case, let an RNN be defined for
@@ -744,7 +744,7 @@ pre gate activation;
 \end{column}
 \end{columns}
 \end{frame}
-\begin{frame}[label={sec:org8278f2c}]{gating history (lstm)}
+\begin{frame}[label={sec:org2c27b50}]{gating history (lstm)}
 \(\forall t\in\{1,\ldots,T\}\),
 \begin{align}
   \notag
@@ -777,7 +777,7 @@ pre gate activation;
   &\gets \mathbf{o}\otimes\tanh_{\otimes} \mathbf{c}_t
 \end{align}
 \end{frame}
-\begin{frame}[label={sec:org73c1bfe}]{gating history (gru)}
+\begin{frame}[label={sec:orgf10c634}]{gating history (gru)}
 \(\forall t\in\{1,\ldots,T\}\),
 \begin{align}
   \notag
@@ -806,7 +806,7 @@ pre gate activation;
     (1-\mathbf{c}_t) \otimes \tilde{\mathbf{h}}
 \end{align}
 \end{frame}
-\begin{frame}[label={sec:org791ee0a}]{gating history (read more)}
+\begin{frame}[label={sec:org61537dc}]{gating history (read more)}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 \alert{See also:}
@@ -839,7 +839,7 @@ represent a 1-D convolution operation with kernel size
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:orgefb8e8e}]{gated linear unit}
+\begin{frame}[label={sec:orgd16daa6}]{gated linear unit}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 A gated linear unit (GLU) wraps a convolution layer
@@ -857,7 +857,7 @@ gate over a sigmoid activation.
 \end{columns}
 \end{frame}
 
-\begin{frame}[label={sec:org2e52b70}]{gated linear unit}
+\begin{frame}[label={sec:org0d44782}]{gated linear unit}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 With hardware acceleration, this operation may be
@@ -904,7 +904,7 @@ hyperbolic tangent gate and sigmoid activation.
 \end{frame}
 
 \subsection{Word Error Rate}
-\label{sec:org92b4a75}
+\label{sec:orgc4c763b}
 \begin{frame}[label={sec:word-error-rate}]{word error rate}
 \begin{columns}
 \begin{column}{0.7\columnwidth}
@@ -930,7 +930,7 @@ deletion and insertion.
 \end{column}
 \end{columns}
 \end{frame}
-\begin{frame}[label={sec:org85b292e}]{word error rate}
+\begin{frame}[label={sec:orgb7102d1}]{word error rate}
 \begin{columns}
 \begin{column}{0.45\columnwidth}
 Formally, if \(Y\) is the reference set and
@@ -960,7 +960,7 @@ account for the number of deletions.
 \end{columns}
 \end{frame}
 \section{exercise}
-\label{sec:org50b9da9}
+\label{sec:org351d872}
 \begin{frame}[label={sec:exercise}]{exercise}
 \begin{columns}
 \begin{column}{0.45\columnwidth}

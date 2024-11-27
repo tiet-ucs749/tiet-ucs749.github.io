@@ -524,7 +524,7 @@ follows:
   \notag
   \sigma_i^l = \sigma^l
   &= \sqrt{ \frac1H \sum_{i=1}^H \left( a_i^l - \mu^l
-    \right)}
+    \right)^{2}}
 \end{align}
 
 /i.e./ $\mu^{l}$ and $\sigma^{l}$ are same for all
