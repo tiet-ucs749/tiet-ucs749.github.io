@@ -159,12 +159,11 @@ be submit using the Google Form. Any attachments are
 :CUSTOM_ID: schedule-synthesis
 :END:
 + Overview :: [[https://docs.google.com/presentation/d/1oyARQWM6T7WaJ9cKEdTDoC5xiqiufwy9m-AUvW7K1UU/edit?usp=sharing][[Google Slides]​]]
-+ Spectrogram Generators :: Tacotron2: Further Reading
-  [[https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet][[Papers with code]​]], GlowTTS: Further Reading [[https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech][[Papers
-  with code]​]]
-+ Audio Generators :: Wavenet: [[https://docs.google.com/presentation/d/11UHK4QGZfjIdoPXUN4hDEw6Z2U8p1Q4ujmrbiyFOIhQ/edit?usp=sharing][[Google Slides]​]];
-  WaveGlow: Further Reading [[https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for][[Papers with code]​]];
-  SqueezeWave: Further Reading [[https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders][[Papers with code]​]].
++ Spectrogram Generators :: Tacotron: [[https://docs.google.com/presentation/d/1fDqVekUIEDKE002S9-yG2kddSTd1qzyPKGOsVGZulPU/edit?usp=sharing][[Google Slides]​]].
++ Audio Generators :: Wavenet: [[https://docs.google.com/presentation/d/11UHK4QGZfjIdoPXUN4hDEw6Z2U8p1Q4ujmrbiyFOIhQ/edit?usp=sharing][[Google Slides]​]].
++ Further Reading :: Tacotron2: [[https://paperswithcode.com/paper/natural-tts-synthesis-by-conditioning-wavenet][[Papers with code]​]];
+  WaveGlow: [[https://paperswithcode.com/paper/waveglow-a-flow-based-generative-network-for][[Papers with code]​]]; SqueezeWave: [[https://cs.paperswithcode.com/paper/squeezewave-extremely-lightweight-vocoders][[Papers
+  with code]​]]; GlowTTS: [[https://paperswithcode.com/paper/glow-tts-a-generative-flow-for-text-to-speech][[Papers with code]​]].
 
 * List of Slides/Notes
 :PROPERTIES:
@@ -178,6 +177,7 @@ be submit using the Google Form. Any attachments are
 6. [[file:slides/jasper-derivatives.pdf][Jasper Derivatives [Slides]​]]
 7. [[https://docs.google.com/presentation/d/1oyARQWM6T7WaJ9cKEdTDoC5xiqiufwy9m-AUvW7K1UU/edit?usp=sharing][TTS Overview [Google Slides]​]]
 8. [[https://docs.google.com/presentation/d/11UHK4QGZfjIdoPXUN4hDEw6Z2U8p1Q4ujmrbiyFOIhQ/edit?usp=sharing][TTS Wavenet [Google Slides]​]]
+9. [[https://docs.google.com/presentation/d/1fDqVekUIEDKE002S9-yG2kddSTd1qzyPKGOsVGZulPU/edit?usp=sharing][TTS Tacotron [Google Slides]​]]
 
 * Schedule of Practicals
 :PROPERTIES:
