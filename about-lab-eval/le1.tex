@@ -1,0 +1,120 @@
+% Created 2024-10-25 Fri 12:54
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\author{B.V. Raghav}
+\date{\textit{[2024-09-11 Wed]}}
+\title{Lab Eval 1\\\medskip
+\large UCS749: Conversational AI: Speech Processing and Synthesis}
+\hypersetup{
+ pdfauthor={B.V. Raghav},
+ pdftitle={Lab Eval 1},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.3 (Org mode 9.6.15)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\noindent \textbf{Problem Code}: 202425ODD-UCS749-SESS-LE1-0911 \\[0pt]
+\textbf{Problem Title}: Recognise My Voice Commands.
+
+\section{Logistics}
+\label{sec:orgd34df8b}
+\begin{itemize}
+\item Start time: Wed Sep 11 10:00 AM
+\item End Time: (Extended) Wed Sep 12 11:59 PM
+\item Submission Form: (Updated) \url{https://docs.google.com/forms/d/e/1FAIpQLSf9DzoyzW\_3kQe2FVqRD7RpjbXmk4HnSun\_2LwnWdOggV\_q6g/viewform?usp=pp\_url\&entry.185703634=202425ODD-UCS749-SESS-LE1-0911\&entry.1322657816=Recognise+My+Voice+Commands}
+\item Viva Voce: Will be notified later.
+\end{itemize}
+
+\section{Task}
+\label{sec:org5b1f750}
+Consider the paper: \url{https://arxiv.org/abs/1804.03209}
+
+\begin{enumerate}
+\item Read and summarise the paper in about 50 words.
+\item Download the dataset in the paper, statistically
+analyse and describe it, so that it may be useful
+for posterity. (Include code snippets in your .ipynb
+file to evidence your analysis.)
+\item Train a classifier so that you are able to
+distinguish the commands in the dataset.
+\item Report the performance results using standard
+benchmarks.
+\item Record about 30 samples of each command in your
+voice and create a new dataset (including a new user
+id for yourself).  You may use a timer on your
+computer to synchronise.
+\item Fine tune your classifier to perform on your voice.
+\item Report the results.
+\end{enumerate}
+
+
+\section{Deliverables}
+\label{sec:org8cf1853}
+\begin{enumerate}
+\item A PDF Report: (as a part of your Git Repo) named
+<ROLL\textsubscript{NO}>-report.pdf
+\item Assets: Your pretrained classifier model weights and your
+cleaned and well-formed dataset.  This should be a
+part of your google drive with read access to your
+instructor <bv.raghav@thapar.edu>
+\item A demo notebook: (as a part of your Git Repo), that
+loads both your model and dataset; and runs to show
+the results.
+\item The demo notebook should verify the assets using a
+checksum (md5/sha/…).  This step verifies that the
+assets have not been tampered with at a later stage.
+\end{enumerate}
+
+
+\section{Evaluation}
+\label{sec:org9f1dcd4}
+\begin{enumerate}
+\item Clarity of thought process and presentation.
+\item Data processing skills.
+\item Model fine tuning/ training skills.
+\item Details of progress, as in what were the encountered
+problems and how were they solved.
+\item How adaptable is your pipeline? (as in, how easy is
+it for me to adapt it for my voice)
+\item How scalable is your approach? (as in, how easy is
+it to scale it to many new voices)
+\item Strengths and Shortcomings of your approach.
+\end{enumerate}
+
+
+\section{Note}
+\label{sec:orgd18e514}
+\begin{enumerate}
+\item This is a test of how fast can we report the
+performance of a model for a specific task.  The
+best performance is not expected; but a holistic
+pipeline is.
+\item You may improve upon it in future, out of interest;
+though it wouldn’t influence your eval.
+\end{enumerate}
+
+
+\section{Struts}
+\label{sec:orgb9662c6}
+The following tutorials may be a good start point;
+there maybe more on the internet.  You are free to
+choose.
+\begin{enumerate}
+\item \url{https://colab.research.google.com/github/pytorch/tutorials/blob/gh-pages/\_downloads/c64f4bad00653411821adcb75aea9015/speech\_command\_classification\_with\_torchaudio\_tutorial.ipynb\#scrollTo=i0pBRWkcxWrX}
+\item \url{https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/audio/simple\_audio.ipynb}
+\end{enumerate}
+\end{document}
